@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfileFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/BandAboutMe"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/AboutMe" />
+
+    <EditText
+        android:id="@+id/EditBandAboutMe"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="BandName"/>
+
+    <TextView
+        android:id="@+id/TextViewInstrument"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Instrument" />
+
+    <TableLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1,2">
+
+    <TableRow android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/Vocal"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/Guitar"/>
+
+    </TableRow>
+
+    <TableRow android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Bass"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Drum"/>
+
+    </TableRow>
+
+    <TableRow android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Keyboard"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Others"/>
+    </TableRow>
+    </TableLayout>
+    <Button
+        android:id="@+id/SubmitNewBand"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:text="@string/SubmitChange" />
+
+</LinearLayout>

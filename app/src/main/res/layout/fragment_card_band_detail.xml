@@ -1,0 +1,140 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:paddingTop="?android:attr/actionBarSize"
+    tools:context="com.indielink.indielink.CardBandDetailFragment">
+
+    <ScrollView android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/BandProfilePicture"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true" />
+
+        <TableLayout android:layout_width="wrap_content"
+            android:id="@+id/BandVacancyTable"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1,2"
+            android:layout_below="@+id/BandProfilePicture">
+
+            <TableRow>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Name"/>
+
+                <TextView
+                    android:id="@+id/BandName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TextView
+                android:id="@+id/BandVacancy"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Vacancy"/>
+
+            <TableRow android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/CheckVocal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/Vocal"
+                    android:checked="false"
+                    android:clickable="false"
+                    android:focusable="true" />
+
+                <CheckBox
+                    android:id="@+id/CheckGuitar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:clickable="false"
+                    android:text="@string/Guitar"/>
+
+            </TableRow>
+
+            <TableRow android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/CheckBass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:clickable="false"
+                    android:text="@string/Bass"/>
+                <CheckBox
+                    android:id="@+id/CheckDrum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="false"
+                    android:layout_weight="1"
+                    android:text="@string/Drum"/>
+
+            </TableRow>
+
+            <TableRow android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/CheckKeyboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:clickable="false"
+                    android:text="@string/Keyboard"/>
+                <CheckBox
+                    android:id="@+id/CheckOthers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:clickable="false"
+                    android:text="@string/Others"/>
+            </TableRow>
+
+            <TableRow>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/AboutMyBand"
+                android:layout_weight="2"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/AboutMe"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"/>
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Apply"
+            android:id="@+id/RecruitButton"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:layout_below="@+id/BandVacancyTable"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

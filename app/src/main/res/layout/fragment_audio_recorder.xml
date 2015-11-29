@@ -1,0 +1,15 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="?android:attr/actionBarSize"
+    android:paddingBottom="30dp"
+    tools:showIn="@layout/activity_audio_recorder"
+    android:gravity="bottom"
+    tools:context="com.indielink.indielink.AudioRecorderFragment">
+
+    <ToggleButton
+        android:id="@+id/RecordingButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

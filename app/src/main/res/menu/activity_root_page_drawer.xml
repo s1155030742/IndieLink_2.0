@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu android:id="@+id/NavBarMenu"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/Profile" android:icon="@android:drawable/ic_menu_camera"
+            android:title="@string/Profile" />
+        <item android:id="@+id/Search" android:icon="@android:drawable/ic_search_category_default"
+            android:title="@string/Search" />
+        <item android:id="@+id/Music" android:icon="@android:drawable/ic_menu_share"
+            android:title="@string/Music" />
+        <item android:id="@+id/CreateBand" android:icon="@android:drawable/ic_input_add"
+            android:title="@string/CreateBand" />
+    </group>
+
+    <group android:id="@+id/SubMenuMyBand"
+        android:title="@string/MyBand">
+        <menu>
+        </menu>
+    </group>
+
+
+
+</menu>

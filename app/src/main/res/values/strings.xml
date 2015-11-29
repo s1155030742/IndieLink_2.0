@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">IndieLink</string>
+    <string name="app_slogon">Share Your Music</string>
+    <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">1509006916086392</string>
+    <string name="title_activity_audio_recorder">AudioRecorder</string>
+    <string name="Start">Start</string>
+    <string name="Stop">Stop</string>
+    <string name="title_activity_root_page">RootPage</string>
+    <string name="GetFromServer"></string>
+    <string name="edit_message">Enter to Search</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- nav bar -->
+    <string name="title_activity_navigation_drawer">root</string>
+    <string name="MyBand">My Band</string>
+    <string name="Profile">Profile</string>
+    <string name="Search">Search</string>
+    <string name="Music">Music</string>
+    <string name="CreateBand">Create Band</string>
+    <string name="Default">/</string>
+    <!-- edit profile-->
+
+    <string name="EditProfile">Edit Profile</string>
+    <string name="Instrument">Instrument</string>
+    <string name="Vocal">Vocal</string>
+    <string name="Guitar">Guitar</string>
+    <string name="Drum">Drum</string>
+    <string name="Keyboard">Keyboard</string>
+    <string name="Others">Others</string>
+    <string name="Bass">Bass</string>
+    <string name="SubmitChange">Submit</string>
+    <string name="Detail">My Detail</string>
+    <string name="Recruit">Recruit</string>
+    <string name="Apply">Apply</string>
+
+    <string name="Name">Name :</string>
+    <string name="Age">Age :</string>
+    <string name="Gender">Gender :</string>
+    <string name="AboutMe">About me :</string>
+    <string name="AboutMyBand">About My Band:</string>
+    <string name="Vacancy">Vacancy :</string>
+
+</resources>
