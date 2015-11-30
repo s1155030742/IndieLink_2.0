@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import org.json.JSONObject;
 
 //import com.google.android.gms.plus.PlusOneButton;
 
@@ -76,9 +79,14 @@ public class EditProfileFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
-        //Find the +1 button
-        mSubmitChangeButton = (Button) view.findViewById(R.id.SubmitNewBand);
+        // Set button onClick Handler
+        final Button button = (Button) view.findViewById(R.id.SubmitNewBand);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
+
+            }
+        });
         return view;
     }
 
@@ -125,7 +133,6 @@ public class EditProfileFragment extends Fragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
 
