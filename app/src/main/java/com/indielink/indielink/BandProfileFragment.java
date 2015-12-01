@@ -44,18 +44,18 @@ public class BandProfileFragment extends Fragment {
        //     checkedTextView.setChecked(false);
       //  else
        // checkedTextView.setChecked(true);
-        CheckBox c = (CheckBox) view.findViewById(R.id.CheckVocal);
+       /** CheckBox c = (CheckBox) view.findViewById(R.id.CheckVocal);
         if (c.isChecked())
             c.setEnabled(true);
 
         else
-            c.setEnabled(false);
+            c.setEnabled(false); **/
 
-        ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(true);
+        ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(false);
         ((CheckBox) view.findViewById(R.id.CheckGuitar)).setChecked(false);
-        ((CheckBox) view.findViewById(R.id.CheckDrum)).setChecked(true);
-        ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setChecked(true);
-        ((CheckBox) view.findViewById(R.id.CheckOthers)).setChecked(true);
+        ((CheckBox) view.findViewById(R.id.CheckDrum)).setChecked(false);
+        ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setChecked(false);
+        ((CheckBox) view.findViewById(R.id.CheckOthers)).setChecked(false);
 
         //((TextView) view.findViewById(R.id.GuitarVacancy)).setText(("Available"));
 //        ((TextView) view.findViewById(R.id.VocalVacancy)).setText(("Available"));

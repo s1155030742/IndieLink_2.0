@@ -21,6 +21,8 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 import android.support.v4.app.DialogFragment;
 
+import com.indielink.indielink.CustomAdapter.CustomAdapter;
+import com.indielink.indielink.CustomAdapter.RowItem;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -32,10 +34,10 @@ import butterknife.OnClick;
 
 public class SearchFragment extends Fragment {
 
-    private ArrayList<String> al;
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<RowItem> al;
+    private CustomAdapter arrayAdapter;
     private int i;
-   // private ArrayList<Integer> array_image;
+    // private ArrayList<Integer> array_image;
 
     @InjectView(R.id.frame) SwipeFlingAdapterView flingContainer;
 
@@ -51,22 +53,33 @@ public class SearchFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-       //arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
+        //arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
 
         ButterKnife.inject(this,view);
 
-       // ArrayList<Integer> array_image = new ArrayList<Integer>();
+
+
+        // ArrayList<Integer> array_image = new ArrayList<Integer>();
+        RowItem firstrow = new RowItem("Muse","https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
+        RowItem secondrow = new RowItem("Oasis", "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
+        //RowItem third = new RowItem("Beatles", R.drawable.beatleslogo);
+        //RowItem forthrow = new RowItem("Guns N' Roses", R.drawable.gnrlogo);
+       // RowItem fifthrow = new RowItem("Libertines", R.drawable.picture1);
+       // RowItem sixthrow = new RowItem("Blur", R.drawable.picture2);
 
 
         al = new ArrayList<>();
-        al.add("Muse");
-        al.add("Beatles");
-        al.add("Oasis");
-        al.add("Blur");
-        al.add("Guns N' roses");
-        al.add("Libertines");
+        // al.add(new RowItem(R.drawable.picture1,null));
+        // al.add("muse",R.drawable.picture1);
 
-        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.BandTextView, al);
+        al.add(firstrow);
+        al.add(secondrow);
+       //al.add(third);
+        //al.add(forthrow);
+       // al.add(fifthrow);
+        //al.add(sixthrow);
+
+        arrayAdapter = new CustomAdapter(getActivity(), al);
 
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -83,21 +96,21 @@ public class SearchFragment extends Fragment {
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-               //makeToast(SearchFragment.this, "Left!");
+                //makeToast(SearchFragment.this, "Left!");
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-               //makeToast(SearchFragment.this, "Right!");
+                //makeToast(SearchFragment.this, "Right!");
             }
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
-                al.add("Band ".concat(String.valueOf(i)));
-                arrayAdapter.notifyDataSetChanged();
-                Log.d("LIST", "notified");
-                i++;
+                /**al.add("Band ".concat(String.valueOf(i)));
+                 arrayAdapter.notifyDataSetChanged();
+                 Log.d("LIST", "notified");
+                 i++;**/
             }
 
             @Override
@@ -113,7 +126,7 @@ public class SearchFragment extends Fragment {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-               //makeToast(SearchFragment.this, "Clicked!");
+                //makeToast(SearchFragment.this, "Clicked!");
 
                 //FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 //fragmentTransaction.add(R.id.carddetail,CardDetailFragment.newInstance());
@@ -133,18 +146,5 @@ public class SearchFragment extends Fragment {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT);
     }
 
-
-    @OnClick(R.id.right)
-    public void right() {
-        /**
-         * Trigger the right event manually.
-         */
-        flingContainer.getTopCardListener().selectRight();
-    }
-
-    @OnClick(R.id.left)
-    public void left() {
-        flingContainer.getTopCardListener().selectLeft();
-    }
 }
 

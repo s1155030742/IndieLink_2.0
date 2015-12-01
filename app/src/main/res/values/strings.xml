@@ -41,5 +41,6 @@
     <string name="AboutMe">About me :</string>
     <string name="AboutMyBand">About My Band:</string>
     <string name="Vacancy">Vacancy :</string>
+    <string name="PlayTrack1">Play </string>
 
 </resources>
