@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/popupmenu">
+        <item android:id="@+id/score1"
+            android:title="item 1"/>
+        <item android:id="@+id/score2"
+            android:title="item 2"/>
+        <item android:id="@+id/score3"
+            android:title="item 3"/>
+        <item android:id="@+id/score4"
+            android:title="item 4"/>
+        <item android:id="@+id/score5"
+            android:title="item 5"/>
+        <item android:id="@+id/score6"
+            android:title="item 6"/>
+        <item android:id="@+id/score7"
+            android:title="item 7"/>
+    </group>
+</menu>

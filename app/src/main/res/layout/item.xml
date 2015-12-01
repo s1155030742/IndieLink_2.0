@@ -11,16 +11,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|top" />
 
-    <TextView
-        android:id="@+id/BandTextView"
-        android:textSize="40sp"
-        android:textColor="@android:color/holo_red_dark"
-        android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_height="120dp"
-        android:gravity="bottom|center_horizontal"
-        android:layout_gravity="center" />
-
 
     <View
         android:id="@+id/item_swipe_left_indicator"
@@ -38,5 +28,15 @@
         android:layout_margin="10dp"
         android:layout_gravity="right"
         android:background="#5AF" />
+
+    <TextView
+        android:id="@+id/BandTextView"
+        android:textSize="20sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_width="90dp"
+        android:layout_alignParentTop="true"
+        android:layout_height="43dp"
+        android:gravity="bottom|center_horizontal"
+        android:layout_gravity="right|bottom" />
 
 </FrameLayout>
