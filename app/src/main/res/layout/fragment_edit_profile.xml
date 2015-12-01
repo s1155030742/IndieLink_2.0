@@ -232,7 +232,7 @@
                 android:layout_weight="1"
                 android:id="@+id/track2score7"
                 android:text="7"/>
-        </>
+        </RadioGroup>
     </TableLayout>
 
     <TableLayout
@@ -260,9 +260,10 @@
 
         </LinearLayout>
 
-        <TableRow
+        <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -306,7 +307,7 @@
                 android:layout_weight="1"
                 android:id="@+id/track3score7"
                 android:text="7"/>
-        </TableRow>
+        </RadioGroup>
     </TableLayout>
 
     <TableLayout
@@ -336,7 +337,8 @@
 
         <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -410,7 +412,8 @@
 
         <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -484,7 +487,8 @@
 
         <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -557,7 +561,8 @@
 
         <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -631,7 +636,8 @@
 
         <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -705,7 +711,8 @@
 
         <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:layout_width="wrap_content"

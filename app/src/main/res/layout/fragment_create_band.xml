@@ -420,9 +420,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -466,7 +467,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track1score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
 
         <TableLayout
@@ -494,9 +495,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -540,7 +542,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track2score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
 
         <TableLayout
@@ -568,9 +570,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -614,7 +617,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track3score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
 
         <TableLayout
@@ -642,9 +645,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -688,7 +692,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track4score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
 
         <TableLayout
@@ -716,9 +720,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -762,7 +767,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track5score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
 
         <TableLayout
@@ -790,9 +795,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -836,7 +842,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track6score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
         <TableLayout
             android:layout_width="match_parent"
@@ -863,9 +869,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -909,7 +916,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track7score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
 
         <TableLayout
@@ -937,9 +944,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -983,7 +991,7 @@
                     android:layout_weight="1"
                     android:id="@+id/track8score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
 
         <TableLayout
@@ -1011,9 +1019,10 @@
 
             </LinearLayout>
 
-            <TableRow
+            <RadioGroup
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -1057,9 +1066,8 @@
                     android:layout_weight="1"
                     android:id="@+id/track9score7"
                     android:text="7"/>
-            </TableRow>
+            </RadioGroup>
         </TableLayout>
-
 
 
         <Button
