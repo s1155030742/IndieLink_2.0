@@ -44,12 +44,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/Vocal"/>
+                android:text="@string/Vocal"
+                android:checked="false"
+                android:id="@+id/EditProfileisVocal" />
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/Guitar"/>
+                android:text="@string/Guitar"
+                android:checked="false"
+                android:id="@+id/EditProfileisGuitar" />
 
         </TableRow>
 
@@ -59,12 +63,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/Bass"/>
+                android:text="@string/Bass"
+                android:checked="false"
+                android:id="@+id/EditProfileisBass" />
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/Drum"/>
+                android:text="@string/Drum"
+                android:checked="false"
+                android:id="@+id/EditProfileisDrum" />
 
         </TableRow>
 
@@ -74,12 +82,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/Keyboard"/>
+                android:text="@string/Keyboard"
+                android:checked="false"
+                android:id="@+id/EditProfileisKeyboard" />
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/Others"/>
+                android:text="@string/Others"
+                android:checked="false"
+                android:id="@+id/EditProfileisOthers" />
         </TableRow>
     </TableLayout>
 

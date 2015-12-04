@@ -1,5 +1,6 @@
 package com.indielink.indielink;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,17 +23,23 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private static Context mContext;    //for Class Network.HttpPost for PostJSON
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = getApplicationContext(); //for Class Network.HttpPost for PostJSON
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         isLoggedIn();
 
+    }
+
+    public static Context getContext(){
+        return mContext;
     }
 
     @Override

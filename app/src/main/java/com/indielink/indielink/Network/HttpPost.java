@@ -1,8 +1,12 @@
 package com.indielink.indielink.Network;
 
+import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.android.volley.RequestQueue;
+import com.indielink.indielink.MainActivity;
 import com.indielink.indielink.R;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,14 +23,18 @@ import java.lang.ref.ReferenceQueue;
 /**
  * Created by Hong on 23/11/2015.
  */
-public class HttpPost extends AppCompatActivity {
+public class HttpPost extends Application{
 
     JSONObject jsRep;
+    String fbid;
+    Context mContext;
 
-    HttpPost() {
 
+    public HttpPost() {
+        mContext = MainActivity.getContext();
     }
 
+    /*
     protected JSONObject JSONObjectEncode (String[] args)
     {
         /*JSONObject obj = new JSONObject();
@@ -36,12 +44,12 @@ public class HttpPost extends AppCompatActivity {
         obj.put("balance", new Double(1000.21));
         obj.put("is_vip", new Boolean(true));
 
-        return obj;*/
+        return obj;
         return null;
     }
+    */
 
-
-    protected JSONObject PostJSON(String Url, JSONObject js)
+    public JSONObject PostJSON(String Url, JSONObject js)
     {
         final String TAG = Url;
 
@@ -60,7 +68,7 @@ public class HttpPost extends AppCompatActivity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         });
-        Volley.newRequestQueue(super.getApplicationContext()).add(jsonRequest);
+        Volley.newRequestQueue(mContext).add(jsonRequest);
         return jsRep;
     }
 

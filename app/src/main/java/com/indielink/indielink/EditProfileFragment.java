@@ -6,12 +6,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 
+import com.facebook.Profile;
+import com.indielink.indielink.Network.HttpPost;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import org.json.JSONObject;
 
@@ -25,10 +31,27 @@ import org.json.JSONObject;
  * Use the {@link EditProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment{
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    //private static final String ARG_PARAM1 = "param1";
+    //private static final String ARG_PARAM2 = "param2";
 
+    // TODO: Rename and change types of parameters
+    //private String mParam1;
+    //private String mParam2;
+
+    // The URL to +1.  Must be a valid URL.
+    //private final String PLUS_ONE_URL = "http://developer.android.com";
+
+    // The request code must be 0 or greater.
+    //private static final int PLUS_ONE_REQUEST_CODE = 0;
 
     private Button mSubmitChangeButton;
+    private String  fbid;
+    private EditText aboutMe;
+    private CheckBox isVocal, isGuitar, isBass, isDrum, isKeyboard,isOther;
+
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -56,21 +79,72 @@ public class EditProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fbid = Profile.getCurrentProfile().getId();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+
+        aboutMe = (EditText) view.findViewById(R.id.EditBandAboutMe);
+        isVocal = (CheckBox) view.findViewById(R.id.EditProfileisVocal);
+        isGuitar = (CheckBox) view.findViewById(R.id.EditProfileisGuitar);
+        isBass = (CheckBox) view.findViewById(R.id.EditProfileisBass);
+        isDrum = (CheckBox) view.findViewById(R.id.EditProfileisDrum);
+        isKeyboard = (CheckBox) view.findViewById(R.id.EditProfileisKeyboard);
+        isOther = (CheckBox) view.findViewById(R.id.EditProfileisOthers);
+
+        aboutMe = (EditText) view.findViewById(R.id.EditBandAboutMe);
+        isVocal = (CheckBox) view.findViewById(R.id.EditProfileisVocal);
+        isGuitar = (CheckBox) view.findViewById(R.id.EditProfileisGuitar);
+        isBass = (CheckBox) view.findViewById(R.id.EditProfileisBass);
+        isDrum = (CheckBox) view.findViewById(R.id.EditProfileisDrum);
+        isKeyboard = (CheckBox) view.findViewById(R.id.EditProfileisKeyboard);
+        isOther = (CheckBox) view.findViewById(R.id.EditProfileisOthers);
 
 
         // Set button onClick Handler
-        Button button = (Button) view.findViewById(R.id.SubmitNewBand);
+        final Button button = (Button) view.findViewById(R.id.SubmitNewBand);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //make instrument JsonArray first
+                JSONArray list = new JSONArray();
+                if (isVocal.isChecked()) list.put("vocal");
+                if (isGuitar.isChecked()) list.put("guitar");
+                if (isBass.isChecked()) list.put("bass");
+                if (isDrum.isChecked()) list.put("drum");
+                if (isKeyboard.isChecked()) list.put("keyboard");
+                //if(isOther.isChecked())list.put("something");
+
+                //aboutMe.setText("List Done");
+
+                //make JSONObject for http post
+                JSONObject obj = new JSONObject();
+
+                try {
+                    obj.put("about me", aboutMe.getText());
+                    obj.put("access token", "1");
+                    obj.put("fb_user_id", fbid);
+                    obj.put("instrument", list);
+
+                    //aboutMe.setText("JSON done");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //Post to sever
+                aboutMe.setText(obj.toString());
+                HttpPost httpPost = new HttpPost();
+                httpPost.PostJSON("http://137.189.97.88:8080/user/edit", obj);
+
             }
         });
+
         return view;
     }
 
