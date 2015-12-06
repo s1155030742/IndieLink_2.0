@@ -84,7 +84,7 @@ public class RootPage extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; ths adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.root_page, menu);
         return true;
     }

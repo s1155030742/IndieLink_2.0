@@ -24,6 +24,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private static Context mContext;    //for Class Network.HttpPost for PostJSON
+    private static int numOfTrack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static Context getContext(){
-        return mContext;
-    }
+    public static Context getContext(){return mContext;}
+    public static int getNumOfTrack(){return numOfTrack;}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
