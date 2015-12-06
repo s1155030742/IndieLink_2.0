@@ -29,7 +29,6 @@ public class HttpPost extends Application{
     String fbid;
     Context mContext;
 
-
     public HttpPost() {
         mContext = MainActivity.getContext();
     }

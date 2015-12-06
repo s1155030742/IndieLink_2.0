@@ -12,10 +12,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.indielink.indielink.Network.GetProfilePicture;
+import com.indielink.indielink.Profile.BandProfileContent;
 
 
 public class CardBandDetailFragment extends Fragment {
 
+    private BandProfileContent bandProfileContent;
     public static CardBandDetailFragment newInstance(String param1, String param2) {
         CardBandDetailFragment fragment = new CardBandDetailFragment();
         return fragment;
@@ -27,6 +29,8 @@ public class CardBandDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bandProfileContent = (BandProfileContent) this.getArguments()
+                .getSerializable("userBand");
     }
 
     @Override

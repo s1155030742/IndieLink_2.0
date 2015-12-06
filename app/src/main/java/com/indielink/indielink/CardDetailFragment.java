@@ -41,7 +41,7 @@ public class CardDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_card_detail, container, false);
 
         //get cached user data TODO: get this data by HTTP POST
-        HashMap<String,String> user = ProfileContent.GetUserProfile();
+
 
         //Set Name
         ((TextView) view.findViewById(R.id.Name)).setText("UserName");

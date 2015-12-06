@@ -132,7 +132,6 @@ public class EditProfileFragment extends Fragment{
                     obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
                     obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
                     obj.put("instrument", list);
-
                     //aboutMe.setText("JSON done");
 
                 } catch (JSONException e) {
@@ -145,7 +144,6 @@ public class EditProfileFragment extends Fragment{
                 JSONObject response = httpPost.PostJSON("http://137.189.97.88:8080/user/edit", obj);
                 try{
                 response.getString("Status");
-
 
                 }catch (JSONException e){
                     e.printStackTrace();

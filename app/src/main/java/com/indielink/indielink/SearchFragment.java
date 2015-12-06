@@ -21,9 +21,17 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 import android.support.v4.app.DialogFragment;
 
+import com.facebook.AccessToken;
 import com.indielink.indielink.CustomAdapter.CustomAdapter;
 import com.indielink.indielink.CustomAdapter.RowItem;
+import com.indielink.indielink.Network.HttpPost;
+import com.indielink.indielink.Profile.BandProfileContent;
+import com.indielink.indielink.Profile.UserRole;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -35,8 +43,9 @@ import butterknife.OnClick;
 public class SearchFragment extends Fragment {
 
     private ArrayList<RowItem> al;
+    private String PhotoUrl = "http://137.189.97.88:8080/uploads/";
     private CustomAdapter arrayAdapter;
-    private int i;
+    public ArrayList<BandProfileContent> SuggestedBands = new ArrayList<BandProfileContent>();
     // private ArrayList<Integer> array_image;
 
     @InjectView(R.id.frame) SwipeFlingAdapterView flingContainer;
@@ -55,10 +64,48 @@ public class SearchFragment extends Fragment {
 
         //arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
 
+        JSONObject obj = new JSONObject();
+
+        try {
+            obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
+            obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
+            obj.put("band_id",  "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //Post to server
+        HttpPost httpPost = new HttpPost();
+        JSONObject response;
+        al = new ArrayList<>();
+/*
+        if(UserRole.GetUserRole() == "") {
+            response = httpPost.PostJSON("http://137.189.97.88:8080/band/detail", obj);
+            try{
+                JSONArray Bands = response.getJSONArray("band");
+                for (int i=0; i<Bands.length(); i++)
+                {
+                    JSONObject Band = Bands.getJSONObject(i);
+                    SuggestedBands.add(new BandProfileContent(Band.getString("name"),Band.getString("about_me"),Band.getString("id")));
+                    al.add(new RowItem(Bands.getJSONObject(i).getString("name"),PhotoUrl+Bands.getJSONObject(i).getString("band_id")+".jpg"));
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }else{
+            response = httpPost.PostJSON("http://137.189.97.88:8080/user/detail", obj);
+            try{
+                JSONArray Users = response.getJSONArray("user");
+                for (int i=0; i<Users.length(); i++)
+                {
+
+                    al.add(new RowItem(Users.getJSONObject(i).getString("name"),PhotoUrl+Users.getJSONObject(i).getString("band_id")+".jpg"));
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+*/
         ButterKnife.inject(this,view);
-
-
-
         // ArrayList<Integer> array_image = new ArrayList<Integer>();
         RowItem firstrow = new RowItem("Muse","https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
         RowItem secondrow = new RowItem("Oasis", "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
@@ -67,8 +114,6 @@ public class SearchFragment extends Fragment {
        // RowItem fifthrow = new RowItem("Libertines", R.drawable.picture1);
        // RowItem sixthrow = new RowItem("Blur", R.drawable.picture2);
 
-
-        al = new ArrayList<>();
         // al.add(new RowItem(R.drawable.picture1,null));
         // al.add("muse",R.drawable.picture1);
 
@@ -131,11 +176,17 @@ public class SearchFragment extends Fragment {
                 //FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 //fragmentTransaction.add(R.id.carddetail,CardDetailFragment.newInstance());
 
-
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack("CardDetail")
-                        .replace(R.id.frame_container, new CardDetailFragment()).commit();
+                RowItem a = (RowItem) dataObject;
+                Log.v("selected",a.getText());
+                if (UserRole.GetUserRole() == "") {
 
+                    fragmentManager.beginTransaction().addToBackStack("CardBandDetail")
+                            .replace(R.id.frame_container, new CardBandDetailFragment()).commit();
+                }else{
+                    fragmentManager.beginTransaction().addToBackStack("CardDetail")
+                            .replace(R.id.frame_container, new CardDetailFragment()).commit();
+                }
                 Log.d("LIST", "clicked");
             }
         });

@@ -50,18 +50,12 @@ public class BandProfileFragment extends Fragment {
 
         else
             c.setEnabled(false); **/
-
-        ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(false);
-        ((CheckBox) view.findViewById(R.id.CheckGuitar)).setChecked(false);
-        ((CheckBox) view.findViewById(R.id.CheckDrum)).setChecked(false);
-        ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setChecked(false);
-        ((CheckBox) view.findViewById(R.id.CheckOthers)).setChecked(false);
-
-        //((TextView) view.findViewById(R.id.GuitarVacancy)).setText(("Available"));
-//        ((TextView) view.findViewById(R.id.VocalVacancy)).setText(("Available"));
- //       ((TextView) view.findViewById(R.id.BassVacancy)).setText(("Available"));
-  //      ((TextView) view.findViewById(R.id.KeyboardVacancy)).setText(("Available"));
-   //     ((TextView) view.findViewById(R.id.DrumVacancy)).setText(("Occupied"));
+        ((CheckBox) view.findViewById(R.id.CheckVocal)).setChecked(bandProfileContent.Vacancy.get("vocal"));
+        ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(bandProfileContent.Vacancy.get("bass"));
+        ((CheckBox) view.findViewById(R.id.CheckGuitar)).setChecked(bandProfileContent.Vacancy.get("guitar"));
+        ((CheckBox) view.findViewById(R.id.CheckDrum)).setChecked(bandProfileContent.Vacancy.get("drum"));
+        ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setChecked(bandProfileContent.Vacancy.get("keyboard"));
+        ((CheckBox) view.findViewById(R.id.CheckOthers)).setChecked(bandProfileContent.Vacancy.get("other"));
 
         //Set bandName
         ((TextView) view.findViewById(R.id.BandName)).setText(bandProfileContent.BandName);
@@ -74,7 +68,7 @@ public class BandProfileFragment extends Fragment {
         new GetProfilePicture(bandProfileContent.BandPictureURL,ProfilePicture).execute();
 
         Switch RoleSwitch = (Switch) view.findViewById(R.id.ChangeRole);
-        if(UserRole.GetUserRole()=="bandProfileContent.BandName")
+        if(UserRole.GetUserRole()== bandProfileContent.id)
         {
             RoleSwitch.setChecked(true);
         }
@@ -86,7 +80,7 @@ public class BandProfileFragment extends Fragment {
             @Override
             public void onCheckedChanged (CompoundButton buttonView,boolean isChecked){
                 if (isChecked) {
-                    UserRole.IsBand(bandProfileContent.BandName);
+                    UserRole.IsBand(bandProfileContent.id);
                 }
                 else {
                     UserRole.IsMusician();
