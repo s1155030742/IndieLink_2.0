@@ -19,10 +19,15 @@ import android.view.View;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.Profile.BandProfileContent;
 import com.indielink.indielink.Profile.ProfileContent;
 import com.indielink.indielink.Profile.UserRole;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +47,52 @@ public class RootPage extends AppCompatActivity
         setContentView(R.layout.activity_root_page);
 
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
-        UserBand.add(new BandProfileContent("Band2","AboutMetestest","1",new ArrayList<String>()));
+        //get the User band List and band instrument list by posting access_token and fb_user_id
+        HttpPost httpPost = new HttpPost();
+        JSONObject  UserBandListJSON = httpPost.PostJSONResponseJSON(
+                "http://137.189.97.88:8080/user",
+                new JSONObject() {{
+                    try {
+                            put("access_token",AccessToken.getCurrentAccessToken().getToken());
+                            put("fb_user_id",AccessToken.getCurrentAccessToken().getUserId());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                }}
+        );
+        //add all band to ArrayList UserBand first
+        try {
+            for(int i=0 ; i<UserBandListJSON.getJSONArray("band").length();i++)
+            {
+                UserBand.add(new BandProfileContent(
+                UserBandListJSON.getJSONArray("band").getJSONObject(i)));
+            }
+
+        //then add instruemnt vacancyness, i.e. set vacancy to each user band
+            //search for the entire bandInstrument JSON Array and all band,
+            //num of item in bandInstrument Json Array supposed to be larger than num of user Band
+            for(int i=0 ; i<UserBandListJSON.getJSONArray("bandInstrument").length();i++)
+                for (BandProfileContent band : UserBand)
+
+                    //select the band which match the instrument
+                    if(band.id == UserBandListJSON.getJSONArray("bandInstrument")
+                            .getJSONObject(i).get("id").toString())
+
+                        //set Instrument Vacancyness in the band using member function
+                        //if user_id of instrument is null, then setVacancy(instrument, true)
+                        //since this is the first time construct band list, all vacancy default false
+                        band.setVacancy(
+                            UserBandListJSON.getJSONArray("bandInstrument")
+                                    .getJSONObject(i).get("instrument").toString(),
+                            UserBandListJSON.getJSONArray("bandInstrument")
+                                    .getJSONObject(i).get("user_id").toString()=="null");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //UserBand.add(new BandProfileContent("Band2","BandAboutMe",dbBandid, instru));
+        //UserBand.add(new BandProfileContent("Band2","AboutMetestest","1",new ArrayList<String>()));
 
         UserRole.IsMusician();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
