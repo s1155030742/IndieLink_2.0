@@ -50,7 +50,9 @@ public class HttpPost extends Application{
 
     public JSONObject PostJSONResponseJSON(String Url, JSONObject JSONToPost)
     {
-        String TAG = Url;
+        //This is a sychonize JSON request resposne
+
+        final String TAG = Url;
 
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Url, JSONToPost, future, future);
@@ -72,16 +74,19 @@ public class HttpPost extends Application{
         } catch (ExecutionException e) {
             // handle the error
         }
+        return null;
+    }
 
-        //Old version of PostJSON
-        /*
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, js,
+    public void PostJSON(String Url, JSONObject JSONToPost)
+    {
+        final String TAG = Url;
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, JSONToPost,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response)
                     {
                         VolleyLog.d(TAG, response.toString());
-                        jsRep = response;
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -91,10 +96,6 @@ public class HttpPost extends Application{
             }
         });
         Volley.newRequestQueue(mContext).add(jsonRequest);
-
-        return jsRep;
-        */
-        return null;
     }
 
 }
