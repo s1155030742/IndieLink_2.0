@@ -41,6 +41,7 @@ public class ProfileFragment extends Fragment implements AbsListView.OnItemClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //http post get instrument, about me
     }
 
     @Override

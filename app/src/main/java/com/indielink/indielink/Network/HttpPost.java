@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.RequestFuture;
 import com.indielink.indielink.MainActivity;
 import com.indielink.indielink.R;
 import com.android.volley.Request;
@@ -19,16 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.ReferenceQueue;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Hong on 23/11/2015.
  */
 public class HttpPost extends Application{
 
-    JSONObject jsRep;
-    String fbid;
     Context mContext;
-
 
     public HttpPost() {
         mContext = MainActivity.getContext();
@@ -49,10 +48,33 @@ public class HttpPost extends Application{
     }
     */
 
-    public JSONObject PostJSON(String Url, JSONObject js)
+    public JSONObject PostJSONResponseJSON(String Url, JSONObject JSONToPost)
     {
-        final String TAG = Url;
+        String TAG = Url;
 
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Url, JSONToPost, future, future);
+
+        // If you want to be able to cancel the request:
+        //future.setRequest(requestQueue.add(request));
+
+        // Otherwise:
+        //requestQueue.add(request);
+        Volley.newRequestQueue(mContext).add(jsonRequest);
+
+        try {
+            JSONObject response = future.get();
+            // do something with response
+            return response;
+
+        } catch (InterruptedException e) {
+            // handle the error
+        } catch (ExecutionException e) {
+            // handle the error
+        }
+
+        //Old version of PostJSON
+        /*
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, js,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -69,7 +91,10 @@ public class HttpPost extends Application{
             }
         });
         Volley.newRequestQueue(mContext).add(jsonRequest);
+
         return jsRep;
+        */
+        return null;
     }
 
 }
