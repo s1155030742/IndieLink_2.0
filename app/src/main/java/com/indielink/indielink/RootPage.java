@@ -42,7 +42,7 @@ public class RootPage extends AppCompatActivity
         setContentView(R.layout.activity_root_page);
 
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
-        UserBand.add(new BandProfileContent("Band2","AboutMetestest","1"));
+        UserBand.add(new BandProfileContent("Band2","AboutMetestest","1",new ArrayList<String>()));
 
         UserRole.IsMusician();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
