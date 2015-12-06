@@ -26,7 +26,7 @@
         android:id="@+id/EditBandAboutMe"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="BandName"/>
+        android:text="About me"/>
 
     <TextView
         android:id="@+id/TextViewInstrument"

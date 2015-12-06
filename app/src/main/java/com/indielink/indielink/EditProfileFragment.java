@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.indielink.indielink.Network.HttpPost;
 
@@ -49,6 +51,7 @@ public class EditProfileFragment extends Fragment{
 
     private Button mSubmitChangeButton;
     private String  fbid;
+  //  private String access_token;
     private EditText aboutMe;
     private CheckBox isVocal, isGuitar, isBass, isDrum, isKeyboard,isOther;
 
@@ -79,8 +82,6 @@ public class EditProfileFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fbid = Profile.getCurrentProfile().getId();
-
     }
 
     @Override
@@ -96,7 +97,7 @@ public class EditProfileFragment extends Fragment{
         isDrum = (CheckBox) view.findViewById(R.id.EditProfileisDrum);
         isKeyboard = (CheckBox) view.findViewById(R.id.EditProfileisKeyboard);
         isOther = (CheckBox) view.findViewById(R.id.EditProfileisOthers);
-
+        /*
         aboutMe = (EditText) view.findViewById(R.id.EditBandAboutMe);
         isVocal = (CheckBox) view.findViewById(R.id.EditProfileisVocal);
         isGuitar = (CheckBox) view.findViewById(R.id.EditProfileisGuitar);
@@ -104,7 +105,7 @@ public class EditProfileFragment extends Fragment{
         isDrum = (CheckBox) view.findViewById(R.id.EditProfileisDrum);
         isKeyboard = (CheckBox) view.findViewById(R.id.EditProfileisKeyboard);
         isOther = (CheckBox) view.findViewById(R.id.EditProfileisOthers);
-
+        */
 
         // Set button onClick Handler
         final Button button = (Button) view.findViewById(R.id.SubmitNewBand);
@@ -121,14 +122,15 @@ public class EditProfileFragment extends Fragment{
                 //if(isOther.isChecked())list.put("something");
 
                 //aboutMe.setText("List Done");
-
+                fbid = Profile.getCurrentProfile().getId();
+                AccessToken access_token = AccessToken.getCurrentAccessToken();
                 //make JSONObject for http post
                 JSONObject obj = new JSONObject();
 
                 try {
-                    obj.put("about me", aboutMe.getText());
-                    obj.put("access token", "1");
-                    obj.put("fb_user_id", fbid);
+                    obj.put("about_me", aboutMe.getText());
+                    obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                    obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
                     obj.put("instrument", list);
 
                     //aboutMe.setText("JSON done");
@@ -137,11 +139,17 @@ public class EditProfileFragment extends Fragment{
                     e.printStackTrace();
                 }
 
-                //Post to sever
+                //Post to server
                 aboutMe.setText(obj.toString());
                 HttpPost httpPost = new HttpPost();
-                httpPost.PostJSON("http://137.189.97.88:8080/user/edit", obj);
+                JSONObject response = httpPost.PostJSON("http://137.189.97.88:8080/user/edit", obj);
+                try{
+                response.getString("Status");
 
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
         });
 
