@@ -33,8 +33,6 @@ public class RootPage extends AppCompatActivity
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
 
-    BandProfileContent band1 = new BandProfileContent("Band1");
-    BandProfileContent band2 = new BandProfileContent("Band2");
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();
 
     @Override
@@ -44,8 +42,7 @@ public class RootPage extends AppCompatActivity
         setContentView(R.layout.activity_root_page);
 
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
-        UserBand.add(band1);
-        UserBand.add(band2);
+        UserBand.add(new BandProfileContent("Band2","AboutMetestest","1"));
 
         UserRole.IsMusician();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

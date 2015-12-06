@@ -11,15 +11,17 @@ public class BandProfileContent implements Serializable
 {
     public String BandName;
     public String BandAboutMe;
-    public String BandPictureURL;
+    public String id;
+    public String BandPictureURL = "http://137.189.97.88:8080/upload/";
     public HashMap<String,Boolean> Vacancy = new HashMap<String,Boolean>();
 
-    public BandProfileContent(String Name)
+    public BandProfileContent(String Name,String AboutMe,String id)
     {
         // TODO add parameter after Json is confirm
         this.BandName = Name;
-        this.BandAboutMe = "This is a HardCode test";
-        this.BandPictureURL = "137.189.97.88";
+        this.BandAboutMe = AboutMe;
+        this.id = id;
+        this.BandPictureURL+=(id+".jpg");
     }
 }
 
