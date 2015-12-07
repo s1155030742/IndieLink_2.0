@@ -45,10 +45,11 @@ public class RootPage extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root_page);
-
+        UserRole.IsMusician();
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
         HttpPost httpPost = new HttpPost();
+        /*
         JSONObject  UserBandListJSON = httpPost.PostJSONResponseJSON(
                 "http://137.189.97.88:8080/user",
                 new JSONObject() {{
@@ -61,6 +62,8 @@ public class RootPage extends AppCompatActivity
                         }
                 }}
         );
+
+
         //add all band to ArrayList UserBand first
         try {
             for(int i=0 ; i<UserBandListJSON.getJSONArray("band").length();i++)
@@ -91,10 +94,12 @@ public class RootPage extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //UserBand.add(new BandProfileContent("Band2","BandAboutMe",dbBandid, instru));
-        //UserBand.add(new BandProfileContent("Band2","AboutMetestest","1",new ArrayList<String>()));
 
-        UserRole.IsMusician();
+        */
+        UserBand.add(new BandProfileContent("Band1","BandAboutMe","1", new ArrayList<String>()));
+        UserBand.add(new BandProfileContent("Band2","AboutMetestest","2",new ArrayList<String>()));
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

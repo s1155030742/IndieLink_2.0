@@ -65,14 +65,16 @@ public class HttpPost extends Application{
         Volley.newRequestQueue(mContext).add(jsonRequest);
 
         try {
+            Log.v("status","ready");
             JSONObject response = future.get();
+            Log.v("status","go");
             // do something with response
             return response;
 
         } catch (InterruptedException e) {
-            // handle the error
+            Log.v("Exception:" ,e.toString());
         } catch (ExecutionException e) {
-            // handle the error
+            Log.v("Exception:" ,e.toString());
         }
         return null;
     }
