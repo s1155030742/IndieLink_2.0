@@ -101,7 +101,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/Recruit"
-            android:id="@+id/RecruitButton"
+            android:id="@+id/ApplicationButton"
             android:theme="@style/AppTheme.AppBarOverlay"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />

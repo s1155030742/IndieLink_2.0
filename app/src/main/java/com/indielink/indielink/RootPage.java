@@ -11,12 +11,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -38,7 +38,7 @@ public class RootPage extends AppCompatActivity
 
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
-
+    JSONObject  UserBandListJSON;
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();
     
     @Override
@@ -52,7 +52,7 @@ public class RootPage extends AppCompatActivity
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
         HttpPost httpPost = new HttpPost();
-        JSONObject  UserBandListJSON = httpPost.PostJSONResponseJSON(
+        UserBandListJSON = httpPost.PostJSONResponseJSON(
                 "http://137.189.97.88:8080/user",
                 new JSONObject() {{
                     try {
@@ -185,6 +185,16 @@ public class RootPage extends AppCompatActivity
                                 try {
                                     Fragment fragment = new ProfileFragment();
                                     ProfileContent.InitializeProfile(object);
+                                    try
+                                    {
+                                        ProfileContent.GetUserProfile().put("AboutMe", UserBandListJSON.getString("about_me"));
+                                        String instruments = TextUtils.join(",", ((String[]) UserBandListJSON.get("instrument")));
+                                        ProfileContent.GetUserProfile().put("Instrument", instruments);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Log.v("exception:",e.toString());
+                                    }
                                     fragmentManager.beginTransaction().addToBackStack("Profile")
                                             .replace(R.id.frame_container, fragment).commit();
                                 } catch (Exception e) {

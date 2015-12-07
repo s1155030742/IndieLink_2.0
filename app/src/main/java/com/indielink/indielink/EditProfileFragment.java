@@ -158,7 +158,8 @@ public class EditProfileFragment extends Fragment{
                 //for adding Picture url, name, age, gender
                 //HashMap<String,String> user = ProfileContent.GetUserProfile();
 
-                try {
+                try
+                {
                     /*
                     obj.put("name", user.get("UserName"));
                     obj.put("age", user.get("UserAge"));
@@ -178,7 +179,9 @@ public class EditProfileFragment extends Fragment{
 
                     //aboutMe.setText("JSON done");
 
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
 
@@ -186,15 +189,16 @@ public class EditProfileFragment extends Fragment{
                 aboutMe.setText(obj.toString());
                 HttpPost httpPost = new HttpPost();
                 JSONObject response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/edit", obj);
-                try{
+                try
+                {
                     response.getString("Status");
-
-                }catch (JSONException e){
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
             }
         });
-
         return view;
     }
 

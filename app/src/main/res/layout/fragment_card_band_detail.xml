@@ -39,12 +39,6 @@
                     android:layout_height="wrap_content" />
             </TableRow>
 
-            <TextView
-                android:id="@+id/BandVacancy"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Vacancy"/>
-
             <TableRow android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <CheckBox
@@ -130,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Apply"
-            android:id="@+id/RecruitButton"
+            android:id="@+id/ApplicationButton"
             android:theme="@style/AppTheme.AppBarOverlay"
             android:layout_below="@+id/BandVacancyTable"
             android:layout_alignParentBottom="true"

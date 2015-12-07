@@ -34,7 +34,7 @@
     <string name="Detail">My Detail</string>
     <string name="Recruit">Recruit</string>
     <string name="Apply">Apply</string>
-
+    <string name="Application">Application</string>
     <string name="Name">Name :</string>
     <string name="Age">Age :</string>
     <string name="Gender">Gender :</string>

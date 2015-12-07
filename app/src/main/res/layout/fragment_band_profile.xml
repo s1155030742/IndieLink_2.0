@@ -126,8 +126,6 @@
                     android:layout_weight="2"/>
             </TableRow>
         </TableLayout>
-
-
         <Switch
             android:id="@+id/ChangeRole"
             android:layout_width="wrap_content"
@@ -135,6 +133,15 @@
             android:text="Idenitity: Myself/Band"
             android:gravity="bottom|center"
             android:layout_gravity="bottom"
+            android:layout_above="@id/ApplicationButton"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Application"
+            android:id="@+id/ApplicationButton"
+            android:theme="@style/AppTheme.AppBarOverlay"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>

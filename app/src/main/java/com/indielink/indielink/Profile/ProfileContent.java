@@ -21,6 +21,7 @@ import java.util.Map;
 public class ProfileContent {
 
     private static HashMap<String,String> User = new HashMap<String,String>();
+    private static HashMap<String,Boolean> Instrument = new HashMap<String,Boolean>();
     public static String ProfilePictureURL;
 
     public static void InitializeProfile(JSONObject object)
