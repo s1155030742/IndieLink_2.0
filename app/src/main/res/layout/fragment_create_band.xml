@@ -402,17 +402,19 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack1" />
+                android:text="track1" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack1button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack1button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -483,11 +485,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack2button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Play" />
                 <Button
+                    android:id="@+id/stoptrack2button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -557,12 +561,15 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
+
                 <Button
+                    android:id="@+id/playtrack3button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack3button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -633,11 +640,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack4button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack4button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -708,11 +717,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack5button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack5button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -783,11 +794,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack6button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack6button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -857,11 +870,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack7button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack7button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -932,11 +947,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack8button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack8button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -1007,11 +1024,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <Button
+                    android:id="@+id/playtrack9button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/PlayTrack1" />
                 <Button
+                    android:id="@+id/stoptrack9button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
