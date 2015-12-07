@@ -167,9 +167,9 @@ public class EditProfileFragment extends Fragment{
                     */
 
                     //adding element to JSON for posting
-                    obj.put("about_me", aboutMe.getText());
-                    obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                    obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
+                    //obj.put("about_me", aboutMe.getText());
+                    //obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                    //obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
 
                     for(int i=0;i<9;i++) obj.put(TrackStyleList.get(i),TrackScoreList.get(i));
 

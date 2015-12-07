@@ -46,12 +46,12 @@ public class CardBandDetailFragment extends Fragment {
         //Set AboutMe
         ((TextView) view.findViewById(R.id.AboutMe)).setText(bandProfileContent.BandAboutMe);
 
-        ((CheckBox) view.findViewById(R.id.CheckVocal)).setChecked(bandProfileContent.Vacancy.get("vocal"));
-        ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(bandProfileContent.Vacancy.get("bass"));
-        ((CheckBox) view.findViewById(R.id.CheckGuitar)).setChecked(bandProfileContent.Vacancy.get("guitar"));
-        ((CheckBox) view.findViewById(R.id.CheckDrum)).setChecked(bandProfileContent.Vacancy.get("drum"));
-        ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setChecked(bandProfileContent.Vacancy.get("keyboard"));
-        ((CheckBox) view.findViewById(R.id.CheckOthers)).setChecked(bandProfileContent.Vacancy.get("other"));
+        ((CheckBox) view.findViewById(R.id.CheckVocal)).setClickable(!bandProfileContent.Vacancy.get("vocal"));
+        ((CheckBox) view.findViewById(R.id.CheckBass)).setClickable(!bandProfileContent.Vacancy.get("bass"));
+        ((CheckBox) view.findViewById(R.id.CheckGuitar)).setClickable(!bandProfileContent.Vacancy.get("guitar"));
+        ((CheckBox) view.findViewById(R.id.CheckDrum)).setClickable(!bandProfileContent.Vacancy.get("drum"));
+        ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setClickable(!bandProfileContent.Vacancy.get("keyboard"));
+        ((CheckBox) view.findViewById(R.id.CheckOthers)).setClickable(!bandProfileContent.Vacancy.get("other"));
 
 
         return view;
