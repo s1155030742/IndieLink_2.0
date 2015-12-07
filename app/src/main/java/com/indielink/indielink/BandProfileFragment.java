@@ -37,6 +37,8 @@ public class BandProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_band_profile, container, false);
 
+
+
        //((TextView) view.findViewById(R.id.BandAboutMe)).setText(("Britpop"));
 
        // CheckBox checkedTextView = (CheckBox) view.findViewById(R.id.CheckVocal);
