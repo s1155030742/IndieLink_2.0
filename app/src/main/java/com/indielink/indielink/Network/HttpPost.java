@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.lang.ref.ReferenceQueue;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Hong on 23/11/2015.
@@ -65,15 +67,21 @@ public class HttpPost extends Application{
         Volley.newRequestQueue(mContext).add(jsonRequest);
 
         try {
-            JSONObject response = future.get();
+            JSONObject response = future.get(10, TimeUnit.SECONDS);
+
             // do something with response
             return response;
 
         } catch (InterruptedException e) {
-            // handle the error
+            Log.v("Exception:" ,e.toString());
         } catch (ExecutionException e) {
             // handle the error
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+            Log.v("Exception:" ,e.toString());
         }
+
+        VolleyLog.d(TAG, "No Response");
         return null;
     }
 

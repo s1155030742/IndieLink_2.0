@@ -43,7 +43,6 @@ import butterknife.OnClick;
 public class SearchFragment extends Fragment {
 
     private ArrayList<RowItem> al;
-    private String PhotoUrl = "http://137.189.97.88:8080/uploads/";
     private CustomAdapter arrayAdapter;
     public ArrayList<BandProfileContent> SuggestedBands = new ArrayList<BandProfileContent>();
     // private ArrayList<Integer> array_image;
@@ -64,6 +63,7 @@ public class SearchFragment extends Fragment {
 
         //arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
 
+        al = new ArrayList<>();
         JSONObject obj = new JSONObject();
 
         try {
@@ -76,23 +76,30 @@ public class SearchFragment extends Fragment {
         //Post to server
         HttpPost httpPost = new HttpPost();
         JSONObject response;
-        al = new ArrayList<>();
-/*
-        if(UserRole.GetUserRole() == "") {
-            response = httpPost.PostJSON("http://137.189.97.88:8080/band/detail", obj);
+
+
+        //if(UserRole.GetUserRole() == "") {
+
+        /*
+            response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/band/detail", obj);
             try{
                 JSONArray Bands = response.getJSONArray("band");
                 for (int i=0; i<Bands.length(); i++)
                 {
                     JSONObject Band = Bands.getJSONObject(i);
-                    SuggestedBands.add(new BandProfileContent(Band.getString("name"),Band.getString("about_me"),Band.getString("id")));
-                    al.add(new RowItem(Bands.getJSONObject(i).getString("name"),PhotoUrl+Bands.getJSONObject(i).getString("band_id")+".jpg"));
+                    BandProfileContent b = new BandProfileContent(Band);
+                    SuggestedBands.add(b);
+                    al.add(new RowItem(b.BandName,b.BandPictureURL));
                 }
             }catch (JSONException e){
                 e.printStackTrace();
             }
-        }else{
-            response = httpPost.PostJSON("http://137.189.97.88:8080/user/detail", obj);
+        */
+
+        //}
+        /*else
+        {
+            response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/detail", obj);
             try{
                 JSONArray Users = response.getJSONArray("user");
                 for (int i=0; i<Users.length(); i++)
@@ -103,26 +110,21 @@ public class SearchFragment extends Fragment {
             }catch (JSONException e){
                 e.printStackTrace();
             }
-        }
-*/
-        ButterKnife.inject(this,view);
+        }*/
+
+        ButterKnife.inject(this, view);
         // ArrayList<Integer> array_image = new ArrayList<Integer>();
-        RowItem firstrow = new RowItem("Muse","https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
-        RowItem secondrow = new RowItem("Oasis", "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
-        //RowItem third = new RowItem("Beatles", R.drawable.beatleslogo);
-        //RowItem forthrow = new RowItem("Guns N' Roses", R.drawable.gnrlogo);
-       // RowItem fifthrow = new RowItem("Libertines", R.drawable.picture1);
-       // RowItem sixthrow = new RowItem("Blur", R.drawable.picture2);
+        ArrayList<String> dummy = new ArrayList<String>();
 
-        // al.add(new RowItem(R.drawable.picture1,null));
-        // al.add("muse",R.drawable.picture1);
+        BandProfileContent band1 = new BandProfileContent("Muse","about Muse","1",dummy);
+        RowItem firstrow = new RowItem(band1.BandName,"https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
+        SuggestedBands.add(band1);
 
+        BandProfileContent band2 = new BandProfileContent("Oasis","about Oasis","2",dummy);
+        RowItem secondrow = new RowItem(band2.BandName, "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
+        SuggestedBands.add(band2);
         al.add(firstrow);
         al.add(secondrow);
-       //al.add(third);
-        //al.add(forthrow);
-       // al.add(fifthrow);
-        //al.add(sixthrow);
 
         arrayAdapter = new CustomAdapter(getActivity(), al);
 
@@ -167,28 +169,33 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
         // Optionally add an OnItemClickListener
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                //makeToast(SearchFragment.this, "Clicked!");
-
-                //FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                //fragmentTransaction.add(R.id.carddetail,CardDetailFragment.newInstance());
-
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                RowItem a = (RowItem) dataObject;
-                Log.v("selected",a.getText());
-                if (UserRole.GetUserRole() == "") {
-
-                    fragmentManager.beginTransaction().addToBackStack("CardBandDetail")
-                            .replace(R.id.frame_container, new CardBandDetailFragment()).commit();
-                }else{
+                String SelectedName = ((RowItem) dataObject).getText();
+                //if (UserRole.GetUserRole() == "") {
+                for(BandProfileContent item : SuggestedBands)
+                {
+                    Log.v(item.BandName,SelectedName);
+                    if (item.BandName==SelectedName)
+                    {
+                        BandProfileContent SelectedBand = item;
+                        Bundle bundle = new Bundle();
+                        Fragment fragment = new CardBandDetailFragment();
+                        bundle.putSerializable("SelectedBand",SelectedBand);
+                        fragment.setArguments(bundle);
+                        fragmentManager.beginTransaction().addToBackStack("CardBandDetail")
+                                .replace(R.id.frame_container, fragment).commit();
+                    }
+                }
+                // TODO: SEM2 sin add the below part
+                /*}else{
                     fragmentManager.beginTransaction().addToBackStack("CardDetail")
                             .replace(R.id.frame_container, new CardDetailFragment()).commit();
-                }
-                Log.d("LIST", "clicked");
+                }*/
+                Log.d("Swipe card", "clicked");
             }
         });
         return view;
@@ -197,6 +204,5 @@ public class SearchFragment extends Fragment {
     static void makeToast(Context ctx, String s) {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT);
     }
-
 }
 
