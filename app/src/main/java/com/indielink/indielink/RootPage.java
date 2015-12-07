@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -32,15 +33,16 @@ import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class RootPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
-    JSONObject  UserBandListJSON;
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();
-    
+    JSONObject UserBandListJSON = new JSONObject();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,6 +54,7 @@ public class RootPage extends AppCompatActivity
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
         HttpPost httpPost = new HttpPost();
+
         UserBandListJSON = httpPost.PostJSONResponseJSON(
                 "http://137.189.97.88:8080/user",
                 new JSONObject() {{
@@ -59,8 +62,8 @@ public class RootPage extends AppCompatActivity
                             put("access_token",AccessToken.getCurrentAccessToken().getToken());
                             put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
 
-                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken().toString());
-                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId().toString());
+                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
+                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -95,6 +98,8 @@ public class RootPage extends AppCompatActivity
                                         .getJSONObject(i).get("instrument").toString(),
                                 UserBandListJSON.getJSONArray("bandInstrument")
                                         .getJSONObject(i).get("user_id").toString()=="null");
+
+            Log.v("band list", "success");
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -24,7 +24,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private static Context mContext;    //for Class Network.HttpPost for PostJSON
-    private static int numOfTrack;
+    public static int numOfTrack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -98,7 +98,7 @@ public class EditProfileFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        final View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
         aboutMe = (EditText) view.findViewById(R.id.EditBandAboutMe);
 
@@ -116,14 +116,6 @@ public class EditProfileFragment extends Fragment{
                 R.id.track9RadioGp
         ));
 
-        //Adding track score to track score arraylist
-        for(int i=0;i<9;i++) {
-            RadioGroup rg = (RadioGroup) view.findViewById(TrackRadioGpIdList.get(i));
-            TrackScoreList.add(
-                    ((RadioButton) view.findViewById(rg.getCheckedRadioButtonId()))
-                            .getText().toString());
-        }
-
         //for Instruemnt JSONArray
         isVocal = (CheckBox) view.findViewById(R.id.EditProfileisVocal);
         isGuitar = (CheckBox) view.findViewById(R.id.EditProfileisGuitar);
@@ -137,7 +129,14 @@ public class EditProfileFragment extends Fragment{
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //make instrument JsonArray first
+                //Adding marked track score to track score arraylist
+                for(int i=0;i<9;i++) {
+                    RadioGroup rg = (RadioGroup) view.findViewById(TrackRadioGpIdList.get(i));
+                    TrackScoreList.add(((RadioButton) view.findViewById(
+                            rg.getCheckedRadioButtonId())).getText().toString());
+                }
+
+                //make instrument JsonArray
                 JSONArray InstrumentArrayList = new JSONArray();
                 if (isVocal.isChecked()) InstrumentArrayList.put("vocal");
                 if (isGuitar.isChecked()) InstrumentArrayList.put("guitar");
@@ -156,22 +155,24 @@ public class EditProfileFragment extends Fragment{
                 JSONObject obj = new JSONObject();
 
                 //for adding Picture url, name, age, gender
-                //HashMap<String,String> user = ProfileContent.GetUserProfile();
+                HashMap<String,String> user = ProfileContent.GetUserProfile();
 
                 try
                 {
-                    /*
+                    //adding name, age, gender, profile pic url
                     obj.put("name", user.get("UserName"));
                     obj.put("age", user.get("UserAge"));
                     obj.put("gender", user.get("UserGender"));
-                    havnt add pic url
-                    */
+                    obj.put("profile_picture_url","profile pig");
+                    //havnt add pic url
+
 
                     //adding element to JSON for posting
-                    //obj.put("about_me", aboutMe.getText());
-                    //obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                    //obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
+                    obj.put("about_me", aboutMe.getText());
+                    obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                    obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
 
+                    //adding score mark
                     for(int i=0;i<9;i++) obj.put(TrackStyleList.get(i),TrackScoreList.get(i));
 
                     //add instrument arrayList
@@ -189,8 +190,7 @@ public class EditProfileFragment extends Fragment{
                 aboutMe.setText(obj.toString());
                 HttpPost httpPost = new HttpPost();
                 JSONObject response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/edit", obj);
-                try
-                {
+                try{
                     response.getString("Status");
                 }
                 catch (JSONException e)
@@ -199,6 +199,7 @@ public class EditProfileFragment extends Fragment{
                 }
             }
         });
+
         return view;
     }
 
