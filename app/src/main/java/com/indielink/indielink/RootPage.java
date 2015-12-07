@@ -39,17 +39,18 @@ public class RootPage extends AppCompatActivity
     FragmentManager fragmentManager;
 
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root_page);
+
         UserRole.IsMusician();
+
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
         HttpPost httpPost = new HttpPost();
-        /*
         JSONObject  UserBandListJSON = httpPost.PostJSONResponseJSON(
                 "http://137.189.97.88:8080/user",
                 new JSONObject() {{
@@ -62,17 +63,17 @@ public class RootPage extends AppCompatActivity
                         }
                 }}
         );
-
-
         //add all band to ArrayList UserBand first
-        try {
+        //skip this if no repsonse from http posting
+        if(UserBandListJSON!=null) try
+        {
             for(int i=0 ; i<UserBandListJSON.getJSONArray("band").length();i++)
             {
                 UserBand.add(new BandProfileContent(
-                UserBandListJSON.getJSONArray("band").getJSONObject(i)));
+                        UserBandListJSON.getJSONArray("band").getJSONObject(i)));
             }
 
-        //then add instruemnt vacancyness, i.e. set vacancy to each user band
+            //then add instruemnt vacancyness, i.e. set vacancy to each user band
             //search for the entire bandInstrument JSON Array and all band,
             //num of item in bandInstrument Json Array supposed to be larger than num of user Band
             for(int i=0 ; i<UserBandListJSON.getJSONArray("bandInstrument").length();i++)
@@ -86,19 +87,18 @@ public class RootPage extends AppCompatActivity
                         //if user_id of instrument is null, then setVacancy(instrument, true)
                         //since this is the first time construct band list, all vacancy default false
                         band.setVacancy(
-                            UserBandListJSON.getJSONArray("bandInstrument")
-                                    .getJSONObject(i).get("instrument").toString(),
-                            UserBandListJSON.getJSONArray("bandInstrument")
-                                    .getJSONObject(i).get("user_id").toString()=="null");
+                                UserBandListJSON.getJSONArray("bandInstrument")
+                                        .getJSONObject(i).get("instrument").toString(),
+                                UserBandListJSON.getJSONArray("bandInstrument")
+                                        .getJSONObject(i).get("user_id").toString()=="null");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        */
+        /*
         UserBand.add(new BandProfileContent("Band1","BandAboutMe","1", new ArrayList<String>()));
         UserBand.add(new BandProfileContent("Band2","AboutMetestest","2",new ArrayList<String>()));
-
+        */
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

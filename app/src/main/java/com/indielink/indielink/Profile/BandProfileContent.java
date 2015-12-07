@@ -79,7 +79,7 @@ public class BandProfileContent implements Serializable
     }
 
     public boolean isVacan(String Instrument) {
-        return isInstrumentExist(Instrument)==true?this.Vacancy.get(Instrument): false;
+        return isInstrumentExist(Instrument) ? this.Vacancy.get(Instrument): false;
     }
 
 
