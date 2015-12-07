@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.indielink.indielink.Network.GetProfilePicture;
 import com.indielink.indielink.Profile.BandProfileContent;
@@ -30,7 +31,7 @@ public class CardBandDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bandProfileContent = (BandProfileContent) this.getArguments()
-                .getSerializable("userBand");
+                .getSerializable("SelectedBand");
     }
 
     @Override
@@ -38,14 +39,21 @@ public class CardBandDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_card_band_detail, container, false);
         ImageView ProfilePicture = (ImageView) view.findViewById(R.id.BandProfilePicture);
+        new GetProfilePicture(bandProfileContent.BandPictureURL,ProfilePicture).execute();
+
+        //Set Name
+        ((TextView) view.findViewById(R.id.BandName)).setText(bandProfileContent.BandName);
+        //Set AboutMe
+        ((TextView) view.findViewById(R.id.AboutMe)).setText(bandProfileContent.BandAboutMe);
+
+        ((CheckBox) view.findViewById(R.id.CheckVocal)).setChecked(bandProfileContent.Vacancy.get("vocal"));
+        ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(bandProfileContent.Vacancy.get("bass"));
+        ((CheckBox) view.findViewById(R.id.CheckGuitar)).setChecked(bandProfileContent.Vacancy.get("guitar"));
+        ((CheckBox) view.findViewById(R.id.CheckDrum)).setChecked(bandProfileContent.Vacancy.get("drum"));
+        ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setChecked(bandProfileContent.Vacancy.get("keyboard"));
+        ((CheckBox) view.findViewById(R.id.CheckOthers)).setChecked(bandProfileContent.Vacancy.get("other"));
 
 
-
-
-
-
-        new GetProfilePicture("URL",ProfilePicture).execute();
-        // Inflate the layout for this fragment
         return view;
     }
 

@@ -112,12 +112,17 @@ public class SearchFragment extends Fragment {
             }
         }*/
 
-        ButterKnife.inject(this,view);
+        ButterKnife.inject(this, view);
         // ArrayList<Integer> array_image = new ArrayList<Integer>();
-        RowItem firstrow = new RowItem("Muse","https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
-        RowItem secondrow = new RowItem("Oasis", "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
-        //RowItem third = new RowItem("Beatles", R.drawable.beatleslogo);
+        ArrayList<String> dummy = new ArrayList<String>();
 
+        BandProfileContent band1 = new BandProfileContent("Muse","about Muse","1",dummy);
+        RowItem firstrow = new RowItem(band1.BandName,"https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
+        SuggestedBands.add(band1);
+
+        BandProfileContent band2 = new BandProfileContent("Oasis","about Oasis","2",dummy);
+        RowItem secondrow = new RowItem(band2.BandName, "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
+        SuggestedBands.add(band2);
         al.add(firstrow);
         al.add(secondrow);
 
@@ -163,30 +168,33 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
         // Optionally add an OnItemClickListener
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                //makeToast(SearchFragment.this, "Clicked!");
-
-                //FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                //fragmentTransaction.add(R.id.carddetail,CardDetailFragment.newInstance());
-
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                RowItem a = (RowItem) dataObject;
-                Log.v("selected",a.getText());
+                String SelectedName = ((RowItem) dataObject).getText();
                 //if (UserRole.GetUserRole() == "") {
-
-                    fragmentManager.beginTransaction().addToBackStack("CardBandDetail")
-                            .replace(R.id.frame_container, new CardBandDetailFragment()).commit();
-
+                for(BandProfileContent item : SuggestedBands)
+                {
+                    Log.v(item.BandName,SelectedName);
+                    if (item.BandName==SelectedName)
+                    {
+                        BandProfileContent SelectedBand = item;
+                        Bundle bundle = new Bundle();
+                        Fragment fragment = new CardBandDetailFragment();
+                        bundle.putSerializable("SelectedBand",SelectedBand);
+                        fragment.setArguments(bundle);
+                        fragmentManager.beginTransaction().addToBackStack("CardBandDetail")
+                                .replace(R.id.frame_container, fragment).commit();
+                    }
+                }
                 // TODO: SEM2 sin add the below part
                 /*}else{
                     fragmentManager.beginTransaction().addToBackStack("CardDetail")
                             .replace(R.id.frame_container, new CardDetailFragment()).commit();
                 }*/
-                Log.d("LIST", "clicked");
+                Log.d("Swipe card", "clicked");
             }
         });
         return view;

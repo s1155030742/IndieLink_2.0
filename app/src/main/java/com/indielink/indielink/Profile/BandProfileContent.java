@@ -55,9 +55,9 @@ public class BandProfileContent implements Serializable
         this.Vacancy.put("vocal",false);
         this.Vacancy.put("bass", false);
         this.Vacancy.put("guitar",false);
-        this.Vacancy.put("",false);
-        this.Vacancy.put("",false);
-        this.Vacancy.put("", false);
+        this.Vacancy.put("drum",false);
+        this.Vacancy.put("keyboard",false);
+        this.Vacancy.put("other", false);
     }
 
     public void setVacancy(ArrayList<String> Instrument)
