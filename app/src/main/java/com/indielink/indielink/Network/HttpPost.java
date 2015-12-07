@@ -68,9 +68,7 @@ public class HttpPost extends Application{
 
         try {
             JSONObject response = future.get(10, TimeUnit.SECONDS);
-            Log.v("status","ready");
-            JSONObject response = future.get();
-            Log.v("status","go");
+
             // do something with response
             return response;
 

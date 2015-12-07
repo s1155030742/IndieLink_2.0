@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -56,7 +57,10 @@ public class RootPage extends AppCompatActivity
                 new JSONObject() {{
                     try {
                             put("access_token",AccessToken.getCurrentAccessToken().getToken());
-                            put("fb_user_id",AccessToken.getCurrentAccessToken().getUserId());
+                            put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+
+                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken().toString());
+                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId().toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
