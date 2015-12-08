@@ -57,17 +57,15 @@ public class RootPage extends AppCompatActivity
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
         HttpPost httpPost = new HttpPost();
-
+        //    /user
         UserBandListJSON = httpPost.PostJSONResponseJSON(
                 "http://137.189.97.88:8080/user",
                 new JSONObject() {{
                     try {
                             put("access_token",AccessToken.getCurrentAccessToken().getToken());
                             put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
-
-                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
-                            Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
-
+                            //Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
+                            //Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -103,7 +101,6 @@ public class RootPage extends AppCompatActivity
                                         .getJSONObject(i).get("user_id").toString()=="null");
 
             Log.v("band list", "success");
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -201,7 +198,7 @@ public class RootPage extends AppCompatActivity
                                     }
                                     catch (Exception e)
                                     {
-                                        Log.v("exception:",e.toString());
+                                        Log.v("exception",e.toString());
                                     }
                                     fragmentManager.beginTransaction().addToBackStack("Profile")
                                             .replace(R.id.frame_container, fragment).commit();

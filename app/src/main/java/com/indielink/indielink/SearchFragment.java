@@ -80,7 +80,7 @@ public class SearchFragment extends Fragment {
 
         //if(UserRole.GetUserRole() == "") {
 
-        ///////TODO comment out the below part if need to debug
+            //          band/detail/
             response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/band/detail", obj);
             try{
                 JSONArray Bands = response.getJSONArray("band");
@@ -94,8 +94,6 @@ public class SearchFragment extends Fragment {
             }catch (JSONException e){
                 e.printStackTrace();
             }
-        //////////////////////////////////////////////////
-
         //}
         /*else
         {

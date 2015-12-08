@@ -3,6 +3,7 @@ package com.indielink.indielink;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -85,6 +86,8 @@ public class ApplicationListFragment extends Fragment implements AbsListView.OnI
             mListener.onFragmentInteraction(ApplicationListContent.ITEMS.get(position).id);
         }
         */
+        DialogFragment newFragment = new ReplyFragment();
+        newFragment.show(getFragmentManager(), "Reply");
     }
 
     public void setEmptyText(CharSequence emptyText) {

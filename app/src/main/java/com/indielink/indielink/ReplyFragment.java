@@ -11,15 +11,20 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 public class ReplyFragment extends DialogFragment {
 
+    private OnFragmentInteractionListener mListener;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        //
+        super.onCreateDialog(savedInstanceState);
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Musician")
-                .setMessage("Musician about me")
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_reply_dialog, null);
+        builder.setView(view).setTitle("Musician").setMessage("Musician about me")
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO: HTTP POST to: /user/reply
@@ -32,8 +37,6 @@ public class ReplyFragment extends DialogFragment {
                 });
         return builder.create();
     }
-
-    private OnFragmentInteractionListener mListener;
 
     public static ReplyFragment newInstance(String param1, String param2) {
         ReplyFragment fragment = new ReplyFragment();
@@ -56,8 +59,9 @@ public class ReplyFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_reply_dialog, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reply_dialog, container, false);
+        return view;
     }
 
     public void onButtonPressed(Uri uri) {

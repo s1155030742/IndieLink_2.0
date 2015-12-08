@@ -58,6 +58,7 @@ public class CardBandDetailFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO: HTTP POST to: /band/recruit
+                getFragmentManager().popBackStack();
             }
         });
         return view;

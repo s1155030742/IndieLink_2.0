@@ -69,6 +69,8 @@ public class BandProfileFragment extends Fragment {
             }
         });
 
+        //TODO　Implement only on sem2
+        /*
         Switch RoleSwitch = (Switch) view.findViewById(R.id.ChangeRole);
         if(UserRole.GetUserRole()== bandProfileContent.id)
         {
@@ -89,7 +91,7 @@ public class BandProfileFragment extends Fragment {
                 }
                 Log.v("Switch State=", "" + UserRole.GetUserRole());
             }
-        });
+        });*/
         return view;
     }
 }

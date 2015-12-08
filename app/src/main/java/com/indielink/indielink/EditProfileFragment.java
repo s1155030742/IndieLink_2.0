@@ -125,7 +125,7 @@ public class EditProfileFragment extends Fragment{
             public void onClick(View v) {
 
                 //Adding marked track score to track score arraylist
-                for(int i=0;i<9;i++) {
+                for (int i = 0; i < 9; i++) {
                     RadioGroup rg = (RadioGroup) view.findViewById(TrackRadioGpIdList.get(i));
                     TrackScoreList.add(((RadioButton) view.findViewById(
                             rg.getCheckedRadioButtonId())).getText().toString());
@@ -142,39 +142,37 @@ public class EditProfileFragment extends Fragment{
 
                 //contruct track style list
                 TrackStyleList = new ArrayList<String>(Arrays.asList(
-                        "blues","country","electronic","hard_rock",
-                        "britpop","jazz","pop_rock","metal","post_rock"
+                        "blues", "country", "electronic", "hard_rock",
+                        "britpop", "jazz", "pop_rock", "metal", "post_rock"
                 ));
 
                 //make JSONObject for http post
                 JSONObject obj = new JSONObject();
 
                 //for adding Picture url, name, age, gender
-                HashMap<String,String> user = ProfileContent.GetUserProfile();
+                HashMap<String, String> user = ProfileContent.GetUserProfile();
 
-                try
-                {
+                try {
                     //adding name, age, gender, profile pic url
                     obj.put("name", user.get("UserName"));
                     obj.put("age", user.get("UserAge"));
                     obj.put("gender", user.get("UserGender"));
-                    obj.put("profile_picture_url",ProfileContent.ProfilePictureURL);
+                    obj.put("profile_picture_url", ProfileContent.ProfilePictureURL);
                     //havnt add pic url
 
 
                     //adding element to JSON for posting
                     obj.put("about_me", aboutMe.getText());
                     obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                    obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
+                    obj.put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
 
                     //adding score mark
-                    for(int i=0;i<9;i++) obj.put(TrackStyleList.get(i),TrackScoreList.get(i));
+                    for (int i = 0; i < 9; i++)
+                        obj.put(TrackStyleList.get(i), TrackScoreList.get(i));
 
                     //add instrument arrayList
                     obj.put("instrument", InstrumentArrayList);
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -182,16 +180,14 @@ public class EditProfileFragment extends Fragment{
                 aboutMe.setText(obj.toString());
                 HttpPost httpPost = new HttpPost();
                 JSONObject response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/edit", obj);
-                try{
+                try {
                     response.getString("Status");
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                getFragmentManager().popBackStack();
             }
         });
-
         return view;
     }
 

@@ -126,6 +126,7 @@
                     android:layout_weight="2"/>
             </TableRow>
         </TableLayout>
+        <!--
         <Switch
             android:id="@+id/ChangeRole"
             android:layout_width="wrap_content"
@@ -135,7 +136,7 @@
             android:layout_gravity="bottom"
             android:layout_above="@+id/ApplyButton"
             android:layout_centerHorizontal="true" />
-
+        -->
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

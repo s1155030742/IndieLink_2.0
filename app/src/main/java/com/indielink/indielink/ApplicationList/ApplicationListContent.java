@@ -25,9 +25,9 @@ public class ApplicationListContent {
 
     static {
         // Add 3 sample items.
-        addItem(new ApplicationItem("1", "Item 1"));
-        addItem(new ApplicationItem("2", "Item 2"));
-        addItem(new ApplicationItem("3", "Item 3"));
+        addItem(new ApplicationItem("1", "Application 1"));
+        addItem(new ApplicationItem("2", "Application 2"));
+        addItem(new ApplicationItem("3", "Application 3"));
     }
 
     private static void addItem(ApplicationItem item) {
