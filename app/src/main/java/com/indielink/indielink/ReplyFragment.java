@@ -8,14 +8,25 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import com.indielink.indielink.ApplicationList.ApplicationListContent;
+import com.indielink.indielink.Profile.BandProfileContent;
+
 public class ReplyFragment extends DialogFragment {
 
     private OnFragmentInteractionListener mListener;
+    private int ItemId;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ItemId = Integer.parseInt((String) this.getArguments().getSerializable("id"));
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,11 +39,14 @@ public class ReplyFragment extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO: HTTP POST to: /user/reply
+                        ApplicationListContent.removeItem(ItemId);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO: HTTP POST to: /user/reply
+                        Log.v("Item Clicked", String.valueOf(ItemId));
+                        ApplicationListContent.removeItem(ItemId);
                     }
                 });
         return builder.create();
@@ -49,13 +63,7 @@ public class ReplyFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
+/*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,7 +71,7 @@ public class ReplyFragment extends DialogFragment {
         // Inflate the layout for this fragment
         return view;
     }
-
+*/
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

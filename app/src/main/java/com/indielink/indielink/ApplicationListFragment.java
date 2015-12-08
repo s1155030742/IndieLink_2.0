@@ -66,6 +66,12 @@ public class ApplicationListFragment extends Fragment implements AbsListView.OnI
     }
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
@@ -86,8 +92,11 @@ public class ApplicationListFragment extends Fragment implements AbsListView.OnI
             mListener.onFragmentInteraction(ApplicationListContent.ITEMS.get(position).id);
         }
         */
-        DialogFragment newFragment = new ReplyFragment();
-        newFragment.show(getFragmentManager(), "Reply");
+        DialogFragment fragment = new ReplyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("id",String.valueOf(id));
+        fragment.setArguments(bundle);
+        fragment.show(getFragmentManager(), "Reply");
     }
 
     public void setEmptyText(CharSequence emptyText) {
