@@ -1,14 +1,14 @@
 package com.indielink.indielink;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +52,14 @@ public class CardBandDetailFragment extends Fragment {
         ((CheckBox) view.findViewById(R.id.CheckDrum)).setClickable(!bandProfileContent.Vacancy.get("drum"));
         ((CheckBox) view.findViewById(R.id.CheckKeyboard)).setClickable(!bandProfileContent.Vacancy.get("keyboard"));
         ((CheckBox) view.findViewById(R.id.CheckOthers)).setClickable(!bandProfileContent.Vacancy.get("other"));
+
+        // Set button onClick Handler
+        final Button button = (Button) view.findViewById(R.id.ApplyButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO: HTTP POST to: /band/recruit
+            }
+        });
         return view;
     }
 

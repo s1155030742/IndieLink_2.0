@@ -23,7 +23,7 @@
         android:text="@string/AboutMe" />
 
     <EditText
-        android:id="@+id/EditBandAboutMe"
+        android:id="@+id/EditMusicianAboutMe"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="About me"/>

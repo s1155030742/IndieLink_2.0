@@ -124,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Apply"
-            android:id="@+id/ApplicationButton"
+            android:id="@+id/ApplyButton"
             android:theme="@style/AppTheme.AppBarOverlay"
             android:layout_below="@+id/BandVacancyTable"
             android:layout_alignParentBottom="true"

@@ -3,22 +3,17 @@ package com.indielink.indielink;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.Profile;
 import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.Profile.ProfileContent;
 
@@ -100,7 +95,7 @@ public class EditProfileFragment extends Fragment{
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
-        aboutMe = (EditText) view.findViewById(R.id.EditBandAboutMe);
+        aboutMe = (EditText) view.findViewById(R.id.EditMusicianAboutMe);
 
         //Construct ArrayList first
         TrackScoreList = new ArrayList<String>();
@@ -163,7 +158,7 @@ public class EditProfileFragment extends Fragment{
                     obj.put("name", user.get("UserName"));
                     obj.put("age", user.get("UserAge"));
                     obj.put("gender", user.get("UserGender"));
-                    obj.put("profile_picture_url","profile pig");
+                    obj.put("profile_picture_url",ProfileContent.ProfilePictureURL);
                     //havnt add pic url
 
 
@@ -177,9 +172,6 @@ public class EditProfileFragment extends Fragment{
 
                     //add instrument arrayList
                     obj.put("instrument", InstrumentArrayList);
-
-                    //aboutMe.setText("JSON done");
-
                 }
                 catch (JSONException e)
                 {

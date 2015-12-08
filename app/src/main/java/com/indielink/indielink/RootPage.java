@@ -49,6 +49,9 @@ public class RootPage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root_page);
 
+        // for debug propose
+        BandProfileContent test11 = new BandProfileContent("test1","about test1","1",new ArrayList<String>());
+        UserBand.add(test11);
         UserRole.IsMusician();
 
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing

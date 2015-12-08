@@ -41,10 +41,6 @@ public class ProfileContent {
                 User.put("UserName",profile.getName());
                 User.put("UserAge", age);
                 User.put("UserGender",gender);
-
-                //TODO: HTTP POST to server to get user information
-                User.put("Instrument","");
-                User.put("AboutMe","");
             }
             if(url != ProfilePictureURL && !url.isEmpty())
             {

@@ -133,7 +133,7 @@
             android:text="Idenitity: Myself/Band"
             android:gravity="bottom|center"
             android:layout_gravity="bottom"
-            android:layout_above="@+id/ApplicationButton"
+            android:layout_above="@+id/ApplyButton"
             android:layout_centerHorizontal="true" />
 
         <Button

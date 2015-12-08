@@ -2,17 +2,17 @@ package com.indielink.indielink;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.indielink.indielink.Network.GetProfilePicture;
 import com.indielink.indielink.Profile.BandProfileContent;
@@ -37,21 +37,6 @@ public class BandProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_band_profile, container, false);
 
-
-
-       //((TextView) view.findViewById(R.id.BandAboutMe)).setText(("Britpop"));
-
-       // CheckBox checkedTextView = (CheckBox) view.findViewById(R.id.CheckVocal);
-      //  if (checkedTextView.isChecked())
-       //     checkedTextView.setChecked(false);
-      //  else
-       // checkedTextView.setChecked(true);
-       /** CheckBox c = (CheckBox) view.findViewById(R.id.CheckVocal);
-        if (c.isChecked())
-            c.setEnabled(true);
-
-        else
-            c.setEnabled(false); **/
         ((CheckBox) view.findViewById(R.id.CheckVocal)).setChecked(bandProfileContent.Vacancy.get("vocal"));
         ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(bandProfileContent.Vacancy.get("bass"));
         ((CheckBox) view.findViewById(R.id.CheckGuitar)).setChecked(bandProfileContent.Vacancy.get("guitar"));
@@ -68,6 +53,21 @@ public class BandProfileFragment extends Fragment {
         //Set BandPicture
         ImageView ProfilePicture = (ImageView) view.findViewById(R.id.BandProfilePicture);
         new GetProfilePicture(bandProfileContent.BandPictureURL,ProfilePicture).execute();
+
+        // Set button onClick Handler
+        final Button button = (Button) view.findViewById(R.id.ApplicationButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO: HTTP POST to: /user/invite
+                Fragment fragment = new ApplicationListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("userBand",bandProfileContent);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().addToBackStack("ApplicationList")
+                        .replace(R.id.frame_container, fragment).commit();
+            }
+        });
 
         Switch RoleSwitch = (Switch) view.findViewById(R.id.ChangeRole);
         if(UserRole.GetUserRole()== bandProfileContent.id)
