@@ -40,6 +40,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/bandStyle"
             android:text="bandStyle" />
+        <Button
+            android:id="@+id/loadimage"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:text="Load Image"
+            android:layout_gravity="right" />
+        <TextView
+            android:id="@+id/targeturi"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+        <ImageView
+            android:id="@+id/targetimage"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -479,7 +495,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack2" />
+                android:text="track2" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -556,7 +572,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack3" />
+                android:text="track3" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -634,7 +650,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack4" />
+                android:text="track4" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -711,7 +727,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack5" />
+                android:text="track5" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -788,7 +804,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack6" />
+                android:text="track6" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -864,7 +880,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack7" />
+                android:text="track7" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -941,7 +957,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack8" />
+                android:text="track8" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -1018,7 +1034,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="tack9" />
+                android:text="track9" />
 
             <LinearLayout
                 android:layout_width="fill_parent"

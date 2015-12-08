@@ -28,6 +28,8 @@
         android:layout_height="wrap_content"
         android:text="About me"/>
 
+
+
     <TextView
         android:id="@+id/TextViewInstrument"
         android:layout_width="fill_parent"
@@ -104,17 +106,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack1" />
+            android:text="track1" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack1button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack1button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -174,17 +178,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack2" />
+            android:text="track2" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack2button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Play" />
             <Button
+                android:id="@+id/profilestoptrack2button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -250,17 +256,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack3" />
+            android:text="track3" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack3button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack3button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -326,17 +334,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack4" />
+            android:text="track4" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack4button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack4button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -402,17 +412,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack5" />
+            android:text="track5" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack5button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack5button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -478,17 +490,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack6" />
+            android:text="track6" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack6button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack6button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -553,17 +567,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack7" />
+            android:text="track7" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack7button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack7button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -629,17 +645,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack8" />
+            android:text="track8" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack8button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack8button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -705,17 +723,19 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="tack9" />
+            android:text="track9" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/profileplaytrack9button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/PlayTrack1" />
             <Button
+                android:id="@+id/profilestoptrack9button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
