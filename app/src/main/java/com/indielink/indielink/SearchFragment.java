@@ -69,7 +69,7 @@ public class SearchFragment extends Fragment {
         try {
             obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
             obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
-            obj.put("band_id",  "");
+            //obj.put("band_id",  "");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -193,7 +193,7 @@ public class SearchFragment extends Fragment {
                     fragmentManager.beginTransaction().addToBackStack("CardDetail")
                             .replace(R.id.frame_container, new CardDetailFragment()).commit();
                 }*/
-                Log.d("Swipe card", "clicked");
+                //Log.d("Swipe card", "clicked");
             }
         });
         return view;

@@ -20,17 +20,15 @@ import com.indielink.indielink.Profile.BandProfileContent;
 public class ReplyFragment extends DialogFragment {
 
     private OnFragmentInteractionListener mListener;
-    private int ItemId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ItemId = Integer.parseInt((String) this.getArguments().getSerializable("id"));
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        //
+
         super.onCreateDialog(savedInstanceState);
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -39,14 +37,11 @@ public class ReplyFragment extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO: HTTP POST to: /user/reply
-                        ApplicationListContent.removeItem(ItemId);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO: HTTP POST to: /user/reply
-                        Log.v("Item Clicked", String.valueOf(ItemId));
-                        ApplicationListContent.removeItem(ItemId);
                     }
                 });
         return builder.create();
@@ -62,7 +57,6 @@ public class ReplyFragment extends DialogFragment {
     public ReplyFragment() {
         // Required empty public constructor
     }
-
 /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -93,10 +93,9 @@ public class ApplicationListFragment extends Fragment implements AbsListView.OnI
         }
         */
         DialogFragment fragment = new ReplyFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("id",String.valueOf(id));
-        fragment.setArguments(bundle);
         fragment.show(getFragmentManager(), "Reply");
+        ApplicationListContent.removeItem((int)id);
+        mListView.invalidateViews();
     }
 
     public void setEmptyText(CharSequence emptyText) {
