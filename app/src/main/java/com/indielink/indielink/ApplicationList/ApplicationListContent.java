@@ -1,59 +1,69 @@
 package com.indielink.indielink.ApplicationList;
 
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p/>
- * TODO: Replace all uses of this class before publishing your app.
- */
-public class ApplicationListContent {
+public class ApplicationListContent{
 
-    /**
-     * An array of sample (dummy) items.
-     */
-    public static List<ApplicationItem> ITEMS = new ArrayList<ApplicationItem>();
+    public static ArrayList<ApplicationItem> RecruitList = new ArrayList<ApplicationItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
+     public static Map<String, ApplicationItem> ITEM_MAP = new HashMap<String, ApplicationItem>();
      */
-    public static Map<String, ApplicationItem> ITEM_MAP = new HashMap<String, ApplicationItem>();
 
     static {
         // Add 3 sample items.
-        addItem(new ApplicationItem("0", "Application 1"));
-        addItem(new ApplicationItem("1", "Application 2"));
-        addItem(new ApplicationItem("2", "Application 3"));
+        addItem(new ApplicationItem("0", "Peter","guitar","about Peter"));
+        addItem(new ApplicationItem("1", "Tom","drum","about Tom"));
+        addItem(new ApplicationItem("2", "Jack","keyboard","about Jack"));
     }
 
     private static void addItem(ApplicationItem item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        RecruitList.add(item);
+    }
+
+    public static void addItem(JSONObject item) {
+        RecruitList.add(new ApplicationItem(item));
     }
 
     public static void removeItem(int id) {
-        ITEMS.remove(id);
-        ITEM_MAP.remove(id);
+        RecruitList.remove(id);
     }
     /**
      * A dummy item representing a piece of content.
      */
-    public static class ApplicationItem {
+    public static class ApplicationItem implements Serializable {
         public String id;
-        public String content;
+        public String name;
+        public String instrument;
+        public String about_me;
 
-        public ApplicationItem(String id, String content) {
+        private ApplicationItem(String id, String name,String instrument,String about_me) {
             this.id = id;
-            this.content = content;
+            this.name = name;
+            this.instrument = instrument;
+            this.about_me = about_me;
+        }
+
+        public ApplicationItem(JSONObject item) {
+            try
+            {
+                this.id = item.getString("recruit_id");
+                this.name = item.getString("name");
+                this.instrument = item.getString("instrument");
+                this.about_me =item.getString("about_me");
+            }catch (Exception x){}
         }
 
         @Override
         public String toString() {
-            return content;
+            return (name+" - "+instrument);
         }
     }
 }

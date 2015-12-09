@@ -24,9 +24,7 @@ public class ApplicationListFragment extends Fragment implements AbsListView.OnI
     private OnFragmentInteractionListener mListener;
     private AbsListView mListView;
     private ListAdapter mAdapter;
-    private BandProfileContent bandProfileContent;
 
-    // TODO: Rename and change types of parameters
     public static ApplicationListFragment newInstance(String param1, String param2) {
         ApplicationListFragment fragment = new ApplicationListFragment();
         Bundle args = new Bundle();
@@ -40,14 +38,8 @@ public class ApplicationListFragment extends Fragment implements AbsListView.OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bandProfileContent = (BandProfileContent) this.getArguments()
-                .getSerializable("userBand");
-        if (getArguments() != null) {
-        }
-
-        // TODO: Change Adapter to display your content
         mAdapter = new ArrayAdapter<ApplicationListContent.ApplicationItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, ApplicationListContent.ITEMS);
+                android.R.layout.simple_list_item_1, android.R.id.text1, ApplicationListContent.RecruitList);
     }
 
     @Override
@@ -84,15 +76,11 @@ public class ApplicationListFragment extends Fragment implements AbsListView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.v("Item Clicked", String.valueOf(id));
-        /*
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(ApplicationListContent.ITEMS.get(position).id);
-        }
-        */
+
         DialogFragment fragment = new ReplyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("candidate", ApplicationListContent.RecruitList.get((int) id));
+        fragment.setArguments(bundle);
         fragment.show(getFragmentManager(), "Reply");
         ApplicationListContent.removeItem((int)id);
         mListView.invalidateViews();

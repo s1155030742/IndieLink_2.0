@@ -14,9 +14,17 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.indielink.indielink.ApplicationList.ApplicationListContent;
+import com.indielink.indielink.CustomAdapter.RowItem;
 import com.indielink.indielink.Network.GetProfilePicture;
+import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.Profile.BandProfileContent;
 import com.indielink.indielink.Profile.UserRole;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class BandProfileFragment extends Fragment {
 
@@ -59,10 +67,29 @@ public class BandProfileFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO: HTTP POST to: /user/invite
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                    obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
+                    obj.put("identity", "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //Post to server
+                HttpPost httpPost = new HttpPost();
+                JSONObject response;
+                response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/invite", obj);
+                try{
+                    JSONArray Users = response.getJSONArray("user");
+                    for (int i=0; i<Users.length(); i++)
+                    {
+                        JSONObject User = Users.getJSONObject(i);
+                        ApplicationListContent.addItem(User);
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
                 Fragment fragment = new ApplicationListFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("userBand",bandProfileContent);
-                fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().addToBackStack("ApplicationList")
                         .replace(R.id.frame_container, fragment).commit();

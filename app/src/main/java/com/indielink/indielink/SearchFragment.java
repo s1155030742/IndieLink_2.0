@@ -60,12 +60,9 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
-        //arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
-
         al = new ArrayList<>();
-        JSONObject obj = new JSONObject();
 
+        JSONObject obj = new JSONObject();
         try {
             obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
             obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
@@ -76,8 +73,6 @@ public class SearchFragment extends Fragment {
         //Post to server
         HttpPost httpPost = new HttpPost();
         JSONObject response;
-
-
         //if(UserRole.GetUserRole() == "") {
 
             //          band/detail/

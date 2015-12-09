@@ -29,9 +29,6 @@ import java.util.HashMap;
 
 public class EditProfileFragment extends Fragment{
 
-    //private Button mSubmitChangeButton;
-    //private String  fbid;
-    // private String access_token;
     private EditText aboutMe;
     private CheckBox isVocal, isGuitar, isBass, isDrum, isKeyboard,isOther;
     private ArrayList<String> TrackScoreList, TrackStyleList;
@@ -277,6 +274,7 @@ public class EditProfileFragment extends Fragment{
                 if (isBass.isChecked()) InstrumentArrayList.put("bass");
                 if (isDrum.isChecked()) InstrumentArrayList.put("drum");
                 if (isKeyboard.isChecked()) InstrumentArrayList.put("keyboard");
+                if (isOther.isChecked()) InstrumentArrayList.put("other");
                 //if(isOther.isChecked())list.put("something");
 
                 //contruct track style list
@@ -287,17 +285,9 @@ public class EditProfileFragment extends Fragment{
 
                 //make JSONObject for http post
                 JSONObject obj = new JSONObject();
-
-                //for adding Picture url, name, age, gender
-                HashMap<String, String> user = ProfileContent.GetUserProfile();
-
                 try {
                     //adding name, age, gender, profile pic url
-                    obj.put("name", user.get("UserName"));
-                    obj.put("age", user.get("UserAge"));
-                    obj.put("gender", user.get("UserGender"));
                     obj.put("profile_picture_url", ProfileContent.ProfilePictureURL);
-                    //havnt add pic url
                     //adding element to JSON for posting
                     obj.put("about_me", aboutMe.getText());
                     obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
@@ -318,7 +308,7 @@ public class EditProfileFragment extends Fragment{
                 HttpPost httpPost = new HttpPost();
                 JSONObject response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/edit", obj);
                 try {
-                    response.getString("Status");
+                    response.getString("status");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -342,13 +332,6 @@ public class EditProfileFragment extends Fragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        /*
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
     }
 
     @Override
@@ -357,18 +340,6 @@ public class EditProfileFragment extends Fragment{
         mListener = null;
     }
 
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(Uri uri);
     }

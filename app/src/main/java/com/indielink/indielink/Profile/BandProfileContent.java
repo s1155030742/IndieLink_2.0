@@ -35,7 +35,6 @@ public class BandProfileContent implements Serializable
     public BandProfileContent(String Name,String AboutMe,String id,ArrayList<String> Instrument)
     {
 
-        // TODO add parameter after Json is confirm
         //setVacancy();
         this.BandName = Name;
         this.BandAboutMe = AboutMe;
