@@ -109,6 +109,7 @@ public class SearchFragment extends Fragment {
         // ArrayList<Integer> array_image = new ArrayList<Integer>();
         ArrayList<String> dummy = new ArrayList<String>();
 
+        /*
         BandProfileContent band1 = new BandProfileContent("Muse","about Muse","1",dummy);
         RowItem firstrow = new RowItem(band1.BandName,"https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
         SuggestedBands.add(band1);
@@ -118,7 +119,7 @@ public class SearchFragment extends Fragment {
         SuggestedBands.add(band2);
         al.add(firstrow);
         al.add(secondrow);
-
+*/
         arrayAdapter = new CustomAdapter(getActivity(), al);
 
         flingContainer.setAdapter(arrayAdapter);

@@ -12,13 +12,6 @@ public class ApplicationListContent{
 
     public static ArrayList<ApplicationItem> RecruitList = new ArrayList<ApplicationItem>();
 
-    static {
-        // Add 3 sample items.
-        addItem(new ApplicationItem("0", "Peter","guitar","about Peter"));
-        addItem(new ApplicationItem("1", "Tom","drum","about Tom"));
-        addItem(new ApplicationItem("2", "Jack","keyboard","about Jack"));
-    }
-
     private static void addItem(ApplicationItem item) {
         RecruitList.add(item);
     }
