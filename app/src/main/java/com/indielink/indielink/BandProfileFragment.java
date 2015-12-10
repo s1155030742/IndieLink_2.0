@@ -30,7 +30,6 @@ public class BandProfileFragment extends Fragment {
 
     private BandProfileContent bandProfileContent;
     public BandProfileFragment() {}
-    private boolean mChecked;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,6 @@ public class BandProfileFragment extends Fragment {
         final Button button = (Button) view.findViewById(R.id.ApplicationButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //TODO: HTTP POST to: /user/invite
                 JSONObject obj = new JSONObject();
                 try {
                     obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());

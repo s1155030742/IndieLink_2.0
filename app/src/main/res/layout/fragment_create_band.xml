@@ -104,13 +104,13 @@
                 android:text="Vocal"
                 android:checked="true"
                 android:id="@+id/isVocalHv" />
-
+<!--
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="more than one?"
                 android:id="@+id/isVocalMany"
-                android:checked="false" />
+                android:checked="false" /> -->
 
         </LinearLayout>
 
@@ -118,7 +118,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+<!--
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:text="Soprano"
                 android:id="@+id/isVocalSoprano"
-                android:checked="false" />
+                android:checked="false" /> -->
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -167,13 +167,13 @@
                 android:text="Guitar"
                 android:checked="true"
                 android:id="@+id/isGuitarHv" />
-
+<!--
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="more than one?"
                 android:id="@+id/isGuitarMany"
-                android:checked="false" />
+                android:checked="false" /> -->
         </LinearLayout>
 
         <LinearLayout
@@ -209,13 +209,13 @@
                 android:text="Bass"
                 android:checked="true"
                 android:id="@+id/isBassHv" />
-
+<!--
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="more than one?"
                 android:id="@+id/isBassMany"
-                android:checked="false" />
+                android:checked="false" /> -->
         </LinearLayout>
 
         <LinearLayout
@@ -236,13 +236,13 @@
                 android:text="Electric"
                 android:id="@+id/checkBox2"
                 android:checked="true" />
-
+<!--
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DoubleBass"
                 android:id="@+id/isBassDoubleBass"
-                android:checked="false" />
+                android:checked="false" />-->
 
         </LinearLayout>
 
@@ -257,13 +257,13 @@
                 android:text="Drum / Percussion"
                 android:checked="true"
                 android:id="@+id/isDrumHv" />
-
+<!--
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="more than one?"
                 android:id="@+id/isDrumMany"
-                android:checked="false" />
+                android:checked="false" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -311,14 +311,14 @@
                 android:layout_height="wrap_content"
                 android:text="Keyboard / Piano"
                 android:checked="true"
-                android:id="@+id/switch1" />
-
+                android:id="@+id/isKeyboardHv" />
+<!--
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="more than one?"
                 android:id="@+id/isKeyboardMany"
-                android:checked="false" />
+                android:checked="false" />-->
 
         </LinearLayout>
 
@@ -365,16 +365,16 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Producer"
+                android:text="@string/Others"
                 android:checked="true"
-                android:id="@+id/isProducerHv" />
+                android:id="@+id/isOtherHv" />
 
-            <Switch
+<!--            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="more than one?"
                 android:id="@+id/isProducerMany"
-                android:checked="false" />
+                android:checked="false" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -441,7 +441,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:id="@+id/track1RadioGp" >
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -518,7 +519,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track2RadioGp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -596,7 +598,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track3RadioGp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -673,7 +676,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track4RadioGp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -750,7 +754,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track5RadioGp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -827,7 +832,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track6RadioGp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -903,7 +909,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track7RadioGp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -980,7 +987,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track8RadioGp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -1057,7 +1065,8 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/track9RadioGp"   >
 
                 <RadioButton
                     android:layout_width="wrap_content"

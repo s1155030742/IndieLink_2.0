@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,10 @@ public class EditProfileFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+
+        aboutMe = (EditText) view.findViewById(R.id.EditMusicianAboutMe);
+
         final MediaPlayer player1 = MediaPlayer.create(getActivity(), R.raw.track1rumine);
         final MediaPlayer player2 = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
         final MediaPlayer player3 = MediaPlayer.create(getActivity(), R.raw.track3smokeonthewater);
@@ -66,14 +69,10 @@ public class EditProfileFragment extends Fragment{
         final MediaPlayer player7 = MediaPlayer.create(getActivity(), R.raw.track7hittheroadjack);
         final MediaPlayer player8 = MediaPlayer.create(getActivity(), R.raw.track8bringitonhome);
         final MediaPlayer player9 = MediaPlayer.create(getActivity(), R.raw.track9goodbye);
-
-        aboutMe = (EditText) view.findViewById(R.id.EditMusicianAboutMe);
-
         //play track 1
         Button play1 = (Button) view.findViewById(R.id.profileplaytrack1button);
         play1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player1.start();
             }
         });
@@ -81,7 +80,6 @@ public class EditProfileFragment extends Fragment{
         Button stop1 = (Button) view.findViewById(R.id.profilestoptrack1button);
         stop1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player1.pause();
                 player1.seekTo(player1.getCurrentPosition());
             }
@@ -91,7 +89,6 @@ public class EditProfileFragment extends Fragment{
         Button play2 = (Button) view.findViewById(R.id.profileplaytrack2button);
         play2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player2.start();
             }
         });
@@ -99,7 +96,6 @@ public class EditProfileFragment extends Fragment{
         Button stop2 = (Button) view.findViewById(R.id.profilestoptrack2button);
         stop2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player2.pause();
                 player2.seekTo(player2.getCurrentPosition());
             }
@@ -109,7 +105,6 @@ public class EditProfileFragment extends Fragment{
         Button play3 = (Button) view.findViewById(R.id.profileplaytrack3button);
         play3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player3.start();
             }
         });
@@ -117,7 +112,6 @@ public class EditProfileFragment extends Fragment{
         Button stop3 = (Button) view.findViewById(R.id.profilestoptrack3button);
         stop3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player3.pause();
                 player3.seekTo(0);
             }
@@ -127,7 +121,6 @@ public class EditProfileFragment extends Fragment{
         Button play4 = (Button) view.findViewById(R.id.profileplaytrack4button);
         play4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player4.start();
             }
         });
@@ -135,7 +128,6 @@ public class EditProfileFragment extends Fragment{
         Button stop4 = (Button) view.findViewById(R.id.profilestoptrack4button);
         stop4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player4.pause();
                 player4.seekTo(0);
             }
@@ -145,7 +137,6 @@ public class EditProfileFragment extends Fragment{
         Button play5 = (Button) view.findViewById(R.id.profileplaytrack5button);
         play5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player5.start();
             }
         });
@@ -153,7 +144,6 @@ public class EditProfileFragment extends Fragment{
         Button stop5 = (Button) view.findViewById(R.id.profilestoptrack5button);
         stop5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player5.pause();
                 player5.seekTo(0);
             }
@@ -163,7 +153,6 @@ public class EditProfileFragment extends Fragment{
         Button play6 = (Button) view.findViewById(R.id.profileplaytrack6button);
         play6.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player6.start();
             }
         });
@@ -171,7 +160,6 @@ public class EditProfileFragment extends Fragment{
         Button stop6 = (Button) view.findViewById(R.id.profilestoptrack6button);
         stop6.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player6.pause();
                 player6.seekTo(0);
             }
@@ -181,7 +169,6 @@ public class EditProfileFragment extends Fragment{
         Button play7 = (Button) view.findViewById(R.id.profileplaytrack7button);
         play7.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player7.start();
             }
         });
@@ -189,7 +176,6 @@ public class EditProfileFragment extends Fragment{
         Button stop7 = (Button) view.findViewById(R.id.profilestoptrack7button);
         stop7.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player7.pause();
                 player7.seekTo(0);
             }
@@ -199,7 +185,6 @@ public class EditProfileFragment extends Fragment{
         Button play8 = (Button) view.findViewById(R.id.profileplaytrack8button);
         play8.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player8.start();
             }
         });
@@ -207,7 +192,6 @@ public class EditProfileFragment extends Fragment{
         Button stop8 = (Button) view.findViewById(R.id.profilestoptrack8button);
         stop8.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player8.pause();
                 player8.seekTo(0);
             }
@@ -217,7 +201,6 @@ public class EditProfileFragment extends Fragment{
         Button play9 = (Button) view.findViewById(R.id.profileplaytrack9button);
         play9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
                 player9.start();
             }
         });
@@ -225,13 +208,10 @@ public class EditProfileFragment extends Fragment{
         Button stop9 = (Button) view.findViewById(R.id.profilestoptrack9button);
         stop9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //MediaPlayer myMediaPlayer = MediaPlayer.create(getActivity(), R.raw.track1rumine);
                 player9.pause();
                 player9.seekTo(0);
             }
         });
-
-
 
         //Construct ArrayList first
         TrackScoreList = new ArrayList<String>();
@@ -287,6 +267,8 @@ public class EditProfileFragment extends Fragment{
                 JSONObject obj = new JSONObject();
                 try {
                     //adding name, age, gender, profile pic url
+
+                    obj.put("age", ProfileContent.GetUserProfile().get("UserAge"));
                     obj.put("profile_picture_url", ProfileContent.ProfilePictureURL);
                     //adding element to JSON for posting
                     obj.put("about_me", aboutMe.getText());
@@ -304,7 +286,7 @@ public class EditProfileFragment extends Fragment{
                 }
 
                 //Post to server
-                aboutMe.setText(obj.toString());
+                //Log.v("JSON",obj.toString());
                 HttpPost httpPost = new HttpPost();
                 JSONObject response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/edit", obj);
                 try {

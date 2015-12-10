@@ -12,11 +12,6 @@ public class ApplicationListContent{
 
     public static ArrayList<ApplicationItem> RecruitList = new ArrayList<ApplicationItem>();
 
-    /**
-     * A map of sample (dummy) items, by ID.
-     public static Map<String, ApplicationItem> ITEM_MAP = new HashMap<String, ApplicationItem>();
-     */
-
     static {
         // Add 3 sample items.
         addItem(new ApplicationItem("0", "Peter","guitar","about Peter"));
