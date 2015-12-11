@@ -66,13 +66,9 @@ public class InstrumentList {
     }
 
     public InstrumentList(ArrayList<?> List,View view){
-        getDefaultList();
-        getAddList(List, view);
+        DefaultList= getDefaultList();
+        AddList= getAddList(List, view);
     }
 
-    public InstrumentList(){
-        getDefaultList();
-        getNewAddList();
-    }
 
 }
