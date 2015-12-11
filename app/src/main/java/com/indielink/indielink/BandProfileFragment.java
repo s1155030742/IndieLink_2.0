@@ -57,8 +57,6 @@ public class BandProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_band_profile, container, false);
 
-
-
         JSONToPost = new JSONObject() {
             {
                 try {
@@ -162,8 +160,8 @@ public class BandProfileFragment extends Fragment {
         Fragment fragment = new ApplicationListFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        /*fragmentManager.beginTransaction().addToBackStack("ApplicationList")
-                .replace(R.id.frame_container, fragment).commit();*/
+        fragmentManager.beginTransaction().addToBackStack("ApplicationList")
+                .replace(R.id.frame_container, fragment).commit();
     }
 }
 
