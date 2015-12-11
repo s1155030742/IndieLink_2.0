@@ -21,6 +21,12 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 import android.support.v4.app.DialogFragment;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.indielink.indielink.CustomAdapter.CustomAdapter;
 import com.indielink.indielink.CustomAdapter.RowItem;
@@ -45,6 +51,11 @@ public class SearchFragment extends Fragment {
     private ArrayList<RowItem> al;
     private CustomAdapter arrayAdapter;
     public ArrayList<BandProfileContent> SuggestedBands = new ArrayList<BandProfileContent>();
+
+    String tag = "SearchFragment";
+    String Url = "http://137.189.97.88:8080/band/detail";
+
+    JSONObject JSONToPost, JSONRep;
     // private ArrayList<Integer> array_image;
 
     @InjectView(R.id.frame) SwipeFlingAdapterView flingContainer;
@@ -59,26 +70,51 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(R.layout.fragment_search, container, false);
         al = new ArrayList<>();
 
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
-            obj.put("fb_user_id",  AccessToken.getCurrentAccessToken().getUserId());
-            //obj.put("band_id",  "");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+        JSONToPost = new JSONObject() {
+            {
+                try {
+                    put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                    put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+                    //obj.put("band_id",  "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        ;
         //Post to server
-        HttpPost httpPost = new HttpPost();
-        JSONObject response;
         //if(UserRole.GetUserRole() == "") {
 
-            //          band/detail/
-            response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/band/detail", obj);
+        //          band/detail/
+        //response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/band/detail", obj);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(tag, response.toString());
+                        JSONRep = response;
+                        onCreateViewFromJSON(view);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(tag, "Error: " + error.getMessage());
+                    }
+                });
+        Volley.newRequestQueue(view.getContext()).add(jsonObjectRequest);
+
+        return view;
+    }
+
+    public void onCreateViewFromJSON(View view)
+    {
             try{
-                JSONArray Bands = response.getJSONArray("band");
+                JSONArray Bands = JSONRep.getJSONArray("band");
                 for (int i=0; i<Bands.length(); i++)
                 {
                     JSONObject Band = Bands.getJSONObject(i);
@@ -192,7 +228,8 @@ public class SearchFragment extends Fragment {
                 //Log.d("Swipe card", "clicked");
             }
         });
-        return view;
+
+        //return view;
     }
 
     static void makeToast(Context ctx, String s) {

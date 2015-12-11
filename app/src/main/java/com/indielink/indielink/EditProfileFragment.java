@@ -15,9 +15,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.indielink.indielink.Network.HttpPost;
+import com.indielink.indielink.Profile.InstrumentList;
 import com.indielink.indielink.Profile.ProfileContent;
+import com.indielink.indielink.Profile.TrackScore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +42,11 @@ public class EditProfileFragment extends Fragment{
     private CheckBox isVocal, isGuitar, isBass, isDrum, isKeyboard,isOther;
     private ArrayList<String> TrackScoreList, TrackStyleList;
     private ArrayList<Integer> TrackRadioGpIdList;
+
+    String tag = "EditProfileFragment";
+    String Url = "http://137.189.97.88:8080/user/edit";
+
+    JSONObject JSONToPost,JSONRep;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,7 +71,7 @@ public class EditProfileFragment extends Fragment{
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
-        aboutMe = (EditText) view.findViewById(R.id.EditMusicianAboutMe);
+        //aboutMe = (EditText) view.findViewById(R.id.EditMusicianAboutMe);
 
         final MediaPlayer player1 = MediaPlayer.create(getActivity(), R.raw.track1rumine);
         final MediaPlayer player2 = MediaPlayer.create(getActivity(), R.raw.track2getlucky);
@@ -213,7 +226,7 @@ public class EditProfileFragment extends Fragment{
             }
         });
 
-        //Construct ArrayList first
+        /*//Construct ArrayList first
         TrackScoreList = new ArrayList<String>();
         TrackRadioGpIdList = new ArrayList<Integer>(Arrays.asList(
                 R.id.track1RadioGp,
@@ -234,21 +247,28 @@ public class EditProfileFragment extends Fragment{
         isDrum = (CheckBox) view.findViewById(R.id.EditProfileisDrum);
         isKeyboard = (CheckBox) view.findViewById(R.id.EditProfileisKeyboard);
         isOther = (CheckBox) view.findViewById(R.id.EditProfileisOthers);
+        */
 
         // Set button onClick Handler
         final Button button = (Button) view.findViewById(R.id.SubmitNewBand);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                /*
                 //Adding marked track score to track score arraylist
                 for (int i = 0; i < 9; i++) {
                     RadioGroup rg = (RadioGroup) view.findViewById(TrackRadioGpIdList.get(i));
                     TrackScoreList.add(((RadioButton) view.findViewById(
                             rg.getCheckedRadioButtonId())).getText().toString());
                 }
-
+                //contruct track style list
+                TrackStyleList = new ArrayList<String>(Arrays.asList(
+                        "blues", "country", "electronic", "hard_rock",
+                        "britpop", "jazz", "pop_rock", "metal", "post_rock"
+                ));
+                */
+                /*
                 //make instrument JsonArray
-                JSONArray InstrumentArrayList = new JSONArray();
+                final JSONArray InstrumentArrayList = new JSONArray();
                 if (isVocal.isChecked()) InstrumentArrayList.put("vocal");
                 if (isGuitar.isChecked()) InstrumentArrayList.put("guitar");
                 if (isBass.isChecked()) InstrumentArrayList.put("bass");
@@ -256,36 +276,63 @@ public class EditProfileFragment extends Fragment{
                 if (isKeyboard.isChecked()) InstrumentArrayList.put("keyboard");
                 if (isOther.isChecked()) InstrumentArrayList.put("other");
                 //if(isOther.isChecked())list.put("something");
+                */
 
-                //contruct track style list
-                TrackStyleList = new ArrayList<String>(Arrays.asList(
-                        "blues", "country", "electronic", "hard_rock",
-                        "britpop", "jazz", "pop_rock", "metal", "post_rock"
-                ));
+                JSONToPost = new JSONObject() {
+                    {
+                        try {
+                            put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                            put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+                            put("age", ProfileContent.GetUserProfile().get("UserAge"));
+                            put("profile_picture_url", ProfileContent.ProfilePictureURL);
+                            put("about_me", ((EditText) view.findViewById(R.id.EditMusicianAboutMe)).getText().toString());
+                            put("instrument",( new InstrumentList( (new ArrayList<Integer>(Arrays.asList(
+                                    R.id.EditProfileisVocal,
+                                    R.id.EditProfileisGuitar,
+                                    R.id.EditProfileisBass,
+                                    R.id.EditProfileisDrum,
+                                    R.id.EditProfileisKeyboard,
+                                    R.id.EditProfileisOthers))), view)).getAddList());
+                            (new TrackScore(new ArrayList<Integer>(Arrays.asList(
+                                    R.id.track1RadioGp,
+                                    R.id.track2RadioGp,
+                                    R.id.track3RadioGp,
+                                    R.id.track4RadioGp,
+                                    R.id.track5RadioGp,
+                                    R.id.track6RadioGp,
+                                    R.id.track7RadioGp,
+                                    R.id.track8RadioGp,
+                                    R.id.track9RadioGp)), view)).putInJSON(JSONToPost);
 
-                //make JSONObject for http post
-                JSONObject obj = new JSONObject();
-                try {
-                    //adding name, age, gender, profile pic url
 
-                    obj.put("age", ProfileContent.GetUserProfile().get("UserAge"));
-                    obj.put("profile_picture_url", ProfileContent.ProfilePictureURL);
-                    //adding element to JSON for posting
-                    obj.put("about_me", aboutMe.getText());
-                    obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                    obj.put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
 
-                    //adding score mark
-                    for (int i = 0; i < 9; i++)
-                        obj.put(TrackStyleList.get(i), TrackScoreList.get(i));
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                        (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d(tag, response.toString());
+                                JSONRep = response;
+                                //onCreateViewFromJSON(view);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d(tag, "Error: " + error.getMessage());
+                            }
+                        });
+                Volley.newRequestQueue(view.getContext()).add(jsonObjectRequest);
 
-                    //add instrument arrayList
-                    obj.put("instrument", InstrumentArrayList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            }
+        });
 
-                //Post to server
+
+
+                /*//Post to server
                 //Log.v("JSON",obj.toString());
                 HttpPost httpPost = new HttpPost();
                 JSONObject response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/edit", obj);
@@ -296,7 +343,9 @@ public class EditProfileFragment extends Fragment{
                 }
                 getFragmentManager().popBackStack();
             }
-        });
+        });*/
+
+
         return view;
     }
 

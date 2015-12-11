@@ -18,6 +18,12 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -41,7 +47,10 @@ public class RootPage extends AppCompatActivity
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();
-    JSONObject UserBandListJSON = new JSONObject();
+    JSONObject UserBandListJSON, JSONToPost;
+
+    String Url = "http://137.189.97.88:8080/user";
+    String tag = "RootPage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +61,60 @@ public class RootPage extends AppCompatActivity
 
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
-        HttpPost httpPost = new HttpPost();
+
+        JSONToPost = new JSONObject() {
+            {
+                try {
+                    put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                    put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
+                //Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
+            }
+        };
+
+        //HTTPPost SECTION
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(tag, response.toString());
+                        UserBandListJSON = response;
+                        onCreateFromJSON();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(tag, "Error: " + error.getMessage());
+                    }
+                });
+        Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
+    }
+
+        /*HttpPost httpPost = new HttpPost();
         //    /user
-        UserBandListJSON = httpPost.PostJSONResponseJSON(
+        //UserBandListJSON =
+                httpPost.PostJSONResponseJSON(
                 "http://137.189.97.88:8080/user",
                 new JSONObject() {{
                     try {
-                            put("access_token",AccessToken.getCurrentAccessToken().getToken());
-                            put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
-                            //Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
-                            //Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                        put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+                        //Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
+                        //Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }}
         );
+    }*/
+
+    public void onCreateFromJSON(){
         //add all band to ArrayList UserBand first
         //skip this if no repsonse from http posting
+
         if(UserBandListJSON!=null) try
         {
             for(int i=0 ; i<UserBandListJSON.getJSONArray("band").length();i++)
@@ -80,12 +126,13 @@ public class RootPage extends AppCompatActivity
             //then add instruemnt vacancyness, i.e. set vacancy to each user band
             //search for the entire bandInstrument JSON Array and all band,
             //num of item in bandInstrument Json Array supposed to be larger than num of user Band
+
             for(int i=0 ; i<UserBandListJSON.getJSONArray("bandInstrument").length();i++)
                 for (BandProfileContent band : UserBand)
 
                     //select the band which match the instrument
                     if(band.id == UserBandListJSON.getJSONArray("bandInstrument")
-                            .getJSONObject(i).get("id").toString())
+                            .getJSONObject(i).get("band_id").toString())
 
                         //set Instrument Vacancyness in the band using member function
                         //if user_id of instrument is null, then setVacancy(instrument, true)
