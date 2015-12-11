@@ -161,8 +161,9 @@ public class BandProfileFragment extends Fragment {
         }
         Fragment fragment = new ApplicationListFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().addToBackStack("ApplicationList")
-                .replace(R.id.frame_container, fragment).commit();
+
+        /*fragmentManager.beginTransaction().addToBackStack("ApplicationList")
+                .replace(R.id.frame_container, fragment).commit();*/
     }
 }
 
