@@ -4,7 +4,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="?android:attr/actionBarSize"
     android:paddingBottom="30dp"
-    tools:showIn="@layout/activity_audio_recorder"
     android:gravity="bottom"
     tools:context="com.indielink.indielink.AudioRecorderFragment">
 
