@@ -163,13 +163,13 @@ public class AudioRecorderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_audio_recorder, container, false);
 
         // Set button onClick Handler
-        final ToggleButton toggle = (ToggleButton) view.findViewById(R.id.RecordingButton);
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                onRecord(isChecked);
-                isChecked = !isChecked;
-            }
-        });
+        //final ToggleButton toggle = (ToggleButton) view.findViewById(R.id.RecordingButton);
+        //toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //        onRecord(isChecked);
+        //        isChecked = !isChecked;
+        //    }
+        //});
         return view;
     }
 }
