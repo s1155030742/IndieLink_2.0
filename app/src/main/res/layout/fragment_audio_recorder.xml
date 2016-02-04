@@ -1,14 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
     android:paddingTop="?android:attr/actionBarSize"
     tools:context="com.indielink.indielink.AudioRecorderFragment">
-    <LinearLayout
-        android:id="@+id/AudioRecordLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
     <ToggleButton
         android:id="@+id/RecordButton"
         android:layout_width="fill_parent"
@@ -21,5 +18,4 @@
         android:layout_height="wrap_content"
         android:textOn="playing"
         android:textOff="play record"/>
-        </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
