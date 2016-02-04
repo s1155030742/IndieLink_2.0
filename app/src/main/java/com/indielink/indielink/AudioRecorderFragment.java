@@ -16,14 +16,19 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class AudioRecorderFragment extends Fragment {
 
-    private static final String LOG_TAG = "AudioRecordTest";
+    private static final String LOG_TAG = "IndieLinkAudio";
+
+    private File dir =null;
+    private static String FilePath = null;
     private static String mFileName = null;
 
     private MediaRecorder mRecorder = null;
@@ -31,13 +36,21 @@ public class AudioRecorderFragment extends Fragment {
     private MediaPlayer mPlayer = null;
 
     public AudioRecorderFragment() {
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
+        FilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/IndieLinkAudio";
+        dir = new File(FilePath);
 
+        if(!dir.exists() || !dir.isDirectory()) {
+            // mkdirs if dir do not exist
+            dir.mkdirs();
+        }
     }
 
     private void onRecord(boolean start) {
         if (start) {
+            File f = new File(FilePath);
+            File file[] = f.listFiles();
+            Long tsLong = System.currentTimeMillis()/1000;
+            mFileName = FilePath + "/indielinkAudio"+ tsLong.toString() + ".3gp";
             startRecording();
         } else {
             stopRecording();
