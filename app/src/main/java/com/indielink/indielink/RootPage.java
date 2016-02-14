@@ -268,7 +268,7 @@ public class RootPage extends AppCompatActivity
             {
                 if(CurrentFragment != "Music") {
                     fragmentTransaction.addToBackStack("Music");
-                    fragment = new AudioRecorderFragment();
+                    fragment = new SoundTrackFragment();
                 }
                 break;
             }

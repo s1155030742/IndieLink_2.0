@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -28,11 +29,11 @@ public class AudioRecorderFragment extends Fragment {
     private static final String LOG_TAG = "IndieLinkAudio";
 
     private File dir =null;
+
     private static String FilePath = null;
     private static String mFileName = null;
 
     private MediaRecorder mRecorder = null;
-
     private MediaPlayer mPlayer = null;
 
     public AudioRecorderFragment() {
