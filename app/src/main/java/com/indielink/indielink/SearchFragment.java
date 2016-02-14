@@ -73,43 +73,34 @@ public class SearchFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
         al = new ArrayList<>();
 
-
-        JSONToPost = new JSONObject() {
-            {
-                try {
-                    put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                    put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
-                    //obj.put("band_id",  "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        (new HttpPost(view.getContext()) {
+            @Override
+            public void onHttpResponse(JSONObject jsRep) {
+                //action onResponse and pass data from response to activity
+                JSONRep = jsRep;
+                onCreateViewFromJSON(view);
             }
-        };
-        ;
+        }).PostJSONResponseJSON(Url,
+                new JSONObject() {{try {
+                        //things to put in json
+                        put("access_token", AccessToken.getCurrentAccessToken().getToken());
+                        put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }}
+        );
+
+        return view;
+    }
+
         //Post to server
         //if(UserRole.GetUserRole() == "") {
 
         //          band/detail/
         //response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/band/detail", obj);
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(tag, response.toString());
-                        JSONRep = response;
-                        onCreateViewFromJSON(view);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(tag, "Error: " + error.getMessage());
-                    }
-                });
-        Volley.newRequestQueue(view.getContext()).add(jsonObjectRequest);
-
-        return view;
-    }
 
     public void onCreateViewFromJSON(View view)
     {
