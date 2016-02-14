@@ -15,15 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
-import android.view.View;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -32,14 +24,10 @@ import com.indielink.indielink.Profile.BandProfileContent;
 import com.indielink.indielink.Profile.ProfileContent;
 import com.indielink.indielink.Profile.UserRole;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class RootPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,54 +50,27 @@ public class RootPage extends AppCompatActivity
         //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
 
-        JSONToPost = new JSONObject() {
-            {
-                try {
-                    put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                    put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
-                //Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
-            }
-        };
+        (new HttpPost(this) {//use view.getContext() in fragment
+            @Override
+            public void onHttpResponse(JSONObject jsRep) {
+                //action onResponse and pass data from response to activity
+                UserBandListJSON = jsRep;
+                onCreateFromJSON();
 
-        //HTTPPost SECTION
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(tag, response.toString());
-                        UserBandListJSON = response;
-                        onCreateFromJSON();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(tag, "Error: " + error.getMessage());
-                    }
-                });
-        Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
-    }
+            }}).PostJSONResponseJSON("http://137.189.97.88:8080/user",//Url
 
-        /*HttpPost httpPost = new HttpPost();
-        //    /user
-        //UserBandListJSON =
-                httpPost.PostJSONResponseJSON(
-                "http://137.189.97.88:8080/user",
                 new JSONObject() {{
                     try {
+                        //things to put in json
                         put("access_token", AccessToken.getCurrentAccessToken().getToken());
                         put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
-                        //Log.v("fb login info", AccessToken.getCurrentAccessToken().getToken());
-                        //Log.v("fb login info", AccessToken.getCurrentAccessToken().getUserId());
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }}
         );
-    }*/
+    }
 
     public void onCreateFromJSON(){
         //add all band to ArrayList UserBand first
@@ -313,4 +274,5 @@ public class RootPage extends AppCompatActivity
         overridePendingTransition(0, 0);
         startActivity(intent);
     }
+
 }

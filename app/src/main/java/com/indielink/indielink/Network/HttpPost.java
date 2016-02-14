@@ -1,9 +1,17 @@
 package com.indielink.indielink.Network;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.IntentService;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -33,14 +41,389 @@ import java.io.ByteArrayOutputStream;
 import java.lang.ref.ReferenceQueue;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Hong on 23/11/2015.
  */
+
+public class HttpPost extends Activity{
+
+    ProgressDialog progress;
+    public static Context mContext = MainActivity.getContext();
+    public JSONObject JSONResponse;
+
+    public HttpPost(){
+        JSONResponse = null;
+        mContext = MainActivity.getContext();
+    }
+
+    public HttpPost(Context c){
+        JSONResponse = null;
+        mContext = c;
+    }
+
+    public JSONObject PostJSONResponseJSON(String Url, JSONObject JSONToPost) {
+        final String tag = "POSTJSON";
+        //final Object lock = new Object();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(tag, response.toString());
+                        JSONResponse = response;
+                        resume();
+                        onHttpResponse(JSONResponse);
+
+                        //lock.notifyAll();
+                        //Log.d(tag, "notifyAll");
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(tag, "Error: " + error.getMessage());
+                    }
+                });
+        Volley.newRequestQueue(mContext).add(jsonObjectRequest);
+        loading();
+
+        //super.onPause();
+        /*while(JSONResponse==null)
+            synchronized (lock) {
+                try {
+                    Log.d(tag, "wait");
+                    lock.wait(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }*/
+        return JSONResponse;
+    }
+
+    public void onHttpResponse(JSONObject JSONResponse){
+        //for overriding
+    }
+
+    public void loading(){
+        progress = ProgressDialog.show(mContext, "Please wait", "loading...", true);
+    }
+
+    public void loading(String s){
+        progress = ProgressDialog.show(mContext, "Please wait", "loading" + s + "...", true);
+    }
+
+    public void resume(){
+        progress.dismiss();
+    }
+
+}
+
+
+/*HttpPost require an intentservice as linking to network is not permitted in main thread
+Post and get synchonzied json request via FutureRequest class in volley
+ */
+//reference http://sohailaziz05.blogspot.hk/2012/05/intentservice-providing-data-back-to.html
+
+/*
+public class HttpPost implements HttpPostResultReceiver.Receiver {
+
+    int REQUEST_TIMEOUT = 10;
+    final Object lock = new Object();
+    public static Context mContext = MainActivity.getContext();
+    final String tag = "HttpPost";
+
+    public JSONObject JSONResponse;
+    public HttpPostResultReceiver mReceiver;
+
+    public HttpPost() {
+        mReceiver = new HttpPostResultReceiver(new Handler());
+
+        mReceiver.setReceiver(this);
+
+    }
+
+
+    public JSONObject PostJSONResponseJSON(String Url, JSONObject JsonToPost) {
+
+        //start a new HttpPostIntentService
+
+        Intent intent = new Intent();
+        intent.setClass(mContext,
+                HttpPostIntentService.class);
+        intent.putExtra(HttpPostIntentService.Url, Url);
+        intent.putExtra(HttpPostIntentService.JsonToPostToString, JsonToPost.toString());
+        intent.putExtra("receiverTag", mReceiver);
+
+        mContext.startService(intent);
+
+        //TODO: wait until ReceiveResult, try to use future class
+        synchronized (lock) {
+            try {
+                Log.d(tag, "wait");
+                lock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //wait();
+        Log.d(tag,JSONResponse.toString());
+        return JSONResponse;
+    }
+
+    //TODO: wake up when ReceiveResult, try to use future class
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        // TODO Auto-generated method stub
+
+        if(resultData!=null) {
+
+            JSONResponse = resultDataToJsonObject(resultData);
+        }
+        //notify();
+        lock.notifyAll();
+        Log.d(tag, "notifyAll");
+    }
+
+    public JSONObject resultDataToJsonObject(Bundle resultData) {
+        JSONObject json = new JSONObject();
+        Set<String> keys = resultData.keySet();
+        for (String key : keys) {
+            try {
+                // json.put(key, bundle.get(key)); see edit below
+                json.put(key, JSONObject.wrap(resultData.get(key)));
+            } catch(JSONException e) {
+                //Handle exception here
+            }
+        }
+        return json;
+    }
+
+}
+
+
+
+class HttpPostIntentService extends IntentService {
+
+    public static String Url, JsonToPostToString;
+    public static Context mContext = MainActivity.getContext();
+
+
+    public HttpPostIntentService() {
+        super("HttpPostIntentService");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        //Log.d(TAG, "onCreate()");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+
+        Log.d("inside intentservice","");
+
+        String u = intent.getStringExtra(Url);
+        JSONObject jsPost = null;
+
+        try {
+            jsPost = new JSONObject(intent.getStringExtra("Json Object"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject jsRep =  PostJSONResponseJSON(u, jsPost);
+
+        ResultReceiver rec = intent.getParcelableExtra("receiverTag");
+
+        Bundle b= new Bundle();
+        b.putString("jsRep",jsRep.toString());
+        rec.send(0, b);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //Log.d(TAG, "onDestroy()");
+    }
+
+    public JSONObject PostJSONResponseJSON(String Url, JSONObject jsPost) {
+        int REQUEST_TIMEOUT = 10;
+
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest request = new JsonObjectRequest(Url, jsPost, future, future);
+        Volley.newRequestQueue(mContext).add(request);
+
+        try {
+            Log.d("future request","waiting");
+            JSONObject js = future.get(REQUEST_TIMEOUT, TimeUnit.SECONDS); // this will block (forever)
+            return js;
+        } catch (InterruptedException e) {
+            // exception handling
+        } catch (ExecutionException e) {
+            // exception handling
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+
+class HttpPostResultReceiver extends ResultReceiver {
+
+    private Receiver mReceiver;
+
+    public HttpPostResultReceiver(Handler handler) {
+        super(handler);
+        // TODO Auto-generated constructor stub
+    }
+
+    public interface Receiver {
+        public void onReceiveResult(int resultCode, Bundle resultData);
+
+    }
+
+    public void setReceiver(Receiver receiver) {
+        mReceiver = receiver;
+    }
+
+    @Override
+    protected void onReceiveResult(int resultCode, Bundle resultData) {
+
+        if (mReceiver != null) {
+            mReceiver.onReceiveResult(resultCode, resultData);
+        }
+    }
+
+};
+
+*/
+
+
+//only use this tutorialhttp://www.truiton.com/2015/02/android-volley-making-synchronous-request/
+
+/*
+public class HttpPost extends Activity{
+
+    public JSONObject jsRep;
+    public static Context mContext = MainActivity.getContext();
+
+    public HttpPost(){
+        jsRep = null;
+        mContext = MainActivity.getContext();
+    }
+
+    public HttpPost(Context c) {
+        jsRep = null;
+        mContext = c;
+    }
+
+    public JSONObject PostJSONResponseJSON(String Url, JSONObject JSONToPost) {
+
+        String TAG = "PostJSONRepJSON";
+        final Object lock = new Object();
+
+        startParsingTask(Url, JSONToPost);
+
+        Log.d(TAG, "returning");
+
+        synchronized (lock) {
+            while(jsRep==null)
+                try {
+                    lock.wait(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }
+
+            Log.d(TAG, jsRep.toString());
+        return jsRep;
+    }
+
+    public void startParsingTask(final String Url, final JSONObject JSONToPost) {
+        Thread threadA = new Thread() {
+            public void run() {
+                ThreadB threadB = new ThreadB(Url,JSONToPost,mContext);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = threadB.execute().get(10, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (TimeoutException e) {
+                    e.printStackTrace();
+                }
+                final JSONObject receivedJSONObject = jsonObject;
+                jsRep = receivedJSONObject;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        jsRep = receivedJSONObject;
+
+                        /*
+                        mTextView.setText("Response is: " + receivedJSONObject);
+                        if (receivedJSONObject != null) {
+                            try {
+                                mTextView.setText(mTextView.getText() + "\n\n" +
+                                        receivedJSONObject.getString("name"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        *//*
+                    }
+                });
+            }
+        };
+        threadA.start();
+    }
+
+    private class ThreadB extends AsyncTask<Void, Void, JSONObject> {
+        private Context mContext;
+        public String Url;
+        public JSONObject jsPost;
+
+        public ThreadB(String s,JSONObject jsObj, Context ctx) {
+            mContext = ctx;
+            Url = s;
+            jsPost = jsObj;
+        }
+
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            final RequestFuture<JSONObject> futureRequest = RequestFuture.newFuture();
+            final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method
+                    .POST,Url ,jsPost, futureRequest, futureRequest);
+            //jsonRequest.setTag(REQUEST_TAG);  //useless
+            Volley.newRequestQueue(mContext).add(jsonRequest);
+            try {
+                Log.d("future request","waiting");
+                return futureRequest.get(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+}
+*/
+
+
+//Walker hv rebuilt this class on 4/2/2016 in order to eable this class to sent synchorzied request and dont use below code
+/*
 public class HttpPost extends Application{
 
     private static Context mContext;
@@ -66,7 +449,13 @@ public class HttpPost extends Application{
         mInstance = this;
     }
 
-    public void PostJSONResponseJSON(String Url, JSONObject JSONToPost){
+    public HttpPost(Context context) {
+        mContext = context;
+        jsRep = null;
+        mInstance = this;
+    }
+
+    /*public void PostJSONResponseJSON(String Url, JSONObject JSONToPost){
         final String tag = "POSTJSON";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -83,7 +472,7 @@ public class HttpPost extends Application{
                 });
         Volley.newRequestQueue(mContext).add(jsonObjectRequest);
         //return jsRep;
-    }
+    }*/
 
 /*
     public JSONObject PostJSONResponseJSON(final String Url, final JSONObject JSONToPost){
@@ -123,7 +512,7 @@ public class HttpPost extends Application{
 
 
 
-    public JSONObject NotUIPostJSONResponseJSON(String Url, JSONObject JSONToPost){
+    public JSONObject PostJSONResponseJSON(String Url, JSONObject JSONToPost){
         int REQUEST_TIMEOUT = 10;
 
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
@@ -131,7 +520,8 @@ public class HttpPost extends Application{
         Volley.newRequestQueue(mContext).add(request);
 
         try {
-            return future.get(REQUEST_TIMEOUT, TimeUnit.SECONDS); // this will block (forever)
+            JSONObject js =  future.get(REQUEST_TIMEOUT, TimeUnit.SECONDS); // this will block (forever)
+            return js;
         } catch (InterruptedException e) {
             // exception handling
         } catch (ExecutionException e) {
@@ -197,7 +587,7 @@ public class HttpPost extends Application{
     public interface DataCallback {
         void onSuccess(JSONObject result);
     }
-    */
+
 
 
     public void PostJSON(String Url, JSONObject JSONToPost)
@@ -287,34 +677,5 @@ public class HttpPost extends Application{
         requestQueue.add(stringRequest);
     }
 
-}
-
-
-/*
-class ThreadA extends AsyncTask<Void, Void, JSONObject> {
-    String Url;
-    JSONObject JSONToPost;
-
-    public ThreadA(String inputUrl, JSONObject js) {
-        Url = inputUrl;
-        JSONToPost = js;
-    }
-
-    @Override
-    protected JSONObject doInBackground(Void... params) {
-        final RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Url, JSONToPost, future, future);
-        Volley.newRequestQueue(HttpPost.getContext()).add(request);
-        try {
-            return future.get(10, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
 */
