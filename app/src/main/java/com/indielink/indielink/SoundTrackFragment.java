@@ -7,21 +7,27 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
+import com.indielink.indielink.CustomListener.OnSwipeTouchListener;
 import com.indielink.indielink.Profile.SoundTrackContent;
-import com.indielink.indielink.Profile.SoundTrackContent.DummyItem;
+import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -46,6 +52,7 @@ public class SoundTrackFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
+    private MySoundTrackRecyclerViewAdapter mAdapter;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -75,46 +82,50 @@ public class SoundTrackFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_soundtrack_list, container, false);
 
         //Set button onClick Handler
         final ToggleButton record = (ToggleButton) view.findViewById(R.id.RecordButton);
         record.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                onRecord(isChecked);
-                isChecked = !isChecked;
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            onRecord(isChecked);
+                            isChecked = !isChecked;
+                        }
+                    });
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+        OnSwipeTouchListener mOnSwipe = new OnSwipeTouchListener(view.getContext()) {
+            public void onSwipeRight() {
             }
-        });
+        };
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
+        if (recyclerView instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));//这里用线性显示 类似于listview
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//这里用线性宫格显示 类似于grid view
             }
-            recyclerView.setAdapter(new MySoundTrackRecyclerViewAdapter(SoundTrackContent.ITEMS, mListener));
+            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, mOnSwipe);
+            recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
-
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         //if (activity instanceof OnListFragmentInteractionListener) {
-        //    mListener = (OnListFragmentInteractionListener) activity;
+            //mListener = (OnListFragmentInteractionListener) activity;
         //} else {
         //    throw new RuntimeException(activity.toString()
         //            + " must implement OnListFragmentInteractionListener");
@@ -139,9 +150,23 @@ public class SoundTrackFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(SoundTrackItem item);
     }
 
+    private List<SoundTrackItem> getListOfFile()
+    {
+        List<SoundTrackItem> listOfSounds = new ArrayList<SoundTrackItem>();
+        Log.d("Files", "Path: " + FilePath);
+        File f = new File(FilePath);
+        File file[] = f.listFiles();
+        Log.d("Files", "Size: "+ file.length);
+        for (int i=0; i < file.length; i++)
+        {
+            Log.d("Files", "FileName:" + file[i].getName());
+            listOfSounds.add(new SoundTrackItem(String.valueOf(i+1),  file[i].getName()));
+        }
+        return listOfSounds;
+    }
 
     private void onRecord(boolean start) {
         if (start) {
@@ -199,6 +224,8 @@ public class SoundTrackFragment extends Fragment {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+        mAdapter.mValues.add(new SoundTrackItem(String.valueOf(mAdapter.getItemCount() + 1), mFileName.split(FilePath+"/")[1]));
+        mAdapter.notifyDataSetChanged();
     }
 
 }
