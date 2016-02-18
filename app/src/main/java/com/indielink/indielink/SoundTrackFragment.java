@@ -7,21 +7,19 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
+import com.indielink.indielink.Audio.Audio;
+import com.indielink.indielink.CustomAdapter.MySoundTrackRecyclerViewAdapter;
 import com.indielink.indielink.CustomListener.OnSwipeTouchListener;
-import com.indielink.indielink.Profile.SoundTrackContent;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
 
 import java.io.File;
@@ -45,7 +43,7 @@ public class SoundTrackFragment extends Fragment {
     private static String mFileName = null;
 
     private MediaRecorder mRecorder = null;
-    private MediaPlayer mPlayer = null;
+    private Audio audio = null;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -62,7 +60,7 @@ public class SoundTrackFragment extends Fragment {
     public SoundTrackFragment() {
         FilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/IndieLinkAudio";
         dir = new File(FilePath);
-
+        audio = Audio.getInstance();
         if(!dir.exists() || !dir.isDirectory()) {
             // mkdirs if dir do not exist
             dir.mkdirs();
@@ -104,6 +102,8 @@ public class SoundTrackFragment extends Fragment {
 
         OnSwipeTouchListener mOnSwipe = new OnSwipeTouchListener(view.getContext()) {
             public void onSwipeRight() {
+                //mAdapter.mValues
+                //mAdapter.notifyDataSetChanged();
             }
         };
 
@@ -115,7 +115,7 @@ public class SoundTrackFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//这里用线性宫格显示 类似于grid view
             }
-            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, mOnSwipe);
+            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, FilePath);
             recyclerView.setAdapter(mAdapter);
         }
         return view;
@@ -124,12 +124,12 @@ public class SoundTrackFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        //if (activity instanceof OnListFragmentInteractionListener) {
+        /*if (activity instanceof OnListFragmentInteractionListener) {
             //mListener = (OnListFragmentInteractionListener) activity;
-        //} else {
-        //    throw new RuntimeException(activity.toString()
-        //            + " must implement OnListFragmentInteractionListener");
-        //}
+        } else {
+            throw new RuntimeException(activity.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }*/
     }
 
     @Override
@@ -148,6 +148,7 @@ public class SoundTrackFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(SoundTrackItem item);
@@ -180,30 +181,6 @@ public class SoundTrackFragment extends Fragment {
         }
     }
 
-    private void onPlay(boolean start) {
-        if (start) {
-            startPlaying();
-        } else {
-            stopPlaying();
-        }
-    }
-
-    private void startPlaying() {
-        mPlayer = new MediaPlayer();
-        try {
-            mPlayer.setDataSource(mFileName);
-            mPlayer.prepare();
-            mPlayer.start();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-        }
-    }
-
-    private void stopPlaying() {
-        mPlayer.release();
-        mPlayer = null;
-    }
-
     private void startRecording() {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -227,5 +204,4 @@ public class SoundTrackFragment extends Fragment {
         mAdapter.mValues.add(new SoundTrackItem(String.valueOf(mAdapter.getItemCount() + 1), mFileName.split(FilePath+"/")[1]));
         mAdapter.notifyDataSetChanged();
     }
-
 }
