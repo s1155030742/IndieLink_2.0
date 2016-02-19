@@ -2,23 +2,25 @@ package com.indielink.indielink.Audio;
 
 import android.media.MediaPlayer;
 import android.util.Log;
-
 import java.io.IOException;
 
 /**
  * Created by E8400 on 2016/02/18.
  */
+
 public class Audio {
 
     private static Audio instance = null;
     private static final String LOG_TAG = "IndieLinkAudio";
-    private static MediaPlayer mPlayer = null;
+    public static MediaPlayer mPlayer = null;
 
-    public static boolean play = false;
+    public static boolean play;
     public static String mFilePath = null;
-    public static String mFileName = null;
+    public static String mFileName = "";
 
-    private Audio(){}
+    private Audio(){
+        play = false;
+    }
 
     synchronized static public Audio getInstance() {
         if (instance == null) {
@@ -31,33 +33,39 @@ public class Audio {
         return instance;
     }
 
-    public static void onPlay(boolean start) {
-        if (play) {
-            startPlaying();
-        } else {
-            stopPlaying();
+    static public MediaPlayer getPlayer() {
+        if (mPlayer == null) {
+                if(mPlayer == null) {
+                    mPlayer = new MediaPlayer();
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer player) {
+                            play = false;
+                            stopPlaying();
+                        }
+                    });
+                }
         }
+        return mPlayer;
     }
 
-    private static void startPlaying() {
-        mPlayer = new MediaPlayer();
+    public static void startPlaying() {
         try {
+            if(mPlayer != null && mPlayer.isPlaying())
+            {
+                stopPlaying();
+            }
+            mPlayer = getPlayer();
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.start();
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.stop();
-                    mp.release();
-                }
-            });
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed" + mFileName);
         }
     }
 
-    private static void stopPlaying() {
+    public static void stopPlaying() {
+        mPlayer.stop();
         mPlayer.release();
         mPlayer = null;
     }

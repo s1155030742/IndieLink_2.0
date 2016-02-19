@@ -1,6 +1,7 @@
 package com.indielink.indielink.CustomAdapter;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,10 +32,10 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
     public List<SoundTrackItem> mValues;
     private final OnListFragmentInteractionListener mListener;
     private Audio audio = null;
-    //private MySoundTrackRecyclerViewAdapter mAdaptor = this;
-    public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items, OnListFragmentInteractionListener listener,String FilePath) {
+    public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items, OnListFragmentInteractionListener listener,String FilePath,Audio audi) {
         mValues = items;
         mListener = listener;
+        audio = audi;
         audio.mFilePath = FilePath+"/";
     }
 
@@ -63,6 +64,15 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
             }
         });
 
+        holder.mImgUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = holder.mNameView;
+                String FileName =  audio.mFilePath + t.getText().toString();
+                File file = new File(FileName);
+            }
+        });
+
         holder.mNameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,22 +80,14 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                 TextView t = (TextView) v;
                 String FileName =  audio.mFilePath + t.getText().toString();
 
-                if(audio.play == false){
+                if(FileName.toString().equals(audio.mFileName.toString())) {
+                    audio.stopPlaying();
+                    audio.mFileName = "";
+                } else
+               {
                     audio.mFileName = FileName;
-                    audio.play = true;
-                    audio.onPlay(audio.play);
-                }else
-                {
-                    if(audio.mFileName == FileName){
-                        audio.play = false;
-                        audio.onPlay(audio.play);
-                    } else {
-                        audio.onPlay(audio.play);
-                        audio.mFileName = FileName;
-                        audio.play = true;
-                        audio.onPlay(audio.play);
-                    }
-                }
+                    audio.startPlaying();
+               }
             }
         });
 
@@ -97,14 +99,12 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                 String FileName =  audio.mFilePath + t.getText().toString();
                 File file = new File(FileName);
                 file.delete();
-                Log.d("LOG :::", "Element " + holder.getAdapterPosition() + " clicked.");
                 mValues.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
                 notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
             }
         });
     }
-
 
     @Override
     public int getItemCount() {

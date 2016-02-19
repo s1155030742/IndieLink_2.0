@@ -2,7 +2,6 @@ package com.indielink.indielink;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -115,7 +114,7 @@ public class SoundTrackFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//这里用线性宫格显示 类似于grid view
             }
-            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, FilePath);
+            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, FilePath, audio);
             recyclerView.setAdapter(mAdapter);
         }
         return view;
