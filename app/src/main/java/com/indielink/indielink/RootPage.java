@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.Profile.BandProfileContent;
 import com.indielink.indielink.Profile.ProfileContent;
@@ -229,7 +230,11 @@ public class RootPage extends AppCompatActivity
             {
                 if(CurrentFragment != "Music") {
                     fragmentTransaction.addToBackStack("Music");
+                    Profile profile = Profile.getCurrentProfile();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserName", profile.getName());
                     fragment = new SoundTrackFragment();
+                    fragment.setArguments(bundle);
                 }
                 break;
             }
@@ -274,5 +279,4 @@ public class RootPage extends AppCompatActivity
         overridePendingTransition(0, 0);
         startActivity(intent);
     }
-
 }
