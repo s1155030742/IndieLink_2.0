@@ -190,6 +190,7 @@ public class HttpPost extends Activity{
         UploadFile(Url, getFileDataFromDrawable(mContext, id), imageName);
     }
 
+
     //reference: http://stackoverflow.com/questions/32240177/working-post-multipart-request-with-volley-and-without-httpentity
     private void buildPart(DataOutputStream dataOutputStream, byte[] fileData, String fileName) throws IOException {
         dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
