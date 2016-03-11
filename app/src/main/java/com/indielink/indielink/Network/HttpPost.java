@@ -7,11 +7,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.DocumentsContract;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -19,9 +22,12 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.indielink.indielink.MainActivity;
@@ -37,7 +43,10 @@ import com.indielink.indielink.RootPage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.util.Hashtable;
 import java.util.Map;
@@ -58,6 +67,13 @@ public class HttpPost extends Activity{
     public static Context mContext = MainActivity.getContext();
     public JSONObject JSONResponse;
 
+    //reference: http://stackoverflow.com/questions/32240177/working-post-multipart-request-with-volley-and-without-httpentity
+    final String twoHyphens = "--";
+    final String lineEnd = "\r\n";
+    final String boundary = "apiclient-" + System.currentTimeMillis();
+    final String mimeType = "multipart/form-data;boundary=" + boundary;
+
+
     public HttpPost(){
         JSONResponse = null;
         mContext = MainActivity.getContext();
@@ -68,7 +84,7 @@ public class HttpPost extends Activity{
         mContext = c;
     }
 
-    public JSONObject PostJSONResponseJSON(String Url, JSONObject JSONToPost) {
+    public void PostJSONResponseJSON(String Url, JSONObject JSONToPost) {
         final String tag = "POSTJSON";
         //final Object lock = new Object();
 
@@ -104,11 +120,15 @@ public class HttpPost extends Activity{
                     e.printStackTrace();
                 }
         }*/
-        return JSONResponse;
+        //return JSONResponse;
     }
 
     public void onHttpResponse(JSONObject JSONResponse){
         //for overriding
+    }
+
+    public void onHttpResponse() {
+        //for orverriding
     }
 
     public void loading(){
@@ -123,6 +143,142 @@ public class HttpPost extends Activity{
         progress.dismiss();
     }
 
+
+    //reference: http://stackoverflow.com/questions/32240177/working-post-multipart-request-with-volley-and-without-httpentity
+    public void UploadFile(String Url, byte[] fileData, String fileName) {
+
+        final String tag = "Upload File";
+        byte[] multipartBody = new byte[0];
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(bos);
+        try {
+            // the first file
+            buildPart(dos, fileData, fileName);
+            // send multipart form data necesssary after file data
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            // pass to multipart body
+            multipartBody = bos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //this is a POST method
+        MultipartRequest multipartRequest = new MultipartRequest(Url, null, mimeType, multipartBody,
+                new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                Log.d(tag, response.toString());
+                resume();
+                onHttpResponse();  //for overiding
+
+            }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(tag, "Error: " + error.getMessage());
+            }
+        });
+
+        //VolleySingleton.getInstance(mContext).addToRequestQueue(multipartRequest);
+        Volley.newRequestQueue(mContext).add(multipartRequest);
+        loading();
+
+    }
+
+    public void UploadDrawable(String Url, int id, String imageName){
+        UploadFile(Url, getFileDataFromDrawable(mContext, id), imageName);
+    }
+
+    //reference: http://stackoverflow.com/questions/32240177/working-post-multipart-request-with-volley-and-without-httpentity
+    private void buildPart(DataOutputStream dataOutputStream, byte[] fileData, String fileName) throws IOException {
+        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
+        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\""
+                + fileName + "\"" + lineEnd);
+        dataOutputStream.writeBytes(lineEnd);
+
+        ByteArrayInputStream fileInputStream = new ByteArrayInputStream(fileData);
+        int bytesAvailable = fileInputStream.available();
+
+        int maxBufferSize = 1024 * 1024;
+        int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+        byte[] buffer = new byte[bufferSize];
+
+        // read file and write it into form...
+        int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+        while (bytesRead > 0) {
+            dataOutputStream.write(buffer, 0, bufferSize);
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+        }
+
+        dataOutputStream.writeBytes(lineEnd);
+    }
+
+    private byte[] getFileDataFromDrawable(Context context, int id) {
+        Drawable drawable = ContextCompat.getDrawable(context, id);
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+}
+
+
+//reference: http://stackoverflow.com/questions/32240177/working-post-multipart-request-with-volley-and-without-httpentity
+class MultipartRequest extends Request<NetworkResponse> {
+    private final Response.Listener<NetworkResponse> mListener;
+    private final Response.ErrorListener mErrorListener;
+    private final Map<String, String> mHeaders;
+    private final String mMimeType;
+    private final byte[] mMultipartBody;
+
+    public MultipartRequest(String url, Map<String, String> headers, String mimeType, byte[] multipartBody, Response.Listener<NetworkResponse> listener, Response.ErrorListener errorListener) {
+        super(Method.POST, url, errorListener);
+        this.mListener = listener;
+        this.mErrorListener = errorListener;
+        this.mHeaders = headers;
+        this.mMimeType = mimeType;
+        this.mMultipartBody = multipartBody;
+    }
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        return (mHeaders != null) ? mHeaders : super.getHeaders();
+    }
+
+    @Override
+    public String getBodyContentType() {
+        return mMimeType;
+    }
+
+    @Override
+    public byte[] getBody() throws AuthFailureError {
+        return mMultipartBody;
+    }
+
+    @Override
+    protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
+        try {
+            return Response.success(
+                    response,
+                    HttpHeaderParser.parseCacheHeaders(response));
+        } catch (Exception e) {
+            return Response.error(new ParseError(e));
+        }
+    }
+
+    @Override
+    protected void deliverResponse(NetworkResponse response) {
+        mListener.onResponse(response);
+    }
+
+    @Override
+    public void deliverError(VolleyError error) {
+        mErrorListener.onErrorResponse(error);
+    }
 }
 
 
