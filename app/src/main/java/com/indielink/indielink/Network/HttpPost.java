@@ -213,7 +213,6 @@ public class HttpPost extends Activity{
             bufferSize = Math.min(bytesAvailable, maxBufferSize);
             bytesRead = fileInputStream.read(buffer, 0, bufferSize);
         }
-
         dataOutputStream.writeBytes(lineEnd);
     }
 
