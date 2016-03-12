@@ -178,7 +178,8 @@ public class SoundTrackFragment extends Fragment {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
-        mAdapter.mValues.add(new SoundTrackItem(String.valueOf(mAdapter.getItemCount() + 1), mFileName.split(FilePath+"/")[1]));
+        String file = mFileName.split(FilePath+"/")[1];
+        mAdapter.mValues.add(new SoundTrackItem(String.valueOf(mAdapter.getItemCount() + 1),file ));
         mAdapter.notifyDataSetChanged();
     }
 }

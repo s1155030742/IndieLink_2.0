@@ -48,7 +48,6 @@ public class RootPage extends AppCompatActivity
         setContentView(R.layout.activity_root_page);
         UserRole.IsMusician();
 
-        //TODO: HTTP POST Request for User's band info.  the below is hardcoded testing
         //get the User band List and band instrument list by posting access_token and fb_user_id
 
         (new HttpPost(this) {//use view.getContext() in fragment
