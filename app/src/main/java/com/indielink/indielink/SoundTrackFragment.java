@@ -104,7 +104,7 @@ public class SoundTrackFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//这里用线性宫格显示 类似于grid view
             }
-            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, FilePath, audio);
+            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, FilePath, audio,view.getContext());
             recyclerView.setAdapter(mAdapter);
         }
         return view;

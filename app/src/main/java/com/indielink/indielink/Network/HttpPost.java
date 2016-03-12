@@ -1,44 +1,26 @@
 package com.indielink.indielink.Network;
 
 import android.app.Activity;
-import android.app.Application;
-import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
-import android.provider.DocumentsContract;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.StringRequest;
 import com.indielink.indielink.MainActivity;
-import com.indielink.indielink.R;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.indielink.indielink.RootPage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,15 +78,13 @@ public class HttpPost extends Activity{
                         JSONResponse = response;
                         resume();
                         onHttpResponse(JSONResponse);
-
-                        //lock.notifyAll();
-                        //Log.d(tag, "notifyAll");
-
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(tag, "Error: " + error.getMessage());
+                        resume();
+                        makeToast(error.toString());
                     }
                 });
         Volley.newRequestQueue(mContext).add(jsonObjectRequest);
@@ -129,6 +109,10 @@ public class HttpPost extends Activity{
 
     public void onHttpResponse() {
         //for orverriding
+    }
+
+    public void makeToast(String s){
+        Toast.makeText(mContext, s, Toast.LENGTH_LONG).show();
     }
 
     public void loading(){
@@ -177,6 +161,8 @@ public class HttpPost extends Activity{
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(tag, "Error: " + error.getMessage());
+                resume();
+                makeToast(error.toString());
             }
         });
 

@@ -85,6 +85,7 @@ public class SearchFragment extends Fragment {
                         //things to put in json
                         put("access_token", AccessToken.getCurrentAccessToken().getToken());
                         put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+                        put("user_id", RootPage.user_id);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

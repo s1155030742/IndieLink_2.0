@@ -13,11 +13,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.indielink.indielink.Audio.Audio;
+import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.R;
 import com.indielink.indielink.SoundTrackFragment.OnListFragmentInteractionListener;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.OnClick;
@@ -32,11 +37,19 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
     public List<SoundTrackItem> mValues;
     private final OnListFragmentInteractionListener mListener;
     private Audio audio = null;
-    public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items, OnListFragmentInteractionListener listener,String FilePath,Audio audi) {
+    private Context mContext;
+
+
+    public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items,
+                                           OnListFragmentInteractionListener listener,
+                                           String FilePath,
+                                           Audio audi,
+                                           Context c) {
         mValues = items;
         mListener = listener;
         audio = audi;
         audio.mFilePath = FilePath+"/";
+        mContext = c;
     }
 
     @Override
@@ -67,9 +80,36 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
         holder.mImgUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String Url = "http://137.189.97.88:8080/ip/user/soundtrack";
+
                 TextView t = holder.mNameView;
-                String FileName =  audio.mFilePath + t.getText().toString();
-                File file = new File(FileName);
+                String fileName =  t.getText().toString();
+                String filePath =  audio.mFilePath + fileName;
+                File file = new File(filePath);
+
+                //reference: http://stackoverflow.com/questions/10039672/android-how-to-read-file-in-bytes
+                int size = (int) file.length();
+                byte[] bytes = new byte[size];
+                try {
+                    BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+                    buf.read(bytes, 0, bytes.length);
+                    buf.close();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                (new HttpPost(mContext){
+                    @Override
+                    public void onHttpResponse(){
+                        makeToast("Upload Complete!");
+                    }
+                }).UploadFile(Url, bytes,filePath);
+
             }
         });
 

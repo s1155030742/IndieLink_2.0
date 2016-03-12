@@ -37,6 +37,7 @@ public class RootPage extends AppCompatActivity
     FragmentManager fragmentManager;
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();
     JSONObject UserBandListJSON, JSONToPost;
+    static public String user_id;
 
     String Url = "http://137.189.97.88:8080/user";
     String tag = "RootPage";
@@ -70,6 +71,7 @@ public class RootPage extends AppCompatActivity
                     }
                 }}
         );
+
     }
 
     public void onCreateFromJSON(){
@@ -78,6 +80,8 @@ public class RootPage extends AppCompatActivity
 
         if(UserBandListJSON!=null) try
         {
+            user_id = UserBandListJSON.get("user_id").toString();//make user_id for another fragment
+
             for(int i=0 ; i<UserBandListJSON.getJSONArray("band").length();i++)
             {
                 UserBand.add(new BandProfileContent(
@@ -90,17 +94,16 @@ public class RootPage extends AppCompatActivity
 
             for(int i=0 ; i<UserBandListJSON.getJSONArray("bandInstrument").length();i++)
                 for (BandProfileContent band : UserBand)
-
                     //select the band which match the instrument
                     if(band.id == UserBandListJSON.getJSONArray("bandInstrument")
                             .getJSONObject(i).get("band_id").toString())
-
                         //set Instrument Vacancyness in the band using member function
                         //if user_id of instrument is null, then setVacancy(instrument, true)
                         //since this is the first time construct band list, all vacancy default false
                         band.setVacancy(
                                 UserBandListJSON.getJSONArray("bandInstrument")
                                         .getJSONObject(i).get("instrument").toString(),
+                                //this is true when no other people play same instrument
                                 UserBandListJSON.getJSONArray("bandInstrument")
                                         .getJSONObject(i).get("user_id").toString()=="null");
 
@@ -278,4 +281,10 @@ public class RootPage extends AppCompatActivity
         overridePendingTransition(0, 0);
         startActivity(intent);
     }
+
+    public String getUser_id(){
+        return user_id;
+    }
+
 }
+
