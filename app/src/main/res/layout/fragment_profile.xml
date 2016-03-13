@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/Instrument"/>
+                    android:text="@string/ProfileInstrument"/>
                 <TextView
                     android:id="@+id/UserInstrument"
                     android:layout_width="wrap_content"

@@ -1,17 +1,12 @@
 package com.indielink.indielink.CustomAdapter;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.R;
@@ -25,13 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import butterknife.OnClick;
-
-/**
- * {@link RecyclerView.Adapter} that can display a {@link SoundTrackItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoundTrackRecyclerViewAdapter.ViewHolder> {
 
     public List<SoundTrackItem> mValues;

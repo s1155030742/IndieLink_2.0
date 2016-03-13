@@ -170,7 +170,6 @@ public class SoundTrackFragment extends Fragment {
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
         }
-
         mRecorder.start();
     }
 

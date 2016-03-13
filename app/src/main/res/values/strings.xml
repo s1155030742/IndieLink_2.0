@@ -26,6 +26,7 @@
 
     <string name="EditProfile">Edit Profile</string>
     <string name="Instrument">Instrument</string>
+    <string name="ProfileInstrument">Instrument :</string>
     <string name="Vocal">Vocal</string>
     <string name="Guitar">Guitar</string>
     <string name="Drum">Drum</string>

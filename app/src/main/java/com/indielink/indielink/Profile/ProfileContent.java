@@ -23,19 +23,18 @@ public class ProfileContent {
         try {
             //get url from Fackbook Graph API
             String url = object.getJSONObject("picture").getJSONObject("data").getString("url");
-            if(User.size()==0)
-            {
-                String gender = object.get("gender").toString();
-                int birth = Integer.parseInt(object.get("birthday").toString().substring(6, 10));
-                Time currentTime = new Time();
-                currentTime.setToNow();
-                String age = String.valueOf(currentTime.year-birth);
 
-                Profile profile = Profile.getCurrentProfile();
-                User.put("UserName",profile.getName());
-                User.put("UserAge", age);
-                User.put("UserGender",gender);
-            }
+            String gender = object.get("gender").toString();
+            int birth = Integer.parseInt(object.get("birthday").toString().substring(6, 10));
+            Time currentTime = new Time();
+            currentTime.setToNow();
+            String age = String.valueOf(currentTime.year-birth);
+
+            Profile profile = Profile.getCurrentProfile();
+            User.put("UserName",profile.getName());
+            User.put("UserAge", age);
+            User.put("UserGender",gender);
+
             if(url != ProfilePictureURL && !url.isEmpty())
             {
                 ProfilePictureURL = url;

@@ -25,6 +25,7 @@ import com.indielink.indielink.Profile.BandProfileContent;
 import com.indielink.indielink.Profile.ProfileContent;
 import com.indielink.indielink.Profile.UserRole;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,7 +58,6 @@ public class RootPage extends AppCompatActivity
                 //action onResponse and pass data from response to activity
                 UserBandListJSON = jsRep;
                 onCreateFromJSON();
-
             }}).PostJSONResponseJSON("http://137.189.97.88:8080/user",//Url
 
                 new JSONObject() {{
@@ -81,6 +81,11 @@ public class RootPage extends AppCompatActivity
         if(UserBandListJSON!=null) try
         {
             user_id = UserBandListJSON.get("user_id").toString();//make user_id for another fragment
+
+            //add data for personal profile first
+            ProfileContent.GetUserProfile().put("AboutMe", UserBandListJSON.getString("about_me"));
+            JSONArray instrument = UserBandListJSON.getJSONArray("instrument");
+            ProfileContent.GetUserProfile().put("Instrument", instrument.join(",").replace("\"",""));
 
             for(int i=0 ; i<UserBandListJSON.getJSONArray("band").length();i++)
             {
@@ -197,16 +202,6 @@ public class RootPage extends AppCompatActivity
                                 try {
                                     Fragment fragment = new ProfileFragment();
                                     ProfileContent.InitializeProfile(object);
-                                    try
-                                    {
-                                        ProfileContent.GetUserProfile().put("AboutMe", UserBandListJSON.getString("about_me"));
-                                        String instruments = TextUtils.join(",", ((String[]) UserBandListJSON.get("instrument")));
-                                        ProfileContent.GetUserProfile().put("Instrument", instruments);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Log.v("exception",e.toString());
-                                    }
                                     fragmentManager.beginTransaction().addToBackStack("Profile")
                                             .replace(R.id.frame_container, fragment).commit();
                                 } catch (Exception e) {
@@ -287,4 +282,3 @@ public class RootPage extends AppCompatActivity
     }
 
 }
-

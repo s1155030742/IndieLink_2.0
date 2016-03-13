@@ -24,24 +24,11 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.ref.ReferenceQueue;
-import java.util.Hashtable;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-/**
- * Created by Hong on 23/11/2015.
- */
 
 public class HttpPost extends Activity{
 
@@ -89,18 +76,6 @@ public class HttpPost extends Activity{
                 });
         Volley.newRequestQueue(mContext).add(jsonObjectRequest);
         loading();
-
-        //super.onPause();
-        /*while(JSONResponse==null)
-            synchronized (lock) {
-                try {
-                    Log.d(tag, "wait");
-                    lock.wait(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-        }*/
-        //return JSONResponse;
     }
 
     public void onHttpResponse(JSONObject JSONResponse){
