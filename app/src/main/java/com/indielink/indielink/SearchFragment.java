@@ -48,7 +48,7 @@ import butterknife.OnClick;
 
 public class SearchFragment extends Fragment {
 
-    private ArrayList<RowItem> al;
+    private ArrayList<RowItem> al = new ArrayList<RowItem>();
     private CustomAdapter arrayAdapter;
     public ArrayList<BandProfileContent> SuggestedBands = new ArrayList<BandProfileContent>();
 
@@ -71,7 +71,6 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
-        al = new ArrayList<>();
 
         (new HttpPost(view.getContext()) {
             @Override
@@ -145,7 +144,6 @@ public class SearchFragment extends Fragment {
         BandProfileContent band2 = new BandProfileContent("Oasis","about Oasis","2",dummy);
         RowItem secondrow = new RowItem(band2.BandName, "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
         SuggestedBands.add(band2);
-        al.add(firstrow);
         al.add(secondrow);
 */
         arrayAdapter = new CustomAdapter(getActivity(), al);
@@ -222,6 +220,7 @@ public class SearchFragment extends Fragment {
         });
 
         //return view;
+        flingContainer.requestLayout();
     }
 
     static void makeToast(Context ctx, String s) {
