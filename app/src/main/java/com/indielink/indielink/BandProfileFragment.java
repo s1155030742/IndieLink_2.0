@@ -42,7 +42,7 @@ public class BandProfileFragment extends Fragment {
     String tag = "BandProfileFragment";
     String Url = "http://137.189.97.88:8080/user/invite";
 
-    JSONObject JSONToPost, JSONRep;
+    JSONObject JSONRep, JSONToPost;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,39 +55,29 @@ public class BandProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         final View view = inflater.inflate(R.layout.fragment_band_profile, container, false);
 
-        JSONToPost = new JSONObject() {
-            {
-                try {
-                    put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                    put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
-                    put("identity", "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        JSONToPost = new JSONObject() {{try {
+                //things to put in json
+            put("access_token", AccessToken.getCurrentAccessToken().getToken());
+            put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
+            put("identity", "");
+
+            } catch (JSONException e) {
+            e.printStackTrace();
             }
-        };
+        }};
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(tag, response.toString());
-                        JSONRep = response;
-                        onCreateViewFromJSON(view);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(tag, "Error: " + error.getMessage());
-                    }
-                });
-        Volley.newRequestQueue(view.getContext()).add(jsonObjectRequest);
-
-
-
-
+        (new HttpPost(view.getContext()) {
+            @Override
+            public void onHttpResponse(JSONObject jsRep) {
+                //action onResponse and pass data from response to activity
+                Log.d(tag, jsRep.toString());
+                JSONRep = jsRep;
+                //onCreateViewFromJSON(view);
+            }
+        }).PostJSONResponseJSON(Url,JSONToPost);
 
         ((CheckBox) view.findViewById(R.id.CheckVocal)).setChecked(bandProfileContent.Vacancy.get("vocal"));
         ((CheckBox) view.findViewById(R.id.CheckBass)).setChecked(bandProfileContent.Vacancy.get("bass"));
@@ -143,11 +133,8 @@ public class BandProfileFragment extends Fragment {
         return view;
     }
 
-    public void onCreateViewFromJSON(View view) {/*           //Post to server
-                HttpPost httpPost = new HttpPost();
-                JSONObject response;
-                response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/user/invite", obj);
-                */
+    public void onCreateViewFromJSON(View view) {
+
         try {
             JSONArray Users = JSONRep.getJSONArray("user");
             for (int i = 0; i < Users.length(); i++) {
@@ -162,7 +149,12 @@ public class BandProfileFragment extends Fragment {
 
         fragmentManager.beginTransaction().addToBackStack("ApplicationList")
                 .replace(R.id.frame_container, fragment).commit();
+
+        view.requestLayout();
+
     }
+
+
 }
 
 
