@@ -168,25 +168,4 @@ public class CardBandDetailFragment extends Fragment {
         });
         return view;
     }
-
-                    /*
-                    //Post to server
-                    HttpPost httpPost = new HttpPost();
-                    JSONObject response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/band/recruit", obj);
-                    try {
-                        response.getString("status");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    //TODO: HTTP POST to: /band/recruit
-                    getFragmentManager().popBackStack();
-                    */
-
-
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-    }
 }

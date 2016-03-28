@@ -15,7 +15,7 @@
         tools:context=".MyActivity" />
 
     <include layout="@layout/buttons" />
-
+<!--
     <SearchView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,5 +31,5 @@
         android:inputType="textPostalAddress"
         android:ems="10"
         android:hint="@string/edit_message"
-        android:layout_gravity="top|center" />
+        android:layout_gravity="top|center" />-->
 </FrameLayout>
