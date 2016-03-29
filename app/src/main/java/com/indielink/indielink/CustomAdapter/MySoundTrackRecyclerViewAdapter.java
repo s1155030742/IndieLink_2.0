@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.R;
-import com.indielink.indielink.SoundTrackFragment.OnListFragmentInteractionListener;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
 
 import java.io.BufferedInputStream;
@@ -23,21 +22,20 @@ import java.util.List;
 public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoundTrackRecyclerViewAdapter.ViewHolder> {
 
     public List<SoundTrackItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
-    private Audio audio = null;
+    private Audio mAudio = null;
     private Context mContext;
-
+    private String mUserId;
 
     public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items,
-                                           OnListFragmentInteractionListener listener,
                                            String FilePath,
-                                           Audio audi,
-                                           Context c) {
+                                           Audio audio,
+                                           Context context,
+                                           String userId) {
         mValues = items;
-        mListener = listener;
-        audio = audi;
-        audio.mFilePath = FilePath+"/";
-        mContext = c;
+        mAudio = audio;
+        mAudio.mFilePath = FilePath+"/";
+        mContext = context;
+        mUserId = userId;
     }
 
     @Override
@@ -57,11 +55,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+
             }
         });
 
@@ -69,11 +63,11 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
             @Override
             public void onClick(View v) {
 
-                String Url = "http://137.189.97.88:8080/ip/user/soundtrack";
+                String Url = "http://137.189.97.88:8080/user/soundtrack/"+mUserId;
 
                 TextView t = holder.mNameView;
                 String fileName =  t.getText().toString();
-                String filePath =  audio.mFilePath + fileName;
+                String filePath =  mAudio.mFilePath + fileName;
                 File file = new File(filePath);
 
                 //reference: http://stackoverflow.com/questions/10039672/android-how-to-read-file-in-bytes

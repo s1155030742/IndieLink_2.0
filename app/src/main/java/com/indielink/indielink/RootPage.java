@@ -87,6 +87,7 @@ public class RootPage extends AppCompatActivity
             JSONArray instrument = UserBandListJSON.getJSONArray("instrument");
             ProfileContent.GetUserProfile().put("Instrument", instrument.join(",").replace("\"",""));
 
+
             for(int i=0 ; i<UserBandListJSON.getJSONArray("band").length();i++)
             {
                 UserBand.add(new BandProfileContent(
@@ -116,11 +117,6 @@ public class RootPage extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        /*
-        UserBand.add(new BandProfileContent("Band1","BandAboutMe","1", new ArrayList<String>()));
-        UserBand.add(new BandProfileContent("Band2","AboutMetestest","2",new ArrayList<String>()));
-        */
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -218,6 +214,7 @@ public class RootPage extends AppCompatActivity
             }
             case (R.id.Search): {
                 if(CurrentFragment != "Search") {
+
                     fragmentTransaction.addToBackStack("Search");
                     fragment = new SearchFragment();
                 }

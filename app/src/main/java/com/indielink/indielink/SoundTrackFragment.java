@@ -44,7 +44,6 @@ public class SoundTrackFragment extends Fragment {
     private String UserName;
 
     private MySoundTrackRecyclerViewAdapter mAdapter;
-    private OnListFragmentInteractionListener mListener;
 
     public SoundTrackFragment() {
         FilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/IndieLinkAudio";
@@ -104,31 +103,12 @@ public class SoundTrackFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//这里用线性宫格显示 类似于grid view
             }
-            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), mListener, FilePath, audio,view.getContext());
+            RootPage rootPage = (RootPage) getActivity();
+
+            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), FilePath, audio,view.getContext(),rootPage.getUser_id());
             recyclerView.setAdapter(mAdapter);
         }
         return view;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        /*if (activity instanceof OnListFragmentInteractionListener) {
-            //mListener = (OnListFragmentInteractionListener) activity;
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }*/
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(SoundTrackItem item);
     }
 
     private List<SoundTrackItem> getListOfFile()

@@ -1,16 +1,11 @@
 package com.indielink.indielink.Profile;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-/**
- * Created by a-kele on 11/22/2015.
- */
 
 public class BandProfileContent implements Serializable
 {
