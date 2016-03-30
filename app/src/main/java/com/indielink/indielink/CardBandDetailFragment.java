@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -103,6 +105,8 @@ public class CardBandDetailFragment extends Fragment {
 
                 ArrayList<String> InstrumentList = new ArrayList<String>();
 
+
+
                 /*if (vocal.isChecked()) InstrumentList.add("vocal");
                 if (bass.isChecked()) InstrumentList.add("bass");
                 if (guitar.isChecked()) InstrumentList.add("guitar");
@@ -164,6 +168,14 @@ public class CardBandDetailFragment extends Fragment {
                             }
                         });
                 Volley.newRequestQueue(view.getContext()).add(jsonObjectRequest);
+
+                final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container, new SearchFragment());
+                fragmentTransaction.commit();
+
+                Toast toast=Toast.makeText(getActivity(), "APPLIED!", Toast.LENGTH_LONG);
+                toast.show();
+
             }
         });
         return view;

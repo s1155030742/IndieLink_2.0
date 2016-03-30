@@ -3,6 +3,7 @@ package com.indielink.indielink;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,6 +45,7 @@ public class BandProfileFragment extends Fragment {
     String Url = "http://137.189.97.88:8080/user/invite";
 
     JSONObject JSONRep, JSONToPost;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,7 @@ public class BandProfileFragment extends Fragment {
         final Button button = (Button) view.findViewById(R.id.ApplicationButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 JSONToPost = new JSONObject() {
                     {
                         try {
@@ -127,6 +131,13 @@ public class BandProfileFragment extends Fragment {
                             }
                         });
                 Volley.newRequestQueue(view.getContext()).add(jsonObjectRequest);
+
+                final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container, new SearchFragment());
+                fragmentTransaction.commit();
+
+                Toast toast=Toast.makeText(getActivity(), "APPLIED!", Toast.LENGTH_LONG);
+                toast.show();
 
             }});
 
