@@ -14,6 +14,13 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        ndk{
+            moduleName "essentia"
+        }
+    }
+    sourceSets.main{
+        jni.srcDirs=[]
+        jniLibs.srcDir "src/main/jni/essentia"
     }
     buildTypes {
         release {
