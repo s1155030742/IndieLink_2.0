@@ -1,0 +1,5 @@
+/usr/bin/ld: skipping incompatible ./lib/libessentia.so when searching for -lessentia
+/usr/bin/ld: cannot find -lessentia
+/usr/bin/ld: skipping incompatible ./lib/libessentia.so when searching for -lessentia
+/usr/bin/ld: cannot find -lessentia
+collect2: error: ld returned 1 exit status
