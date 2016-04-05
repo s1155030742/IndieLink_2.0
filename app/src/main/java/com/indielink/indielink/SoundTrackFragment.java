@@ -1,6 +1,5 @@
 package com.indielink.indielink;
 
-import android.app.Activity;
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -20,7 +19,6 @@ import android.widget.ToggleButton;
 
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.CustomAdapter.MySoundTrackRecyclerViewAdapter;
-import com.indielink.indielink.CustomListener.OnSwipeTouchListener;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
 
 import java.io.File;
