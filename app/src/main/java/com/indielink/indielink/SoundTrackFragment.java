@@ -31,10 +31,6 @@ import java.util.List;
 
 public class SoundTrackFragment extends Fragment {
 
-    static {
-        System.loadLibrary("essentia");
-    }
-
     private static final String LOG_TAG = "IndieLinkAudio";
     private File dir =null;
     private static String FilePath = null;

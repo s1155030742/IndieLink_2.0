@@ -34,6 +34,13 @@ import java.util.ArrayList;
 public class RootPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    static {
+        System.loadLibrary("audio_analysis");
+    }
+
+    private native void audio_analysis(String audioFilename,String outputFilename);
+
+
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();

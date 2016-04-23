@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         ndk{
-            moduleName "essentia"
+            moduleName "audio_analysis"
         }
     }
     sourceSets.main{
