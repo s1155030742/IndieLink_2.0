@@ -38,7 +38,7 @@ public class RootPage extends AppCompatActivity
         System.loadLibrary("audio_analysis");
     }
 
-    private native void audio_analysis(String audioFilename,String outputFilename);
+    private native int audio_analysis(String audioFilename,String outputFilename,String profileFilename);
 
 
     FragmentTransaction fragmentTransaction;
