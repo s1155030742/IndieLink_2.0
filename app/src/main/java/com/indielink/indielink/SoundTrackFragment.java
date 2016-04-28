@@ -197,6 +197,7 @@ public class SoundTrackFragment extends Fragment {
         public void run() {
             writeDateTOFile();//往文件中寫入裸數據
             copyWaveFile(mFileName+".raw", mFileName+".wav");//给裸數據加上頭文件
+
         }
     }
 
