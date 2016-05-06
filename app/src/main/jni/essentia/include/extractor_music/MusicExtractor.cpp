@@ -74,14 +74,14 @@ int MusicExtractor::compute(const string& audioFilename){
                                     "replayGain", replayGain,
                                     "downmix",    downmix);
 
-  MusicLowlevelDescriptors *lowlevel = new MusicLowlevelDescriptors(options);
+  //MusicLowlevelDescriptors *lowlevel = new MusicLowlevelDescriptors(options);
   MusicRhythmDescriptors *rhythm = new MusicRhythmDescriptors(options);
   MusicTonalDescriptors *tonal = new MusicTonalDescriptors(options);
 
   SourceBase& source = loader->output("audio");
-  lowlevel->createNetworkNeqLoud(source, results);
-  lowlevel->createNetworkEqLoud(source, results);
-  lowlevel->createNetworkLoudness(source, results);
+  //lowlevel->createNetworkNeqLoud(source, results);
+  //lowlevel->createNetworkEqLoud(source, results);
+  //lowlevel->createNetworkLoudness(source, results);
   rhythm->createNetwork(source, results);
   tonal->createNetworkTuningFrequency(source, results);
 
@@ -90,7 +90,7 @@ int MusicExtractor::compute(const string& audioFilename){
 
 
   // Descriptors that require values from other descriptors in the previous chain
-  lowlevel->computeAverageLoudness(results);  // requires 'loudness'
+  //lowlevel->computeAverageLoudness(results);  // requires 'loudness'
 
   Algorithm* loader_2 = factory.create("EasyLoader",
                                        "filename",   audioFilename,
@@ -139,6 +139,7 @@ Pool MusicExtractor::computeAggregation(Pool& pool){
   map<string, vector<string> > exceptions;
   const vector<string>& descNames = pool.descriptorNames();
   for (int i=0; i<(int)descNames.size(); i++) {
+    /*
     if (descNames[i].find("lowlevel.mfcc") != string::npos) {
       exceptions[descNames[i]] = options.value<vector<string> >("lowlevel.mfccStats");
       continue;
@@ -151,6 +152,7 @@ Pool MusicExtractor::computeAggregation(Pool& pool){
       exceptions[descNames[i]] = options.value<vector<string> >("lowlevel.stats");
       continue;
     }
+     */
     if (descNames[i].find("rhythm.") != string::npos) {
       exceptions[descNames[i]] = options.value<vector<string> >("rhythm.stats");
       continue;
@@ -452,11 +454,11 @@ void MusicExtractor::setExtractorDefaultOptions() {
   int zeroPadding = 0;
 
   // lowlevel
-  options.set("lowlevel.frameSize", 2048);
-  options.set("lowlevel.hopSize", 1024);
-  options.set("lowlevel.zeroPadding", zeroPadding);
-  options.set("lowlevel.windowType", "blackmanharris62");
-  options.set("lowlevel.silentFrames", silentFrames);
+  //options.set("lowlevel.frameSize", 2048);
+  //options.set("lowlevel.hopSize", 1024);
+  //options.set("lowlevel.zeroPadding", zeroPadding);
+  //options.set("lowlevel.windowType", "blackmanharris62");
+  //options.set("lowlevel.silentFrames", silentFrames);
 
   // average_loudness
   options.set("average_loudness.frameSize", 88200);
@@ -485,16 +487,17 @@ void MusicExtractor::setExtractorDefaultOptions() {
   vector<string> mfccStats = arrayToVector<string>(mfccStatsArray);
   vector<string> gfccStats = arrayToVector<string>(gfccStatsArray);
   for (int i=0; i<(int)stats.size(); i++) {
-    options.add("lowlevel.stats", stats[i]);
+    //options.add("lowlevel.stats", stats[i]);
     options.add("tonal.stats", stats[i]);
     options.add("rhythm.stats", stats[i]);
     options.add("sfx.stats", stats[i]);
   }
+  /*
   for (int i=0; i<(int)mfccStats.size(); i++)
     options.add("lowlevel.mfccStats", mfccStats[i]);
   for (int i=0; i<(int)gfccStats.size(); i++)
     options.add("lowlevel.gfccStats", gfccStats[i]);
-
+*/
   // high-level
 #if HAVE_GAIA2
   //options.set("highlevel.compute", true);

@@ -22,6 +22,14 @@ public class Audio {
         play = false;
     }
 
+    static {
+        System.loadLibrary("essentia");
+        System.loadLibrary("MusicExtractor");
+        System.loadLibrary("audio_analysis");
+    }
+
+    public native int audio_analysis(String audioFilename,String outputFilename,String profileFilename);
+
     synchronized static public Audio getInstance() {
         if (instance == null) {
             synchronized(Audio.class){

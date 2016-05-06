@@ -85,12 +85,16 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     e.printStackTrace();
                 }
 
-                (new HttpPost(mContext){
+                HttpPost httpPost = (new HttpPost(mContext){
                     @Override
                     public void onHttpResponse(){
                         makeToast("Upload Complete!");
                     }
-                }).UploadFile(Url, bytes,filePath);
+                });
+                httpPost.loading();
+                mAudio.audio_analysis(filePath,filePath,"");
+                httpPost.resume();
+                httpPost.UploadFile(Url, bytes, filePath);
 
             }
         });

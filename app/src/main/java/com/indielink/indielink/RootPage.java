@@ -33,14 +33,6 @@ import java.util.ArrayList;
 public class RootPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    static {
-        System.loadLibrary("essentia");
-        System.loadLibrary("MusicExtractor");
-        System.loadLibrary("audio_analysis");
-    }
-
-    public native int audio_analysis(String audioFilename,String outputFilename,String profileFilename);
-
 
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
