@@ -35,6 +35,8 @@ public class RootPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     static {
+        System.loadLibrary("essentia");
+        System.loadLibrary("MusicExtractor");
         System.loadLibrary("audio_analysis");
     }
 
