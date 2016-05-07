@@ -1,6 +1,9 @@
 package com.indielink.indielink;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,11 +26,14 @@ import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.Profile.BandProfileContent;
 import com.indielink.indielink.Profile.ProfileContent;
 import com.indielink.indielink.Profile.UserRole;
+import com.indielink.indielink.ZipHelper.UnzipUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RootPage extends AppCompatActivity
@@ -40,12 +46,15 @@ public class RootPage extends AppCompatActivity
     static public String user_id;
 
     String Url = "http://137.189.97.88:8080/user";
-    String tag = "RootPage";
+    public static String tag = "RootPage";
+
+    public native int audio_analysis(String audioFilename,String outputFilename,String profileFilename);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        initNativeLib(this);
         setContentView(R.layout.activity_root_page);
         UserRole.IsMusician();
 
@@ -276,4 +285,36 @@ public class RootPage extends AppCompatActivity
         return user_id;
     }
 
+
+    public static void initNativeLib(Context context) {
+        try {
+            // Try loading our native lib, see if it works...
+            System.loadLibrary("audio_analysis");
+        } catch (UnsatisfiedLinkError er) {
+            ApplicationInfo appInfo = context.getApplicationInfo();
+            String libName = "libaudio_analysis.so";
+            String destPath = context.getFilesDir().toString();
+            try {
+                String soName = destPath + File.separator + libName;
+                new File(soName).delete();
+                UnzipUtil.extractFile(appInfo.sourceDir, "lib/" + Build.CPU_ABI + "/" + libName, destPath);
+                System.load(soName);
+            } catch (IOException e) {
+                // extractFile to app files dir did not work. Not enough space? Try elsewhere...
+                destPath = context.getExternalCacheDir().toString();
+                // Note: location on external memory is not secure, everyone can read/write it...
+                // However we extract from a "secure" place (our apk) and instantly load it,
+                // on each start of the app, this should make it safer.
+                String soName = destPath + File.separator + libName;
+                new File(soName).delete(); // this copy could be old, or altered by an attack
+                try {
+                    UnzipUtil.extractFile(appInfo.sourceDir, "lib/" + Build.CPU_ABI + "/" + libName, destPath);
+                    System.load(soName);
+                } catch (IOException e2) {
+                    Log.e(tag,"Exception in InstallInfo.init(): " + e);
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

@@ -28,7 +28,7 @@ android {
     }
     sourceSets.main{
         jni.srcDirs=[]
-        jniLibs.srcDir "src/main/jni/essentia"
+        jniLibs.srcDir "src/main/jni"
     }
     buildTypes {
         release {

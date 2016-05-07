@@ -12,7 +12,7 @@ extern "C" {
  * Method:    audio_analysis
  * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
  */
-JNIEXPORT jint JNICALL Java_com_indielink_indielink_RootPage_audio_1analysis
+JNIEXPORT jint JNICALL Java_com_indielink_indielink_RootPage_audio_analysis
   (JNIEnv *, jobject, jstring, jstring, jstring);
 
 #ifdef __cplusplus
