@@ -33,7 +33,6 @@ import java.util.ArrayList;
 public class RootPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
     ArrayList<BandProfileContent> UserBand = new ArrayList<BandProfileContent>();
@@ -71,7 +70,6 @@ public class RootPage extends AppCompatActivity
                     }
                 }}
         );
-
     }
 
     public void onCreateFromJSON(){

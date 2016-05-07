@@ -98,6 +98,13 @@ public class CardBandDetailFragment extends Fragment {
         keyboard.setClickable(!bandProfileContent.Vacancy.get("keyboard"));
         other.setClickable(!bandProfileContent.Vacancy.get("other"));
 
+        vocal.setChecked(bandProfileContent.Vacancy.get("vocal"));
+        bass.setChecked(bandProfileContent.Vacancy.get("bass"));
+        guitar.setChecked(bandProfileContent.Vacancy.get("guitar"));
+        drum.setChecked(bandProfileContent.Vacancy.get("drum"));
+        keyboard.setChecked(bandProfileContent.Vacancy.get("keyboard"));
+        other.setChecked(bandProfileContent.Vacancy.get("other"));
+
         // Set button onClick Handler
         final Button button = (Button) view.findViewById(R.id.ApplyButton);
         button.setOnClickListener(new View.OnClickListener() {

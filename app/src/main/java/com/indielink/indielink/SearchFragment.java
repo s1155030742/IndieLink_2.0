@@ -1,38 +1,19 @@
 package com.indielink.indielink;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.Toast;
-import android.support.v4.app.DialogFragment;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.indielink.indielink.CustomAdapter.CustomAdapter;
 import com.indielink.indielink.CustomAdapter.RowItem;
 import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.Profile.BandProfileContent;
-import com.indielink.indielink.Profile.UserRole;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import org.json.JSONArray;
@@ -43,8 +24,6 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
-
 
 public class SearchFragment extends Fragment {
 
@@ -91,16 +70,13 @@ public class SearchFragment extends Fragment {
                     }
                 }}
         );
-
         return view;
     }
 
         //Post to server
         //if(UserRole.GetUserRole() == "") {
-
         //          band/detail/
         //response = httpPost.PostJSONResponseJSON("http://137.189.97.88:8080/band/detail", obj);
-
 
     public void onCreateViewFromJSON(View view)
     {
@@ -136,16 +112,6 @@ public class SearchFragment extends Fragment {
         // ArrayList<Integer> array_image = new ArrayList<Integer>();
         ArrayList<String> dummy = new ArrayList<String>();
 
-        /*
-        BandProfileContent band1 = new BandProfileContent("Muse","about Muse","1",dummy);
-        RowItem firstrow = new RowItem(band1.BandName,"https://s-media-cache-ak0.pinimg.com/736x/72/15/4e/72154e5197d7c65a1df251f83ff8665b.jpg");
-        SuggestedBands.add(band1);
-
-        BandProfileContent band2 = new BandProfileContent("Oasis","about Oasis","2",dummy);
-        RowItem secondrow = new RowItem(band2.BandName, "http://cdn.pastemagazine.com/www/system/images/photo_albums/the-50-best-band-logos/large/photo_8766_0-22.jpg?1384968217");
-        SuggestedBands.add(band2);
-        al.add(secondrow);
-*/
         arrayAdapter = new CustomAdapter(getActivity(), al);
 
         flingContainer.setAdapter(arrayAdapter);

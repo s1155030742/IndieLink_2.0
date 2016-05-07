@@ -231,7 +231,7 @@ public class SoundTrackFragment extends Fragment {
             }
         }
         try {
-            fos.close();// 關閉寫入流
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

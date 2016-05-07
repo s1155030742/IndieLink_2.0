@@ -18,6 +18,14 @@ android {
             moduleName "audio_analysis"
         }
     }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a'
+            universalApk true
+        }
+    }
     sourceSets.main{
         jni.srcDirs=[]
         jniLibs.srcDir "src/main/jni/essentia"

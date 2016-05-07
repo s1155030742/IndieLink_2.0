@@ -1,5 +1,6 @@
 package com.indielink.indielink.Profile;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +24,16 @@ public class BandProfileContent implements Serializable
 
         this.BandPictureURL+=(id+".jpg");
 
-        setVacancy();
+        ArrayList<String> instrument = new ArrayList<String>();
+        JSONArray jsonInstrument = js.getJSONArray("instrument");
+
+        if (jsonInstrument != null) {
+            int len = jsonInstrument.length();
+            for (int i=0;i<len;i++){
+                instrument.add(jsonInstrument.get(i).toString());
+            }
+        }
+        setVacancy(instrument);
 
     }
 

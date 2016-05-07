@@ -102,7 +102,6 @@ public class HttpPost extends Activity{
         progress.dismiss();
     }
 
-
     //reference: http://stackoverflow.com/questions/32240177/working-post-multipart-request-with-volley-and-without-httpentity
     public void UploadFile(String Url, byte[] fileData, String fileName) {
 
@@ -130,7 +129,6 @@ public class HttpPost extends Activity{
                 Log.d(tag, response.toString());
                 resume();
                 onHttpResponse();  //for overiding
-
             }
                 }, new Response.ErrorListener() {
             @Override
@@ -144,7 +142,6 @@ public class HttpPost extends Activity{
         //VolleySingleton.getInstance(mContext).addToRequestQueue(multipartRequest);
         Volley.newRequestQueue(mContext).add(multipartRequest);
         loading();
-
     }
 
     public void UploadDrawable(String Url, int id, String imageName){
