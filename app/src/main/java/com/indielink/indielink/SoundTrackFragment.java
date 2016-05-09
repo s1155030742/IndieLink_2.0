@@ -177,9 +177,6 @@ public class SoundTrackFragment extends Fragment {
     }
 
     private void stopRecording() {
-        mRecorder.stop();
-        mRecorder.release();
-        mRecorder = null;
         String file = mFileName.split(FilePath+"/")[1];
 
         if (audioRecord != null) {
