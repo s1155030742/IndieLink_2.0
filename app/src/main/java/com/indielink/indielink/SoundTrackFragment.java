@@ -218,14 +218,15 @@ public class SoundTrackFragment extends Fragment {
             e.printStackTrace();
         }
         while (mIsRecord == true) {
+            try {
             readsize = audioRecord.read(audiodata, 0, bufferSizeInBytes);
             if (AudioRecord.ERROR_INVALID_OPERATION != readsize) {
-                try {
                     fos.write(audiodata);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
         }
         try {
             fos.close();
