@@ -1,17 +1,24 @@
 package com.indielink.indielink.CustomAdapter;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.Profile;
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.R;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
+import com.indielink.indielink.RecommendMusicFragment;
+import com.indielink.indielink.SoundTrackFragment;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -129,15 +136,32 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                 HttpPost httpPost = (new HttpPost(mContext) {
                     @Override
                     public void onHttpResponse() {
-                        makeToast("Upload Complete!");
+                        //getSupportFragmentManager().beginTransaction().addToBackStack("Music");
+                        Bundle bundle = new Bundle();
+                        bundle.putIntegerArrayList("user_sound_id", null);
+                        android.support.v4.app.Fragment fragment = null;
+                        fragment = new RecommendMusicFragment();
+                        fragment.setArguments(bundle);
+                        //fragmentTransaction.replace(R.id.frame_container, fragment).commit();
                     }
                 });
                 httpPost.loading();
                 mAudio.audio_analysis(filePath, filePath, mAudio.mFilePath + "/profile.yaml");
                 httpPost.resume();
 
-                //JSONObject
-                //httpPost.PostJSONResponseJSON(Url,Json);
+                JSONObject json = new JSONObject();
+                try{
+                    json.put("user_id",mUserId);
+                    /*
+                    json.put("chords_scale",);
+                    json.put("average_loudness",);
+                    json.put("bpm",);
+                    json.put("danceability",);
+                    json.put("dynamic_complexity",);
+                    json.put("len",)
+                    */
+                    httpPost.PostJSONResponseJSON(Url, json);
+                }catch (Exception ex){}
             }
         });
 
