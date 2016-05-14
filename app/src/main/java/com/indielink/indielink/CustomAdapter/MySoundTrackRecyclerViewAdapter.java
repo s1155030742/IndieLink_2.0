@@ -50,6 +50,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
         holder.mItem = mValues.get(position);
         holder.mImgUpload.setImageResource(android.R.drawable.ic_menu_upload);
         holder.mImgRemove.setImageResource(android.R.drawable.ic_menu_delete);
+        holder.mImgRecommend.setImageResource(android.R.drawable.btn_star);
         holder.mNameView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +96,6 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                 mAudio.audio_analysis(filePath,filePath,"");
                 httpPost.resume();
                 httpPost.UploadFile(Url, bytes, filePath);
-
             }
         });
 
@@ -114,6 +114,29 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     audio.mFileName = FileName;
                     audio.startPlaying();
                }
+            }
+        });
+
+        holder.mImgRecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String Url = "http://137.189.97.88:8080/band/recommend";
+
+                TextView t = holder.mNameView;
+                String fileName = t.getText().toString();
+                String filePath = mAudio.mFilePath + fileName;
+                File file = new File(filePath);
+
+
+                HttpPost httpPost = (new HttpPost(mContext) {
+                    @Override
+                    public void onHttpResponse() {
+                        makeToast("Upload Complete!");
+                    }
+                });
+                httpPost.loading();
+                mAudio.audio_analysis(filePath, filePath, "");
+                httpPost.resume();
             }
         });
 
@@ -140,6 +163,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final ImageView mImgUpload;
+        public final ImageView mImgRecommend;
         public final ImageView mImgRemove;
         public final TextView mNameView;
         public SoundTrackItem mItem;
@@ -149,6 +173,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
             mView = view;
             mNameView = (TextView) view.findViewById(R.id.name);
             mImgUpload = (ImageView) view.findViewById(R.id.upload);
+            mImgRecommend = (ImageView) view.findViewById(R.id.recommend);
             mImgRemove = (ImageView) view.findViewById(R.id.remove);
         }
 

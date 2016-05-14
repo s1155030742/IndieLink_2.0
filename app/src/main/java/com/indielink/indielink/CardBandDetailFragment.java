@@ -11,10 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,19 +23,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.indielink.indielink.Network.GetProfilePicture;
-import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.Profile.BandProfileContent;
 import com.indielink.indielink.Profile.InstrumentList;
-import com.indielink.indielink.Profile.ProfileContent;
-import com.indielink.indielink.Profile.TrackScore;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 
 public class CardBandDetailFragment extends Fragment {
@@ -111,16 +102,6 @@ public class CardBandDetailFragment extends Fragment {
             public void onClick(View v) {
 
                 ArrayList<String> InstrumentList = new ArrayList<String>();
-
-
-
-                /*if (vocal.isChecked()) InstrumentList.add("vocal");
-                if (bass.isChecked()) InstrumentList.add("bass");
-                if (guitar.isChecked()) InstrumentList.add("guitar");
-                if (drum.isChecked()) InstrumentList.add("drum");
-                if (keyboard.isChecked()) InstrumentList.add("keyboard");
-                if (other.isChecked()) InstrumentList.add("other");*/
-
                 JSONToPost = new JSONObject() {
                     {
                         try {
@@ -141,24 +122,6 @@ public class CardBandDetailFragment extends Fragment {
                         }
                     }
                 };
-
-                /*
-                for(String Instrument : InstrumentList){
-                    //make JSONObject for http post
-                    JSONObject obj = new JSONObject();
-                    try
-                    {
-                        obj.put("access_token", AccessToken.getCurrentAccessToken().getToken());
-                        obj.put("fb_user_id", AccessToken.getCurrentAccessToken().getUserId());
-                        obj.put("band_id", bandProfileContent.id);
-                        obj.put("identity","");
-                        obj.put("instrument", Instrument);
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    */
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
