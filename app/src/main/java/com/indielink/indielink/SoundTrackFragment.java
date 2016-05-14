@@ -127,8 +127,8 @@ public class SoundTrackFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        if(mIsRecord) stopRecording();
         super.onDestroy();
-        stopRecording();
     }
 
     private List<SoundTrackItem> getListOfFile()
@@ -171,7 +171,6 @@ public class SoundTrackFragment extends Fragment {
             Log.e(LOG_TAG, "prepare() failed");
         }
         mRecorder.start();
-
         // 開启音頻文件寫入線程
         new Thread(new AudioRecordThread()).start();
     }
@@ -179,11 +178,9 @@ public class SoundTrackFragment extends Fragment {
     private void stopRecording() {
         String file = mFileName.split(FilePath+"/")[1];
 
-        if (audioRecord != null) {
             audioRecord.stop();
             audioRecord.release();//釋放資源
             audioRecord = null;
-        }
 
         mAdapter.mValues.add(new SoundTrackItem(String.valueOf(mAdapter.getItemCount() + 1),file ));
         mAdapter.notifyDataSetChanged();
