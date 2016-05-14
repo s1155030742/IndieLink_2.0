@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
+import com.facebook.internal.Utility;
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.CustomAdapter.MySoundTrackRecyclerViewAdapter;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
@@ -26,6 +27,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +69,8 @@ public class SoundTrackFragment extends Fragment {
             // mkdirs if dir do not exist
             dir.mkdirs();
         }
+
+        CopyProfile(FilePath);
     }
 
     @SuppressWarnings("unused")
@@ -119,7 +124,7 @@ public class SoundTrackFragment extends Fragment {
             }
             RootPage rootPage = (RootPage) getActivity();
 
-            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), FilePath, audio,view.getContext(),rootPage.getUser_id());
+            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), FilePath,  audio,(RootPage) getActivity(),rootPage.getUser_id());
             recyclerView.setAdapter(mAdapter);
         }
         return view;
@@ -216,8 +221,8 @@ public class SoundTrackFragment extends Fragment {
         }
         while (mIsRecord == true) {
             try {
-            readsize = audioRecord.read(audiodata, 0, bufferSizeInBytes);
-            if (AudioRecord.ERROR_INVALID_OPERATION != readsize) {
+                readsize = audioRecord.read(audiodata, 0, bufferSizeInBytes);
+                if (AudioRecord.ERROR_INVALID_OPERATION != readsize) {
                     fos.write(audiodata);
                 }
             } catch (IOException e) {
@@ -316,5 +321,48 @@ public class SoundTrackFragment extends Fragment {
         header[42] = (byte) ((totalAudioLen >> 16) & 0xff);
         header[43] = (byte) ((totalAudioLen >> 24) & 0xff);
         out.write(header, 0, 44);
+    }
+
+    public void CopyProfile(String filePath){
+
+        String profileFileName = "profile.yaml";
+        InputStream in = null;
+        OutputStream out = null;
+        try
+        {
+            in = getResources().openRawResource(R.raw.profile);
+            String newFileName = filePath + "/" + profileFileName;
+            out = new FileOutputStream(newFileName);
+
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1)
+            {
+                out.write(buffer, 0, read);
+            }
+            in.close();
+            in = null;
+            out.flush();
+            out.close();
+            out = null;
+        } catch (Exception e) {
+            Log.d("tag", e.getMessage());
+        }finally{
+            if(in!=null){
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    Log.d("closing input stream",e.getMessage());
+                }
+            }
+            if(out!=null){
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    Log.d( "closing output stream",e.getMessage());
+                }
+            }
+        }
+
     }
 }

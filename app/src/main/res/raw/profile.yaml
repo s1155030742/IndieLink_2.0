@@ -1,0 +1,30 @@
+outputFormat: json
+outputFrames: 0
+analysisSampleRate: 44100.0
+lowlevel:
+    frameSize: 2048
+    hopSize: 1024
+    zeroPadding: 0
+    windowType: blackmanharris62
+    silentFrames: noise
+    stats: ["median"]
+average_loudness:
+    frameSize: 88200
+    hopSize: 44100
+    windowType: hann
+    silentFrames: noise
+    stats: ["median"]
+
+rhythm:
+    method: degara
+    minTempo: 40
+    maxTempo: 208
+    stats: ["var", "median", "min", "max"]
+
+tonal:
+    frameSize: 4096
+    hopSize: 2048
+    zeroPadding: 0
+    windowType: blackmanharris62
+    silentFrames: noise
+    stats: ["var", "median", "min", "max"]

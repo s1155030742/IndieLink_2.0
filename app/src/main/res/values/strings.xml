@@ -20,6 +20,7 @@
     <string name="Profile">Profile</string>
     <string name="Search">Search</string>
     <string name="Music">Music</string>
+    <string name="Recommend">Music</string>
     <string name="CreateBand">Create Band</string>
     <string name="Default">/</string>
     <!-- edit profile-->

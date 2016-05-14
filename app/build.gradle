@@ -14,7 +14,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        ndk{
+        ndk {
             moduleName "audio_analysis"
         }
     }
@@ -26,8 +26,8 @@ android {
             universalApk true
         }
     }
-    sourceSets.main{
-        jni.srcDirs=[]
+    sourceSets.main {
+        jni.srcDirs = []
         jniLibs.srcDir "src/main/jni"
     }
     buildTypes {
@@ -42,6 +42,8 @@ android {
 }
 
 
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -54,5 +56,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:recyclerview-v7:+'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
 }

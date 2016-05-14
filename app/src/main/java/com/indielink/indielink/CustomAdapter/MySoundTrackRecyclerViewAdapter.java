@@ -1,40 +1,48 @@
 package com.indielink.indielink.CustomAdapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.R;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
+import com.indielink.indielink.RecommendMusicFragment;
+import com.indielink.indielink.RootPage;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoundTrackRecyclerViewAdapter.ViewHolder> {
 
     public List<SoundTrackItem> mValues;
     private Audio mAudio = null;
-    private Context mContext;
+    private RootPage mActivity;
     private String mUserId;
 
     public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items,
                                            String FilePath,
                                            Audio audio,
-                                           Context context,
+                                           RootPage activity,
                                            String userId) {
         mValues = items;
         mAudio = audio;
         mAudio.mFilePath = FilePath+"/";
-        mContext = context;
+        mActivity = activity;
         mUserId = userId;
     }
 
@@ -50,7 +58,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
         holder.mItem = mValues.get(position);
         holder.mImgUpload.setImageResource(android.R.drawable.ic_menu_upload);
         holder.mImgRemove.setImageResource(android.R.drawable.ic_menu_delete);
-        holder.mImgRecommend.setImageResource(android.R.drawable.btn_star);
+        holder.mImgRecommend.setImageResource(android.R.drawable.ic_menu_search);
         holder.mNameView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -86,15 +94,12 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     e.printStackTrace();
                 }
 
-                HttpPost httpPost = (new HttpPost(mContext){
+                HttpPost httpPost = (new HttpPost(mActivity){
                     @Override
                     public void onHttpResponse(){
                         makeToast("Upload Complete!");
                     }
                 });
-                httpPost.loading();
-                mAudio.audio_analysis(filePath,filePath,"");
-                httpPost.resume();
                 httpPost.UploadFile(Url, bytes, filePath);
             }
         });
@@ -110,10 +115,10 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     audio.stopPlaying();
                     audio.mFileName = "";
                 } else
-               {
+                {
                     audio.mFileName = FileName;
                     audio.startPlaying();
-               }
+                }
             }
         });
 
@@ -125,18 +130,45 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                 TextView t = holder.mNameView;
                 String fileName = t.getText().toString();
                 String filePath = mAudio.mFilePath + fileName;
-                File file = new File(filePath);
+                 File file = new File(filePath);
 
-
-                HttpPost httpPost = (new HttpPost(mContext) {
+                HttpPost httpPost = (new HttpPost(mActivity) {
                     @Override
-                    public void onHttpResponse() {
-                        makeToast("Upload Complete!");
+                    public void onHttpResponse(JSONObject JSONResponse) {
+                        android.support.v4.app.Fragment fragment = new RecommendMusicFragment();
+                        try{
+                            JSONArray jArray = JSONResponse.getJSONArray("user_sound_id");
+                            ArrayList<Integer> soundList = new ArrayList<Integer>();
+                            if (jArray != null) {
+                                for (int i=0;i<jArray.length();i++){
+                                    soundList.add(Integer.getInteger(jArray.get(i).toString()));
+                                }
+                            }
+                            Bundle bundle = new Bundle();
+                            bundle.putIntegerArrayList("user_sound_id",soundList);
+                            fragment.setArguments(bundle);
+                        }catch (Exception ex){}
+                        mActivity.getSupportFragmentManager().beginTransaction().addToBackStack("Music")
+                        .replace(R.id.frame_container, fragment).commit();
                     }
                 });
                 httpPost.loading();
-                mAudio.audio_analysis(filePath, filePath, "");
+                mAudio.audio_analysis(filePath, filePath, mAudio.mFilePath + "/profile.yaml");
                 httpPost.resume();
+
+                JSONObject json = new JSONObject();
+                try{
+                    json.put("user_id",mUserId);
+                    /*
+                    json.put("chords_scale",);
+                    json.put("average_loudness",);
+                    json.put("bpm",);
+                    json.put("danceability",);
+                    json.put("dynamic_complexity",);
+                    json.put("len",)
+                    */
+                    httpPost.PostJSONResponseJSON(Url, json);
+                }catch (Exception ex){}
             }
         });
 
