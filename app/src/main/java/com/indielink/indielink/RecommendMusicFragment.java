@@ -1,7 +1,6 @@
 package com.indielink.indielink;
 
 import android.content.Context;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.CustomAdapter.MyRecommendMusicRecyclerViewAdapter;
-import com.indielink.indielink.CustomAdapter.MySoundTrackRecyclerViewAdapter;
 import com.indielink.indielink.Profile.SoundTrackContent;
 
 import java.io.File;
@@ -27,11 +25,11 @@ public class RecommendMusicFragment extends Fragment {
     private File dir =null;
     private static String FilePath = null;
     private static String mFileName = null;
-    private MediaRecorder mRecorder = null;
     private Audio audio = null;
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private String UserName;
+    private List<Integer> UserSoundIdList = new ArrayList<Integer>();
     private MyRecommendMusicRecyclerViewAdapter mAdapter;
 
     public RecommendMusicFragment() {
@@ -54,6 +52,7 @@ public class RecommendMusicFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             UserName = getArguments().getString("UserName");
+            UserSoundIdList = getArguments().getIntegerArrayList("user_sound_id");
         }
     }
 
@@ -76,12 +75,9 @@ public class RecommendMusicFragment extends Fragment {
             RootPage rootPage = (RootPage) getActivity();
             mAdapter = new MyRecommendMusicRecyclerViewAdapter(getListOfFile(),audio,view.getContext(),rootPage.getUser_id());
             recyclerView.setAdapter(mAdapter);
-            //fake data
-            List<Integer> idList = new ArrayList<Integer>();
-            idList.add(1);
-            idList.add(2);
+
             //suppose get list of id from server from /band/recommend
-            recyclerView.setAdapter(new MyRecommendMusicRecyclerViewAdapter(getMusicList(idList),audio,view.getContext(),rootPage.getUser_id()));
+            recyclerView.setAdapter(new MyRecommendMusicRecyclerViewAdapter(getMusicList(UserSoundIdList),audio,view.getContext(),rootPage.getUser_id()));
         }
         return view;
     }

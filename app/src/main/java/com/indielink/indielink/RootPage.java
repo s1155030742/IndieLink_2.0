@@ -283,7 +283,7 @@ public class RootPage extends AppCompatActivity
         return user_id;
     }
 
-
+/*
     public static void initNativeLib(Context context) {
         try {
             // Try loading our native lib, see if it works...
@@ -314,5 +314,5 @@ public class RootPage extends AppCompatActivity
                 }
             }
         }
-    }
+    }*/
 }

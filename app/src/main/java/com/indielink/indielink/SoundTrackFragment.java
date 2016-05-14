@@ -124,7 +124,7 @@ public class SoundTrackFragment extends Fragment {
             }
             RootPage rootPage = (RootPage) getActivity();
 
-            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), FilePath, audio,view.getContext(),rootPage.getUser_id());
+            mAdapter = new MySoundTrackRecyclerViewAdapter(getListOfFile(), FilePath,  audio,(RootPage) getActivity(),rootPage.getUser_id());
             recyclerView.setAdapter(mAdapter);
         }
         return view;
