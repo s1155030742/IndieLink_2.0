@@ -12,6 +12,8 @@ import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.R;
 import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
 
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -131,8 +133,11 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     }
                 });
                 httpPost.loading();
-                mAudio.audio_analysis(filePath, filePath, mAudio.mFilePath+"/profile.yaml");
+                mAudio.audio_analysis(filePath, filePath, mAudio.mFilePath + "/profile.yaml");
                 httpPost.resume();
+
+                //JSONObject
+                //httpPost.PostJSONResponseJSON(Url,Json);
             }
         });
 
