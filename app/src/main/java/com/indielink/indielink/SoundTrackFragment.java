@@ -219,8 +219,8 @@ public class SoundTrackFragment extends Fragment {
         }
         while (mIsRecord == true) {
             try {
-            readsize = audioRecord.read(audiodata, 0, bufferSizeInBytes);
-            if (AudioRecord.ERROR_INVALID_OPERATION != readsize) {
+                readsize = audioRecord.read(audiodata, 0, bufferSizeInBytes);
+                if (AudioRecord.ERROR_INVALID_OPERATION != readsize) {
                     fos.write(audiodata);
                 }
             } catch (IOException e) {

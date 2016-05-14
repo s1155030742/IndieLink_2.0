@@ -110,10 +110,10 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     audio.stopPlaying();
                     audio.mFileName = "";
                 } else
-               {
+                {
                     audio.mFileName = FileName;
                     audio.startPlaying();
-               }
+                }
             }
         });
 
