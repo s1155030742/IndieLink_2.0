@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := essentia
-LOCAL_SRC_FILES := $(LOCAL_PATH)/$(TARGET_ARCH_ABI)/libessentia.so
+LOCAL_SRC_FILES := $(LOCAL_PATH)/essentia/lib/libessentia.so
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/essentia/include\
  $(LOCAL_PATH)/essentia/include/extractor_music
 include $(PREBUILT_SHARED_LIBRARY)
