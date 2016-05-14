@@ -48,13 +48,11 @@ public class RootPage extends AppCompatActivity
     String Url = "http://137.189.97.88:8080/user";
     public static String tag = "RootPage";
 
-    public native int audio_analysis(String audioFilename,String outputFilename,String profileFilename);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        initNativeLib(this);
+        //initNativeLib(this);
         setContentView(R.layout.activity_root_page);
         UserRole.IsMusician();
 

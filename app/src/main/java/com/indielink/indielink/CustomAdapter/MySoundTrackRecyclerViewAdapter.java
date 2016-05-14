@@ -50,7 +50,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
         holder.mItem = mValues.get(position);
         holder.mImgUpload.setImageResource(android.R.drawable.ic_menu_upload);
         holder.mImgRemove.setImageResource(android.R.drawable.ic_menu_delete);
-        holder.mImgRecommend.setImageResource(android.R.drawable.btn_star);
+        holder.mImgRecommend.setImageResource(android.R.drawable.ic_menu_search);
         holder.mNameView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -92,9 +92,6 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                         makeToast("Upload Complete!");
                     }
                 });
-                httpPost.loading();
-                mAudio.audio_analysis(filePath,filePath,"");
-                httpPost.resume();
                 httpPost.UploadFile(Url, bytes, filePath);
             }
         });
@@ -125,8 +122,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                 TextView t = holder.mNameView;
                 String fileName = t.getText().toString();
                 String filePath = mAudio.mFilePath + fileName;
-                File file = new File(filePath);
-
+                 File file = new File(filePath);
 
                 HttpPost httpPost = (new HttpPost(mContext) {
                     @Override
@@ -135,7 +131,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     }
                 });
                 httpPost.loading();
-                mAudio.audio_analysis(filePath, filePath, "");
+                mAudio.audio_analysis(filePath, filePath, mAudio.mFilePath+"/profile.yaml");
                 httpPost.resume();
             }
         });
