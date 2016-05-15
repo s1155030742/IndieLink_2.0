@@ -21,8 +21,8 @@ LOCAL_CPPFLAGS  := -frtti
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := audio_analysis
-LOCAL_SRC_FILES := $(LOCAL_PATH)/essentia/audio_analysis.cpp
+LOCAL_MODULE := AudioAnalysis
+LOCAL_SRC_FILES := $(LOCAL_PATH)/essentia/AudioAnalysis.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/essentia/include\
  $(LOCAL_PATH)/essentia/include/extractor_music
 LOCAL_SHARED_LIBRARIES := essentia \

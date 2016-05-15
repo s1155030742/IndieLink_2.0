@@ -3,11 +3,13 @@ package com.indielink.indielink.CustomAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.Network.HttpPost;
@@ -33,6 +35,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
     private Audio mAudio = null;
     private RootPage mActivity;
     private String mUserId;
+    private static String mFilePath;
 
     public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items,
                                            String FilePath,
@@ -76,8 +79,8 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
 
                 TextView t = holder.mNameView;
                 String fileName =  t.getText().toString();
-                String filePath =  mAudio.mFilePath + fileName;
-                File file = new File(filePath);
+                mFilePath =  mAudio.mFilePath + fileName;
+                File file = new File(mFilePath);
 
                 //reference: http://stackoverflow.com/questions/10039672/android-how-to-read-file-in-bytes
                 int size = (int) file.length();
@@ -100,7 +103,7 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                         makeToast("Upload Complete!");
                     }
                 });
-                httpPost.UploadFile(Url, bytes, filePath);
+                httpPost.UploadFile(Url, bytes, mFilePath);
             }
         });
 
@@ -127,10 +130,8 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
             public void onClick(View v) {
                 String Url = "http://137.189.97.88:8080/band/recommend";
 
-                TextView t = holder.mNameView;
-                String fileName = t.getText().toString();
-                String filePath = mAudio.mFilePath + fileName;
-                 File file = new File(filePath);
+                String fileName = holder.mNameView.getText().toString();
+                mFilePath = mAudio.mFilePath + fileName;
 
                 HttpPost httpPost = (new HttpPost(mActivity) {
                     @Override
@@ -152,13 +153,37 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                         .replace(R.id.frame_container, fragment).commit();
                     }
                 });
-                httpPost.loading();
-                mAudio.audio_analysis(filePath, filePath, mAudio.mFilePath + "/profile.yaml");
-                httpPost.resume();
-
                 JSONObject json = new JSONObject();
-                try{
-                    json.put("user_id",mUserId);
+                Log.e("Essentia", "start");
+                try {
+                    File[] files = null;
+                    File f = new File(mAudio.mFilePath);
+                        if (f.isDirectory()) {
+                            files = f.listFiles();
+                        }
+                    httpPost.loading();
+                    String inputFile = mFilePath;
+                    String outputFile = mFilePath.substring(0,mFilePath.length()-4);
+                    String profileFile = mAudio.mFilePath + "profile.yaml";
+                    mAudio.AudioAnalysis(inputFile, outputFile , profileFile);
+                    /*
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final String tpath = filePath;
+                            try{
+
+                            }
+                            catch (Exception ex) {
+                                String log = ex.getMessage();
+                                Log.e("Essentia", ex.getMessage());
+                            }
+                        }
+                    });
+                    thread.start();
+*/
+                    httpPost.resume();
+                    json.put("user_id", mUserId);
                     /*
                     json.put("chords_scale",);
                     json.put("average_loudness",);
@@ -168,7 +193,11 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                     json.put("len",)
                     */
                     httpPost.PostJSONResponseJSON(Url, json);
-                }catch (Exception ex){}
+                } catch (Exception ex) {
+                    String log = ex.getMessage();
+                    Log.e("Essentia", ex.getMessage());
+                }
+                Log.e("Essentia", "finish");
             }
         });
 

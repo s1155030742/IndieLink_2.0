@@ -25,10 +25,10 @@ public class Audio {
     static {
         System.loadLibrary("essentia");
        System.loadLibrary("MusicExtractor");
-        System.loadLibrary("audio_analysis");
+        System.loadLibrary("AudioAnalysis");
     }
 
-    public native int audio_analysis(String audioFilename,String outputFilename,String profileFilename);
+    public native int AudioAnalysis(String audioFilename,String outputFilename,String profileFilename);
 
     synchronized static public Audio getInstance() {
         if (instance == null) {

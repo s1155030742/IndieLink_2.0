@@ -1,5 +1,5 @@
 
-
+#include "../com_indielink_indielink_Audio_Audio.h"
 // Streaming extractor designed for analysis of music collections
 
 #include <jni.h>
@@ -13,8 +13,7 @@ using namespace essentia;
 using namespace essentia::streaming;
 using namespace essentia::scheduler;
 
-JNIEXPORT jint JNICALL Java_com_indielink_indielink_Audio_Audio_audio_1analysis(JNIEnv* env, jobject thiz, jstring audioFilename,jstring outputFilename,jstring profileFilename) {
-
+JNIEXPORT jint JNICALL Java_com_indielink_indielink_Audio_Audio_AudioAnalysis(JNIEnv *env, jobject thiz, jstring audioFilename,jstring outputFilename,jstring profileFilename) {
 
     // Returns: 1 on essentia error
     //          2 if there are no tags in the file

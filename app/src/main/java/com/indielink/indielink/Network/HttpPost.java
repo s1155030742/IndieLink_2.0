@@ -61,7 +61,7 @@ public class HttpPost extends Activity{
                 (Request.Method.POST, Url, JSONToPost, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(tag, response.toString());
+                        //Log.d(tag, response.toString());
                         JSONResponse = response;
                         resume();
                         onHttpResponse(JSONResponse);
@@ -126,7 +126,7 @@ public class HttpPost extends Activity{
                 new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                Log.d(tag, response.toString());
+                //Log.d(tag, response.toString());
                 resume();
                 onHttpResponse();  //for overiding
             }
