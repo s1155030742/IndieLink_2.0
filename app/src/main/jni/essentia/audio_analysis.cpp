@@ -13,7 +13,7 @@ using namespace essentia;
 using namespace essentia::streaming;
 using namespace essentia::scheduler;
 
-JNIEXPORT jint JNICALL Java_com_indielink_indielink_Audio_Audio_audio_analysis(JNIEnv* env, jclass, jstring audioFilename,jstring outputFilename,jstring profileFilename) {
+JNIEXPORT jint JNICALL Java_com_indielink_indielink_Audio_Audio_audio_1analysis(JNIEnv* env, jobject, jstring audioFilename,jstring outputFilename,jstring profileFilename) {
 
 
     // Returns: 1 on essentia error

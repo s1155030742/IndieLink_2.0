@@ -23,8 +23,8 @@ public class Audio {
     }
 
     static {
-//        System.loadLibrary("essentia");
-//       System.loadLibrary("MusicExtractor");
+        System.loadLibrary("essentia");
+       System.loadLibrary("MusicExtractor");
         System.loadLibrary("audio_analysis");
     }
 
