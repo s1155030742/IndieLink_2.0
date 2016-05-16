@@ -4,20 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/recommend_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:adjustViewBounds="true"/>
-
-    <ImageView
-        android:id="@+id/recommend_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:adjustViewBounds="true"/>
-
     <TextView
         android:id="@+id/recommend_name"
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.indielink.indielink;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,9 @@ public class RecommendMusicFragment extends Fragment {
     private List<Integer> UserSoundIdList = new ArrayList<Integer>();
     private MyRecommendMusicRecyclerViewAdapter mAdapter;
     private SoundTrackNames mSoundTrackNames = null;
+
+    public boolean IsPlaying = false;
+    public static MediaPlayer player = null;
 
     public RecommendMusicFragment() {
         mSoundTrackNames = new SoundTrackNames();
@@ -56,7 +60,7 @@ public class RecommendMusicFragment extends Fragment {
         if (recyclerView != null) {
             Context context = view.getContext();
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            mAdapter = new MyRecommendMusicRecyclerViewAdapter(getMusicList(UserSoundIdList),audio,getActivity());
+            mAdapter = new MyRecommendMusicRecyclerViewAdapter(getMusicList(UserSoundIdList), this);
             recyclerView.setAdapter(mAdapter);
         }
         return view;
