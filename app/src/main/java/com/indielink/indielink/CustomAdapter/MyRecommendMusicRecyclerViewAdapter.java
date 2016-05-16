@@ -45,7 +45,8 @@ public class MyRecommendMusicRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.mImgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ImageView play = (ImageView) v;
+                play.setImageResource(android.R.drawable.ic_media_pause);
             }
         });
 
@@ -100,7 +101,6 @@ public class MyRecommendMusicRecyclerViewAdapter extends RecyclerView.Adapter<My
             mImgPause = (ImageView) view.findViewById(R.id.recommend_pause);
             mNameView = (TextView) view.findViewById(R.id.recommend_name);
         }
-
         @Override
         public String toString() {
             return super.toString() + " '" + mNameView.getText() + "'";
