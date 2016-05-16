@@ -1,6 +1,7 @@
 package com.indielink.indielink.CustomAdapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,66 +9,74 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.indielink.indielink.Audio.Audio;
-import com.indielink.indielink.Network.HttpPost;
 import com.indielink.indielink.R;
-import com.indielink.indielink.Profile.SoundTrackContent.SoundTrackItem;
+import com.indielink.indielink.RecommendSound.RecommendTrackItem;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 public class MyRecommendMusicRecyclerViewAdapter extends RecyclerView.Adapter<MyRecommendMusicRecyclerViewAdapter.ViewHolder> {
 
-    public List<SoundTrackItem> mValues;
-    private Audio mAudio = null;
-    private Context mContext;
-    private String mUserId;
+    public List<RecommendTrackItem> mRecommendTrackList;
+    public Audio mAudio;
+    public Activity mActivity;
 
-    public MyRecommendMusicRecyclerViewAdapter(List<SoundTrackItem> items,
-                                           Audio audio,
-                                           Context context,
-                                           String userId) {
-        mValues = items;
+    public MyRecommendMusicRecyclerViewAdapter(List<RecommendTrackItem> recommendTrackItems,Audio audio, Activity activity) {
+        mRecommendTrackList = recommendTrackItems;
         mAudio = audio;
-        mContext = context;
-        mUserId = userId;
+        mActivity = activity;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_soundtrack_for_recommend, parent, false);
+                .inflate(R.layout.fragment_recommendmusic, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mNameView.setText(mValues.get(position).name);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        RecommendTrackItem item = mRecommendTrackList.get(position);
+        holder.mImgPlay.setImageResource(android.R.drawable.ic_media_play);
+        holder.mImgPause.setImageResource(android.R.drawable.ic_media_pause);
+        holder.mNameView.setText(item.name);
+
+        holder.mImgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+
+        holder.mImgPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         holder.mNameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Audio audio = Audio.getInstance();
                 TextView t = (TextView) v;
-                String FileName =  audio.mFilePath + t.getText().toString();
+                String fileName = t.getText().toString();
 
-                if(FileName.toString().equals(audio.mFileName.toString())) {
-                    audio.stopPlaying();
-                    audio.mFileName = "";
-                } else
-                {
-                    audio.mFileName = FileName;
-                    audio.startPlaying();
+                MediaPlayer player = null;
+                int id;
+                for (RecommendTrackItem item : mRecommendTrackList) {
+                    if(item.name == fileName){
+                        id = item.id;
+                        player = MediaPlayer.create(mActivity, id);
+                        break;
+                    }
+                }
+                if(player != null) {
+                    //TODO
+                    player.start();
+                    player.pause();
+                    player.seekTo(player.getCurrentPosition());
                 }
             }
         });
@@ -75,18 +84,21 @@ public class MyRecommendMusicRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mRecommendTrackList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
+        public final ImageView mImgPlay;
+        public final ImageView mImgPause;
         public final TextView mNameView;
-        public SoundTrackItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mNameView = (TextView) view.findViewById(R.id.name);
+            mImgPlay = (ImageView) view.findViewById(R.id.recommend_play);
+            mImgPause = (ImageView) view.findViewById(R.id.recommend_pause);
+            mNameView = (TextView) view.findViewById(R.id.recommend_name);
         }
 
         @Override

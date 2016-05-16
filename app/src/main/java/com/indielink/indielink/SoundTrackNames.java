@@ -6,9 +6,11 @@ import java.util.HashMap;
  * Created by lawFuck on 2016/5/13.
  */
 public class SoundTrackNames {
-    public HashMap<Integer,Integer> SoundList = new HashMap<Integer,Integer>();
+    public HashMap<Integer,Integer> SoundList = null;
 
     public SoundTrackNames() {
+
+        SoundList = new HashMap<Integer,Integer>();
 
         SoundList.put(0, R.raw.aintnobodysbusiness);
         SoundList.put(1, R.raw.babypleasedontgo);
@@ -139,12 +141,13 @@ public class SoundTrackNames {
         SoundList.put(126,R.raw.royhargrovethegift);
         SoundList.put(127,R.raw.summertime);
         SoundList.put(128,R.raw.watchwhathappens);
-
-
-
     }
 
     public int GetSoundName(int key){
-        return SoundList.get(key);
+        try {
+            return SoundList.get(key);
+        } catch (NullPointerException ex){
+            return -1;
+        }
     }
 }

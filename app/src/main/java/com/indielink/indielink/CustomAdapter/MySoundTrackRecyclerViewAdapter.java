@@ -1,6 +1,5 @@
 package com.indielink.indielink.CustomAdapter;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.indielink.indielink.Audio.Audio;
 import com.indielink.indielink.Network.HttpPost;
@@ -19,6 +17,7 @@ import com.indielink.indielink.RecommendMusicFragment;
 import com.indielink.indielink.RootPage;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -26,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +36,14 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
     private RootPage mActivity;
     private String mUserId;
     private static String mFilePath;
+
+    private final String chords_scale = "chords_scale";
+    private final String average_loudness = "average_loudness";
+    private final String bpm = "bpm";
+    private final String danceability = "danceability";
+    private final String dynamic_complexity = "dynamic_complexity";
+    private final String len = "len";
+    private final String user_sound_id= "user_sound_id";
 
     public MySoundTrackRecyclerViewAdapter(List<SoundTrackItem> items,
                                            String FilePath,
@@ -128,32 +136,69 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
         holder.mImgRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Url = "http://137.189.97.88:8080/band/recommend";
 
+                String Url = "http://137.189.97.88:8080/band/recommend";
                 String fileName = holder.mNameView.getText().toString();
                 mFilePath = mAudio.mFilePath + fileName;
+                File file = new File(mFilePath);
+                JSONObject jsonFile = null;
+
+                int size = (int) file.length();
+                byte[] bytes = new byte[size];
+
+                String str;
+                String str2;
+                try {
+                    InputStream buf = new BufferedInputStream(new FileInputStream(file));
+                    buf.read(bytes, 0, bytes.length);
+                    buf.close();
+                    jsonFile = new JSONObject(new String(bytes, "UTF-8"));
+                    str = jsonFile.get(chords_scale).toString();
+                    str2 = jsonFile.get(average_loudness).toString();
+
+
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (JSONException ex){}
 
                 HttpPost httpPost = (new HttpPost(mActivity) {
                     @Override
                     public void onHttpResponse(JSONObject JSONResponse) {
                         android.support.v4.app.Fragment fragment = new RecommendMusicFragment();
-                        try{
-                            JSONArray jArray = JSONResponse.getJSONArray("user_sound_id");
+                        try {
+                            JSONArray jArray = JSONResponse.getJSONArray(user_sound_id);
                             ArrayList<Integer> soundList = new ArrayList<Integer>();
                             if (jArray != null) {
-                                for (int i=0;i<jArray.length();i++){
-                                    soundList.add(Integer.getInteger(jArray.get(i).toString()));
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    soundList.add(jArray.getInt(i));
                                 }
                             }
                             Bundle bundle = new Bundle();
-                            bundle.putIntegerArrayList("user_sound_id",soundList);
+                            bundle.putIntegerArrayList(user_sound_id, soundList);
                             fragment.setArguments(bundle);
-                        }catch (Exception ex){}
+                        } catch (Exception ex) {}
                         mActivity.getSupportFragmentManager().beginTransaction().addToBackStack("Music")
-                        .replace(R.id.frame_container, fragment).commit();
+                                .replace(R.id.frame_container, fragment).commit();
                     }
                 });
                 JSONObject json = new JSONObject();
+                try{
+                    int scale = 0;
+                    if(jsonFile.getJSONObject("tonal").getString(chords_scale).equals("major"))  scale = 1;
+                    json.put("user_id", mUserId);
+                    json.put(chords_scale, scale);
+                    json.put(average_loudness,jsonFile.getJSONObject("lowlevel").getDouble(average_loudness));
+                    json.put(bpm,jsonFile.getJSONObject("rhythm").getDouble(bpm));
+                    json.put(danceability,jsonFile.getJSONObject("rhythm").getDouble(danceability));
+                    json.put(dynamic_complexity, jsonFile.getJSONObject("lowlevel").getDouble(dynamic_complexity));
+                    json.put(len, jsonFile.getJSONObject("metadata").getJSONObject("audio_properties").getDouble("length"));
+                } catch (JSONException ex){}
+                httpPost.PostJSONResponseJSON(Url, json);
+                /*
                 Log.e("Essentia", "start");
                 try {
                     File[] files = null;
@@ -162,11 +207,11 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                             files = f.listFiles();
                         }
                     httpPost.loading();
-                    String inputFile = mFilePath;
-                    String outputFile = mFilePath.substring(0,mFilePath.length()-4);
-                    String profileFile = mAudio.mFilePath + "profile.yaml";
-                    mAudio.AudioAnalysis(inputFile, outputFile , profileFile);
-                    /*
+                    //String inputFile = mFilePath;
+                    //String outputFile = mFilePath.substring(0,mFilePath.length()-4);
+                    //String profileFile = mAudio.mFilePath + "profile.yaml";
+                    //mAudio.AudioAnalysis(inputFile, outputFile , profileFile);
+
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -181,23 +226,8 @@ public class MySoundTrackRecyclerViewAdapter extends RecyclerView.Adapter<MySoun
                         }
                     });
                     thread.start();
-*/
                     httpPost.resume();
-                    json.put("user_id", mUserId);
-                    /*
-                    json.put("chords_scale",);
-                    json.put("average_loudness",);
-                    json.put("bpm",);
-                    json.put("danceability",);
-                    json.put("dynamic_complexity",);
-                    json.put("len",)
-                    */
-                    httpPost.PostJSONResponseJSON(Url, json);
-                } catch (Exception ex) {
-                    String log = ex.getMessage();
-                    Log.e("Essentia", ex.getMessage());
-                }
-                Log.e("Essentia", "finish");
+*/
             }
         });
 
